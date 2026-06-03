@@ -1,0 +1,5 @@
+Variable,Value,Unit,Source,,,
+Car_avg_speed,30.6,km/h,TomTom.com (2024),,,
+Car_emissions_factor,156.1,gCO2/pkm,Brand et al. (2021),,,
+Pt_avg_speed,18.03,km/h,Bus avg. calculated based on Wiener Linien (2024),,,
+Pt_emissions_factor,24.7,gCO2/pkm,Brand et al. (2021),,,

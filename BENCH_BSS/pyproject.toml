@@ -1,0 +1,24 @@
+[project]
+name = "bench-bss-main"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+authors = [
+    {name = "Daniel"}
+]
+# We declare the dependencies natively here so uv reads them properly
+dependencies = [
+    "mesa==1.1.0",
+    "matplotlib==3.7.1",
+    "geopandas==0.13.2",
+    "shapely==2.0.1",
+    "pandas==2.0.3",
+    "scipy==1.11.2",
+    "scikit-learn==1.3.0",
+    "numpy==1.26.4",
+    "fiona==1.9.4"
+]
+
+[tool.uv]
+package = false

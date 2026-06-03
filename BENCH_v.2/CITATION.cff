@@ -1,0 +1,33 @@
+abstract: 'The BENCH agent-based model is designed and developed to study shifts in
+  residential energy use and corresponding emissions driven by behavioral changes
+  among heterogeneous individuals. '
+authors:
+- affiliation: International Institute for Applied Systems Analysis
+  email: leila.niamir@gmail.com
+  family-names: Niamir
+  given-names: Leila
+  orcid: https://orcid.org/0000-0002-0285-5542
+cff-version: 1.2.0
+date-released: '2019-04-28'
+identifiers:
+- type: url
+  value: https://www.comses.net/codebases/2b15a409-72bb-4285-a6e0-ca30575d36a6/releases/1.0.0/
+keywords:
+- agent based model
+- agent heterogeneity
+- behavior change
+- CO2 emission
+- domestic energy demand
+- empirical abm
+- empirical based modeling
+- empirical data
+- energy
+- household consumption
+- human and social dynamics
+- social dynamics
+license: Apache-2.0
+message: If you use this software, please cite it using the metadata from this file.
+title: BENCHv.2 model
+type: software
+url: https://www.comses.net/codebases/2b15a409-72bb-4285-a6e0-ca30575d36a6/releases/1.0.0/
+version: 1.0.0

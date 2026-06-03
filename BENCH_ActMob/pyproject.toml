@@ -1,0 +1,24 @@
+[project]
+name = "bench-actmob"
+version = "0.1.0"
+description = "Agent-Based Model for Active Mobility using Mesa and Solara"
+readme = "README.md"
+requires-python = ">=3.14"
+authors = [
+    {name = "Daniel"}
+]
+dependencies = [
+    "mesa>=3.0.0",
+    "solara>=1.35.0",
+    "pandas>=2.2.0",
+    "numpy>=2.1.0",
+    "geopandas>=1.0.0",
+    "networkx>=3.4",
+    "matplotlib>=3.9.0",
+    "altair>=6.1.0,<7.0.0",
+    "notebook>=7.5.6,<8.0.0",
+    "ipykernel>=7.2.0,<8.0.0"
+]
+
+[tool.uv]
+package = false

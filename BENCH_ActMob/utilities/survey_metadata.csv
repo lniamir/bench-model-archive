@@ -1,0 +1,300 @@
+﻿question,short,answer_categories,branch
+Please choose the language / Bitte Sprache wählen,language_select,language,no
+In welcher Stadt leben Sie?,city,de_cities,no
+In welchem Bezirk leben Sie?,vienna_district,V_dist,no
+Bitte geben Sie Ihren Straßennamen an (optional)..1,vienna_street,NA,no
+In welchem Bezirk leben Sie?.1,graz_district,G_dist,no
+Bitte geben Sie Ihren Straßennamen an (optional)..2,graz_street,NA,no
+"Bitte geben Sie den Namen des Landes an, in dem Sie leben.",country,NA,no
+"Bitte geben Sie den Namen der Stadt an, in der Sie leben.",city_other,NA,no
+Bitte geben Sie die Bezirksnummer oder die Postleitzahl Ihres Wohnsitzes an.,zip_other,NA,no
+Bitte geben Sie Ihren Straßennamen an (optional).,other_street,NA,no
+"Wie oft pro Woche verlassen Sie im Durchschnitt für jede der folgenden Aktivitäten ihr Haus? [Pendeln zur Arbeit, Schule oder Universität]",freq_work,de_freq,no
+"Wie oft pro Woche verlassen Sie im Durchschnitt für jede der folgenden Aktivitäten ihr Haus? [Zugang zu Dienstleistungen (z. B. Lebensmitteleinkauf, Sport oder medizinische Einrichtungen)]",freq_services,de_freq,no
+"Wie oft pro Woche verlassen Sie im Durchschnitt für jede der folgenden Aktivitäten ihr Haus? [Für Freizeitaktivitäten (z. B. Treffen mit Freunden und Familie, Sport)]",freq_leisure,de_freq,no
+"Wenn Sie andere Tätigkeiten ausüben, die nicht in die obigen Kategorien passen, geben Sie diese bitte an und geben Sie an, wie oft sie pro Woche stattfinden.",freq_oth,NA,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Gehen]",duration_work_walk,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Öffentliche Verkehrsmittel (z. B. Bus, Straßenbahn, U-Bahn)]",duration_work_pt,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Konventioneller Pkw (Benzin/Diesel) oder Hybrid-Pkw]",duration_work_ice,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Vollelektrisches Privatfahrzeug (E-Auto)]",duration_work_ev,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Taxi oder Ride-Hailing-Dienste (z. B. Uber, Bolt)]",duration_work_taxi,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Carsharing-Dienste]",duration_work_carsh,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Motorräder oder Vespa]",duration_work_motor,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Eigene Fahrräder]",duration_work_bike,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Eigenes Elektrofahrrad (E-Bike)]",duration_work_ebike,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Bike-Sharing-Dienste]",duration_work_bikesh,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Eigener Motorroller]",duration_work_scooter,de_duration,no
+"Bitte geben Sie an, wie lange Sie im Durchschnitt mit jedem der folgenden Verkehrsmittel zur Arbeit, zur Schule oder zur Universität pendeln. [Scooter-Sharing-Dienste]",duration_work_scootersh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Gehen]",duration_services_walk,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Öffentliche Verkehrsmittel (z. B. Bus, Straßenbahn, U-Bahn)]",duration_services_pt,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Konventioneller Pkw (Benzin/Diesel) oder Hybrid-Pkw]",duration_services_ice,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Vollelektrisches Privatfahrzeug (E-Auto)]",duration_services_ev,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Taxi oder Ride-Hailing-Dienste (z. B. Uber, Bolt)]",duration_services_taxi,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Carsharing-Dienste]",duration_services_carsh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Motorräder oder Vespa]",duration_services_motor,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Eigene Fahrräder]",duration_services_bike,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Eigenes Elektrofahrrad (E-Bike)]",duration_services_ebike,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Bike-Sharing-Dienste]",duration_services_bikesh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Eigener Motorroller]",duration_services_scooter,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit jedem der folgenden Verkehrsmittel verbringen, um Dienstleistungen (z. B. Lebensmitteleinkäufe, medizinische Einrichtungen) zu erreichen. [Scooter-Sharing-Dienste]",duration_services_scootersh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Gehen]",duration_leisure_walk,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Öffentliche Verkehrsmittel (z. B. Bus, Straßenbahn, U-Bahn)]",duration_leisure_pt,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Konventioneller Pkw (Benzin/Diesel) oder Hybrid-Pkw]",duration_leisure_ice,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Vollelektrisches Privatfahrzeug (E-Auto)]",duration_leisure_ev,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Taxi oder Ride-Hailing-Dienste (z. B. Uber, Bolt)]",duration_leisure_taxi,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Carsharing-Dienste]",duration_leisure_carsh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Motorräder oder Vespa]",duration_leisure_motor,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Eigene Fahrräder]",duration_leisure_bike,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Eigenes Elektrofahrrad (E-Bike)]",duration_leisure_ebike,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Bike-Sharing-Dienste]",duration_leisure_bikesh,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Eigener Motorroller]",duration_leisure_scooter,de_duration,no
+"Bitte geben Sie an, wie viel Zeit Sie durchschnittlich mit folgenden Verkehrsmitteln für Ihre Freizeitgestaltung (einschließlich Treffen mit Freunden und Familie, Sport) aufwenden. [Scooter-Sharing-Dienste]",duration_leisure_scootersh,de_duration,no
+Wie oft entscheiden Sie sich für aktive Mobilität (Gehen oder Radfahren)?,freq_activemob,de_freq,no
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Entfernung (das Ziel ist zu weit entfernt)]",prevent_distance,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Mangel an sicheren Fuß- und Radwegen]",prevent_safety,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Zeitliche Einschränkung]",prevent_time,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Wetterbedingungen]",prevent_weather,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Gesundheitliche oder körperliche Einschränkungen]",prevent_physical,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Unannehmlichkeiten (z. B. das Tragen von Lebensmitteln, Habseligkeiten)]",prevent_inconvenience,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Mangelndes Wissen über Fuß- und Radwege und deren Beschilderung]",prevent_knowledge,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Fehlende Annehmlichkeiten (z. B. Fahrradständer, Beleuchtung, Rastplätze)]",prevent_amenities,de_importance,never
+"Was sind die Hauptgründe, die Sie davon abhalten, zu Gehen oder das Fahrrad als Verkehrsmittel zu wählen? [Luftverschmutzung oder Umweltbedingungen]",prevent_pollution,de_importance,never
+"Bitte geben Sie sonstige Faktoren an, die Sie davon abhalten, mit dem Fahrrad zu fahren oder zu Fuß zu gehen, und geben Sie an, wie wichtig sie sind.",prevent_other,NA,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verkehrsberuhigung (z. B. 20-km/h-Zonen, Einbahnverkehr)]",improve_calming,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Sicherheit (z. B. bessere Beleuchtung)]",improve_safety,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Geschützte Fahrradspuren]",improve_protectedbl,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Fußgängerzonen (autofreie Zonen)]",improve_pedestrianz,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Breitere Gehwege]",improve_sidewalk,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Intelligente Ampeln, die grün werden, wenn sich ein Radfahrer der Kreuzung nähert]",improve_connection,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Weniger Autoparkplätze]",improve_parking,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Zugang zu Dienstleistungen und Einrichtungen des täglichen Bedarfs in der Nachbarschaft]",improve_sercvices,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Parks, grüne Wege (z. B. baumgesäumte Alleen, Grünanlagen, Parkkorridore, Naturpfade)]",improve_green,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Bessere Ausstattung (z. B. Fahrradständer, Rastplätze)]",improve_amenities,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserter Zugang zu gemeinsam genutzten Mikromobilitätsdiensten (z. B. mehr Andockstationen, Bike-Sharing-Stationen, E-Scooter-Stationen und bessere Geschäftspläne/Apps)]",improve_shared,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Wasserbewirtschaftung zur Vermeidung von Straßenüberschwemmungen und Pfützen]",improve_water,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Luftqualität]",improve_air,de_agree,never
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Bessere Beschilderung und Information]",improve_info,de_agree,never
+"Bitte geben Sie zusätzliche Verbesserungen oder Veränderungen an, die Sie dazu ermutigen würden, die aktive Mobilität häufiger zu nutzen, und geben Sie an, wie wichtig diese sind.",improve_other,NA,never
+"Wie wahrscheinlich ist es, dass Sie auf aktive Mobilität umsteigen, wenn die Infrastruktur und die Dienstleistungen (wie in der vorherigen Frage erwähnt) verbessert werden?",switch_improve,de_likeliness,never
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Grüne Routen (z. B. Alleen mit Bäumen, Greenways, Parkkorridore, Naturpfade)]",priority_green,de_importance,always
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Sicherheit (z. B. verkehrsarme, sichere Rad-/Fußgängerwege, gut beleuchtet)]",priority_safety,de_importance,always
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Landschaftliche oder angenehme Umgebung (z. B. angenehme Umgebungen und Landschaften wie historische Gebiete, Parks, Flussuferwege oder grüne Pfade)]",priority_scenic,de_importance,always
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Kürzeste Entfernung]",priority_distance,de_importance,always
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Schnellste Reisezeit]",priority_time,de_importance,always
+"Was ist Ihre Priorität, wenn Sie Ihre Route zum Radfahren oder zu Fuß wählen? [Zugang zu Dienstleistungen und Annehmlichkeiten (z. B. öffentliche Verkehrsmittel, Geschäfte, Rastplätze)]",priority_amenities,de_importance,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Verbesserte Gesundheit und Fitness]",outcome_health,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Geringere Klima- und Umweltbelastung]",outcome_environment,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Kosteneinsparung]",outcome_cost,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Bequemlichkeit und Zeiteffizienz]",outcome_comforttime,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Verbessertes Wohlbefinden und psychische Gesundheit]",outcome_wellbeing,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Verstärkte soziale Interaktion oder Engagement in der Gemeinschaft und sozialer Zusammenhalt]",outcome_social,de_agree,always
+"Was sind Ihrer Meinung nach die wichtigsten gewünschten Ergebnisse, wenn Sie sich für das Gehen und Radfahren als tägliches Verkehrsmittel entscheiden? [Geringere Verkehrsüberlastung]",outcome_congestion,de_agree,always
+"Bitte geben Sie alle anderen Maßnahmen an, die Sie als die wertvollsten Ergebnisse der Wahl des Gehens und Radfahrens als tägliches Verkehrsmittel betrachten, und geben Sie an, wie wichtig diese sind.",outcome_other,NA,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verkehrsberuhigung (z. B. 20-km/h-Zonen, Einbahnverkehr)].1",improve_calming,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Sicherheit (z. B. bessere Beleuchtung)].1",improve_safety,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Geschützte Fahrradspuren].1",improve_protectedbl,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Fußgängerzonen (autofreie Zonen)].1",improve_pedestrianz,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Breitere Gehwege].1",improve_sidewalk,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Intelligente Ampeln, die auf Grün schalten, wenn sich ein Radfahrer der Kreuzung nähert]",improve_connection,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Weniger Parkplätze]",improve_parking,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Zugang zu Dienstleistungen und Einrichtungen des täglichen Bedarfs in der Nachbarschaft].1",improve_sercvices,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Parks, grüne Wege (z. B. baumbestandene Alleen, grüne Wege, Parkkorridore, Naturpfade)]",improve_green,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Bessere Ausstattung (z. B. Fahrradständer, Rastplätze)].1",improve_amenities,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserter Zugang zu gemeinsam genutzten Mikromobilitätsdiensten (z. B. mehr Andockstationen, Bike-Sharing-Stationen, E-Scooter-Stationen und bessere Geschäftspläne/Apps)].1",improve_shared,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Wasserbewirtschaftung zur Vermeidung von Straßenüberschwemmungen und Pfützen].1",improve_water,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Luftqualität].1",improve_air,de_agree,always
+"Welche Verbesserungen oder Veränderungen würden Sie ermutigen, sich häufiger aktiv zu bewegen? [Verbesserte Beschilderung und Information]",improve_info,de_agree,always
+Wie beurteilen Sie den aktuellen Stand der aktiven Mobilitätsinfrastruktur in Ihrem Stadtteil/Quartier?,state_district,de_state,always
+Wie beurteilen Sie den aktuellen Stand der Infrastruktur für aktive Mobilität in Ihrer Stadt?,state_city,de_state,always
+"Wenn die Infrastruktur und die Dienstleistungen für aktive Mobilität verbessert werden, wie wahrscheinlich ist es dann, dass Sie mehr zu Fuß gehen und Rad fahren?",switch_improve_freq,de_likeliness,always
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Der Klimawandel führt zu einer Zunahme der Häufigkeit und Intensität von extremen Wetterereignissen.]",kn_env_climate,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Ohne sofortige Klimaschutzmaßnahmen zur Verringerung der Emissionen werden wir kritische Grenzwerte überschreiten, wodurch es sehr viel schwieriger wird, schwerwiegende Auswirkungen der globalen Erwärmung zu verhindern.]",kn_env_action,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Jedes Mal, wenn wir (benzin-/dieselbasierte) Autos benutzen, tragen wir durch die dabei ausgestoßenen Emissionen zur Beschleunigung des Klimawandels bei.]",kn_subj_car,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Aktive Mobilität trägt zur Verringerung der Luftverschmutzung und von Treibhausgasemissionen bei.]",kn_actm_air,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [In Städten mit einer besseren Infrastruktur für Fußgänger und Radfahrer werden häufig bessere Ergebnisse für die öffentliche Gesundheit erzielt.]",kn_actm_health,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Ich persönlich fühle mich für den Klimawandel verantwortlich.]",aw_env_climate,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Die Zukunft unseres Planeten hängt von den Entscheidungen ab, die wir heute treffen. Der Schutz der Natur und die Verringerung der Auswirkungen unseres Handelns auf das Klima sind eine Verantwortung, die wir uns selbst und künftigen Generationen schulden.]",aw_env_future,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Ich fühle mich gut, wenn ich ein umweltfreundliches Verkehrsmittel benutze.]",aw_subj_ecotrans,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Das von mir gewählte Verkehrsmittel hat einen erheblichen Einfluss auf die Umwelt und den Klimawandel.]",aw_subj_transmode,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Körperliche Bewegung, wie z. B. zu Fuß gehen und Radfahren, ist wichtig für meine Gesundheit.]",kn_subj_exercise,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Die schlechte Luftqualität in meiner Stadt hat sicherlich negative Auswirkungen auf meine Gesundheit.]",kn_health_air,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, wie sehr Sie ihr zustimmen oder nicht zustimmen. [Es fällt mir leicht, Gesundheitswarnungen und die Auswirkungen meines Mobilitätsverhaltens in der Stadt auf den Klimawandel zu verstehen.]",kn_health_warnings,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es mir ermöglicht, meinen Einfluss auf den Klimawandel zu verringern.]",pn_eco_climate,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... ich die Natur respektiere und in Einheit mit ihr leben möchte.]",pn_eco_nature,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... ich das Klima und die Natur schützen möchte.]",pn_eco_protect,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es mehr körperliche Aktivität mit sich bringt und gut für meine Gesundheit ist.]",pn_health_activity,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es einen gesünderen, aktiveren Lebensstil fördert.]",pn_health_lifestlye,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es mein geistiges Wohlbefinden verbessert.]",pn_health_wellbeing,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es die soziale Interaktion verbessert und den Zusammenhalt der Gemeinschaft stärkt.]",pn_general_social,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es zu einer ruhigeren, saubereren und angenehmeren städtischen Umwelt beiträgt.]",pn_general_urbanenv,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es von meinen Mitmenschen als positives und verantwortungsvolles Verhalten angesehen wird.]",sn_peers,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es von meiner Gemeinschaft unterstützt/ermutigt wird.]",sn_community,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es etwas ist , was die meisten in meiner Familie und von meinen Freunde tun.]",sn_friends,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es etwas ist, dass die meisten meiner Kollegen tun.]",sn_colleagues,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es etwas ist, was die meisten meiner Nachbarn tun.]",sn_neighbors,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [...es etwas ist, dass die meisten Menschen in meiner Stadt tun.]",sn_city,de_agree,norms
+"Bitte geben Sie für jede der folgenden Aussagen an, inwieweit Sie ihr zustimmen oder nicht zustimmen können. [... es mir mehr Kontrolle über meinen Tagesablauf gibt, da ich dadurch Verkehrs- und Parkplatzprobleme vermeiden kann.]",pn_time_traffic,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... ich besseren Zugang zu gemeinsamen Fahrrädern oder Rollern hätte.]",pbc_shared,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... es einfacher wäre, praktische Informationen über Fuß- und Radwege, Pfade und Dienstleistungen in der Stadt zu finden.]",pbc_info,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... es sicherere Rad- und Fußgängerwege gäbe.]",pbc_safety,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... der Besitz bzw. die Nutzung eines Autos weniger erschwinglich oder praktisch geworden ist, z. B. aufgrund von hohen Kraftstoffkosten, Parkgebühren oder Verkehrsbeschränkungen.]",pbc_affordable,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... es stärkere Priorisierungsmaßnahmen für Radfahrer und Fußgänger in der Stadt gäbe, einschließlich reduzierter Parkplätze, schmalerer Autospuren, breiterer Radwege und erweiterter Fußgängerzonen.]",pbc_prioritization,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... ich mich von meiner Gemeinschaft mehr unterstützt fühlen würde.]",pbc_community,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... meine Strecke mehr Grünflächen und Rastplätze hätte.]",pbc_green,de_agree,norms
+"Bitte geben Sie an, wie sehr Sie jeder der folgenden Aussagen zustimmen oder nicht zustimmen. [... die Luftqualität in meiner Stadt besser wäre.]",pbc_air,de_agree,norms
+Mit welcher Geschlechtsidentität identifizieren Sie sich am meisten?,gender,de_gender,general
+Wie alt sind Sie?,age,de_age,general
+Wie hoch ist Ihr Bildungsniveau?,education,de_educ,general
+Welche der folgenden Angaben beschreibt Ihren Haushalt am besten?,household,de_household,general
+Wie ist Ihr derzeitiger Beschäftigungsstatus?,employment,de_employment,general
+"Wie hoch ist Ihr ungefähres monatliches Haushaltsnettoeinkommen (nach Abzug der Steuern) in Euro? Falls erforderlich, können Sie den Betrag mit Hilfe eines Währungsumrechner schätzen.",income,de_income,general
+"Haben Sie weitere Anmerkungen, Gedanken oder Feedback, das Sie uns mitteilen möchten?",NA,NA,general
+Which city do you live in?,city,cities,no
+What district do you live in?,vienna_district,V_dist,no
+Please indicate your main street name (optional)..1,vienna_street,NA,no
+What district do you live in? .1,graz_district,G_dist,no
+Please indicate your main street name (optional)..2,graz_street,NA,no
+Please provide the name of the country you live in.,country,NA,no
+Please provide the name of the city you live in.,city_other,NA,no
+Please provide the district number or ZIP code of your residence.,zip_other,NA,no
+Please indicate your main street name (optional).,other_street,NA,no
+"On average, how many times per week do you usually go out for each of the following activities? [Commuting to work, school, or university]",freq_work,freq,no
+"On average, how many times per week do you usually go out for each of the following activities? [Accessing services (e.g., grocery shopping, sports or medical centers)]",freq_services,freq,no
+"On average, how many times per week do you usually go out for each of the following activities? [For leisure activities (e.g., meeting with friends and family, exercising)]",freq_leisure,freq,no
+"If you engage in other activities that do not fit into the categories above, please specify them and indicate their frequency per week.",freq_oth,NA,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Walking]",duration_work_walk,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Public transport (e.g., bus, tram, metro)]",duration_work_pt,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Conventional (petrol/diesel) or hybrid private car]",duration_work_ice,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Fully electric private car]",duration_work_ev,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Taxi or ride-hailing services (e.g., Uber, Bolt)]",duration_work_taxi,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Car sharing services]",duration_work_carsh,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Motorcycles or Vespa]",duration_work_motor,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Own bicycle]",duration_work_bike,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Own electric bicycle (e-bike)]",duration_work_ebike,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Bike sharing services]",duration_work_bikesh,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Own scooter]",duration_work_scooter,duration,no
+"Please indicate the average duration of time you spend commuting to work, school, or university using each of the following transportation modes. [Scooter sharing services]",duration_work_scootersh,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Walking]",duration_services_walk,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Public transport (e.g., bus, tram, metro)]",duration_services_pt,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Conventional (petrol/diesel) or hybrid private car]",duration_services_ice,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Fully electric private car]",duration_services_ev,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Taxi or ride-hailing services (e.g., Uber, Bolt)]",duration_services_taxi,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Car sharing services]",duration_services_carsh,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Motorcycles or Vespa]",duration_services_motor,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Own bicycle]",duration_services_bike,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Own electric bicycle (e-bike)]",duration_services_ebike,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Bike sharing services]",duration_services_bikesh,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Own scooter]",duration_services_scooter,duration,no
+"Please indicate the average duration of time you spend travelling to access services (e.g., grocery shopping, medical centers) using each of the following transportation modes. [Scooter sharing services]",duration_services_scootersh,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Walking]",duration_leisure_walk,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Public transport (e.g., bus, tram, metro)]",duration_leisure_pt,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Conventional (petrol/diesel) or hybrid private car]",duration_leisure_ice,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Fully electric private car]",duration_leisure_ev,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Taxi or ride-hailing services (e.g., Uber, Bolt)]",duration_leisure_taxi,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Car sharing services]",duration_leisure_carsh,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Motorcycles or Vespa]",duration_leisure_motor,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Own bicycle]",duration_leisure_bike,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Own electric bicycle (e-bike)]",duration_leisure_ebike,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Bike sharing services]",duration_leisure_bikesh,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Own scooter]",duration_leisure_scooter,duration,no
+"Please indicate the average amount of time you spend travelling for leisure purposes (including meeting up with friends and family, exercising) using the following transportation modes. [Scooter sharing services]",duration_leisure_scootersh,duration,no
+How often do you choose to engage in active mobility (walking or cycling)?,freq_activemob,freq,no
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Distance (the destination is too far away)],prevent_distance,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Lack of safe walking/ cycling paths],prevent_safety,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Time constraints],prevent_time,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Weather conditions],prevent_weather,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Health or physical limitations],prevent_physical,importance,never
+"What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Inconvenience (e.g., carrying groceries, belongings)]",prevent_inconvenience,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Lack of knowledge about walking or cycling routes and signs],prevent_knowledge,importance,never
+"What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Lack of amenities (e.g., bike racks, lighting, rest areas)]",prevent_amenities,importance,never
+What are the main reasons that prevent you from choosing cycling or walking as your mode of transportation? [Air pollution or environmental conditions],prevent_pollution,importance,never
+Please specify any additional factors that prevent you from cycling or walking and indicate their level of importance.,prevent_other,NA,never
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Traffic calming (e.g., 20km/h zones, one-way traffic)]",improve_calming,agree,never
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Improved safety (e.g., better lighting)]",improve_safety,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Protected bike lanes],improve_protectedbl,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Pedestrian zones (car-free zones)],improve_pedestrianz,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Wider sidewalks],improve_sidewalk,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Smart traffic lights that turn green when a cyclist approaches the junction],improve_connection,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Less car parking spaces],improve_parking,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Access to services and necessities in the neighborhood],improve_sercvices,agree,never
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Parks, green routes (e.g., tree-lined avenues, greenways, park corridors, nature trails)]",improve_green,agree,never
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Better amenities (e.g., bike racks, rest areas)]",improve_amenities,agree,never
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Improved access to shared micromobility services (e.g., more docking stations, bike-sharing points, e-scooter stations, and better business plans/apps)]",improve_shared,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Improved water management to prevent street flooding and puddles],improve_water,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Improved air quality],improve_air,agree,never
+What improvements or changes would encourage you to engage in active mobility more frequently? [Enhanced signage and information],improve_info,agree,never
+Please specify any additional improvements or changes that would encourage you to use active mobility more frequently and indicate their level of importance.,improve_other,NA,never
+How likely are you to switch to active mobility if improvements are made to the infrastructure and services (such as those mentioned in the previous question)?,switch_improve,likeliness,never
+"What is your priority when deciding your route for cycling and walking? [Green routes (e.g., tree-lined avenues, Greenways, park corridors, nature trails)]",priority_green,importance,always
+"What is your priority when deciding your route for cycling and walking? [Safety (e.g., low-traffic, secure bike lanes/pedestrian paths, well-lit)]",priority_safety,importance,always
+"What is your priority when deciding your route for cycling and walking? [Scenic or pleasant environment (e.g., pleasant surroundings and scenery such as historic areas, parks, riverside paths, or green trails)]",priority_scenic,importance,always
+What is your priority when deciding your route for cycling and walking? [Shortest distance],priority_distance,importance,always
+What is your priority when deciding your route for cycling and walking? [Fastest travel time],priority_time,importance,always
+"What is your priority when deciding your route for cycling and walking? [Access to services and amenities (e.g., public transport, shops, rest areas)]",priority_amenities,importance,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Improved health and fitness],outcome_health,agree,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Lower climate and environmental impact],outcome_environment,agree,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Cost saving],outcome_cost,agree,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Convenience and time efficiency],outcome_comforttime,agree,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Enhanced wellbeing and mental health],outcome_wellbeing,agree,always
+"What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Increased social interaction or community engagement, and social cohesion]",outcome_social,agree,always
+What would you consider the most valuable desired outcomes of choosing walking and cycling as a daily mode of transportation? [Reduced traffic congestion],outcome_congestion,agree,always
+Please specify any other measures you consider to be the most valuable outcomes of choosing walking and cycling as your daily mode of transportation and indicate their level of importance.,outcome_other,NA,always
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Traffic calming (e.g., 20km/h zones, one-way traffic)].1",improve_calming,agree,always
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Improved safety (e.g., better lighting)].1",improve_safety,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Protected bike lanes].1,improve_protectedbl,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Pedestrian zones (car-free zones)].1,improve_pedestrianz,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Wider sidewalks].1,improve_sidewalk,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Smart traffic lights that turn green when a cyclist approaches the junction].1,improve_connection,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Less parking spaces],improve_parking,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Access to services and necessities in the neighborhood].1,improve_sercvices,agree,always
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Parks, green routes (e.g., tree-lined avenues, greenways, park corridors, nature trails)].1",improve_green,agree,always
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Better amenities (e.g., bike racks, rest areas)].1",improve_amenities,agree,always
+"What improvements or changes would encourage you to engage in active mobility more frequently? [Improved access to shared micromobility services (e.g., more docking stations, bike-sharing points, e-scooter stations, and better business plans/apps)].1",improve_shared,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Improved water management to prevent street flooding and puddles].1,improve_water,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Improved air quality].1,improve_air,agree,always
+What improvements or changes would encourage you to engage in active mobility more frequently? [Enhanced signage and information].1,improve_info,agree,always
+How would you rate the current state of active mobility infrastructure in your district/neighborhood?,state_district,state,always
+How would you rate the current state of active mobility infrastructure in your city?,state_city,state,always
+"If improvements are made to active mobility infrastructure and services, how likely are you to increase your walking and cycling?",switch_improve_freq,likeliness,always
+"For each statement below, please select to what extent you agree with them. [Climate change is driving an increase in the frequency and intensity of extreme weather events.]",kn_env_climate,agree,norms
+"For each statement below, please select to what extent you agree with them. [Without immediate climate action to reduce emissions, we will exceed critical limits, making it much harder to prevent severe impacts from global warming.]",kn_env_action,agree,norms
+"For each statement below, please select to what extent you agree with them. [Every time we use (petrol/diesel-based) cars, we contribute to the acceleration of climate change because of the emissions emitted.]",kn_subj_car,agree,norms
+"For each statement below, please select to what extent you agree with them. [Active mobility helps reduce air pollution and greenhouse gas emissions.]",kn_actm_air,agree,norms
+"For each statement below, please select to what extent you agree with them. [Cities with better walking and cycling infrastructure often see improved public health outcomes.]",kn_actm_health,agree,norms
+"For each statement below, please select to what extent you agree with them. [Personally, I feel responsible for climate change.]",aw_env_climate,agree,norms
+"For each statement below, please select to what extent you agree with them. [The future of our planet depends on today’s choices; protecting nature and reducing our climate impact is a responsibility we owe to ourselves and future generations.]",aw_env_future,agree,norms
+"For each statement below, please select to what extent you agree with them. [I feel good when using eco-friendly transportation mode.]",aw_subj_ecotrans,agree,norms
+"For each statement below, please select to what extent you agree with them. [The transportation mode I choose has a significant impact on the environment and climate change.]",aw_subj_transmode,agree,norms
+"For each statement below, please select to what extent you agree with them. [Physical exercise, such as walking and cycling is essential for my health.]",kn_subj_exercise,agree,norms
+"For each statement below, please select to what extent you agree with them. [The poor air quality in my city certainly has negative effects on my health.]",kn_health_air,agree,norms
+"For each statement below, please select to what extent you agree with them. [I find it easy to understand health warnings and the climate change impacts of my mobility behaviors in the city.]",kn_health_warnings,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it allows me to reduce my impact on climate change.]",pn_eco_climate,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... I respect nature, and I want to live in unity with nature.]",pn_eco_nature,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... I want to protect the climate and nature.]",pn_eco_protect,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it involves more physical activity and is good for my health.]",pn_health_activity,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… it promotes a healthier, more active lifestyle.]",pn_health_lifestlye,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it improves my mental well-being.]",pn_health_wellbeing,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… it improves social interaction and strengthens community cohesion.]",pn_general_social,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… it contributes to a quieter, cleaner, and more pleasant urban environment.]",pn_general_urbanenv,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… is considered a positive and responsible behavior by my peers.]",sn_peers,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… is supported/encouraged by my community.]",sn_community,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it is something that most of my family and friends do.]",sn_friends,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it is something that most of my colleagues do.]",sn_colleagues,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it is something that most of my neighbors do.]",sn_neighbors,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [... it is something that most of the people in my city do.]",sn_city,agree,norms
+"For each statement below, please indicate the extent to which you agree or disagree with it. [… it gives me more control over my daily schedule by avoiding traffic and parking issues.]",pn_time_traffic,agree,norms
+Please indicate how much you agree or disagree with each of the following statements. [… I had better access to shared bikes or scooters.],pbc_shared,agree,norms
+"Please indicate how much you agree or disagree with each of the following statements. [… it was easier to find practical information about walking and cycling routes, paths, and services in the city.]",pbc_info,agree,norms
+Please indicate how much you agree or disagree with each of the following statements. [… there were safer bike lanes and pedestrian paths.],pbc_safety,agree,norms
+"Please indicate how much you agree or disagree with each of the following statements. [… owning/using a car became less affordable or practical, e.g., due to high fuel costs, parking fees, or traffic restrictions.]",pbc_affordable,agree,norms
+"Please indicate how much you agree or disagree with each of the following statements. [… there were stronger prioritization measures for cyclists and pedestrians in the city, including reduced parking spaces, narrower car lanes, wider cycling paths, and expanded pedestrian zones.]",pbc_prioritization,agree,norms
+Please indicate how much you agree or disagree with each of the following statements. [… I felt more supported by my community],pbc_community,agree,norms
+Please indicate how much you agree or disagree with each of the following statements. [… my route had more green spaces and resting areas.],pbc_green,agree,norms
+Please indicate how much you agree or disagree with each of the following statements. [… the air quality in my city was better.],pbc_air,agree,norms
+To which gender identity do you most identify?,gender,gender,general
+How old are you?,age,age,general
+What is your level of education?,education,educ,general
+Which of the following best describes your household?,household,household,general
+What is your current employment status?,employment,employment,general
+"What is your approximate monthly net household income (after tax) in Euros? If needed, you may use a currency conversion tool to estimate the amount.",income,income,general
+"Do you have any additional comments, thoughts, or feedback you would like to share?",NA,NA,general
