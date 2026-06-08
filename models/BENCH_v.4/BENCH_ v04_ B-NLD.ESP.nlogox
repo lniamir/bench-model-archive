@@ -1,0 +1,3956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model version="NetLogo 7.0.4" snapToGrid="false">
+  <code><![CDATA[;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                                                                       ;
+;;;                        BENCH Model                                ;;;
+;;;                    Version:B-NLD.ESP 03                           ;;;
+;;;                     IIASA-RITE Project                            ;;;
+;;;;;;                                                              ;;;;;
+;;;         Author: Leila Niamir <leila.niamir@gmail.com>             ;;;
+;;;                     IIASA, Laxenburg-Austria                      ;;;
+;;;;;                                                              ;;;;;;
+;;;                          30 Jan 2023                              ;;;
+;                                                                       ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+; #####################################################################################
+; ####################### variables and extensions ####################################
+; #####################################################################################
+
+extensions [gis csv]
+;breed [turtles household]
+
+globals[
+  district  cities year
+  cge-es-ssp2-h  cge-es-ssp2-con  primes-es-ref-prices  cge-nl-ssp2-h  cge-nl-ssp2-con  primes-nl-ref-prices
+  rn  ge  ow  en  ed  sa  ec  dsi  dag  ty n prov
+  greyuser  brownuser  greenuser  elec.grey.p  elec.brown.p  elec.green.p  gas.grey.p  gas.green.p
+  k  aware.total pn1.total pn2.total pn3.total  sn1.total sn2.total sn3.total
+  noaction a1 a2 a3  a4 a5 a6  a7 a8 a9 a.total  a1.com a2.com a3.com a4.com a5.com a6.com a7.com a8.com a9.com
+  g1.a1 g1.a2 g1.a3 g1.a4 g1.a5 g1.a6 g1.a7 g1.a8 g1.a9  g2.a1 g2.a2 g2.a3 g2.a4 g2.a5 g2.a6 g2.a7 g2.a8 g2.a9  g3.a1 g3.a2 g3.a3 g3.a4 g3.a5 g3.a6 g3.a7 g3.a8 g3.a9
+  g4.a1 g4.a2 g4.a3 g4.a4 g4.a5 g4.a6 g4.a7 g4.a8 g4.a9  g5.a1 g5.a2 g5.a3 g5.a4 g5.a5 g5.a6 g5.a7 g5.a8 g5.a9  g6.a1 g6.a2 g6.a3 g6.a4 g6.a5 g6.a6 g6.a7 g6.a8 g6.a9
+  g7.a1 g7.a2 g7.a3 g7.a4 g7.a5 g7.a6 g7.a7 g7.a8 g7.a9  g8.a1 g8.a2 g8.a3 g8.a4 g8.a5 g8.a6 g8.a7 g8.a8 g8.a9  g9.a1 g9.a2 g9.a3 g9.a4 g9.a5 g9.a6 g9.a7 g9.a8 g9.a9
+  g10.a1 g10.a2 g10.a3 g10.a4 g10.a5 g10.a6 g10.a7 g10.a8 g10.a9  g11.a1 g11.a2 g11.a3 g11.a4 g11.a5 g11.a6 g11.a7 g11.a8 g11.a9  g12.a1 g12.a2 g12.a3 g12.a4 g12.a5 g12.a6 g12.a7 g12.a8 g12.a9
+  group1.a1 group1.a2 group1.a3 group2.a1 group2.a2 group2.a3 group3.a1 group3.a2 group3.a3 group4.a1 group4.a2 group4.a3 group5.a1 group5.a2 group5.a3
+  t1.a1 t1.a2 t1.a3 t2.a1 t2.a2 t2.a3
+  dwage1.a1 dwage2.a1 dwage3.a1
+  dwage1R.a1 dwage3R.a1 dwage5R.a1
+  elab1.a1 elab1.a2 elab1.a3 elab2.a1 elab2.a2 elab2.a3 elab3.a1 elab3.a2 elab3.a3 elab4.a1 elab4.a2 elab4.a3 elab5.a1 elab5.a2 elab5.a3
+  prob1  prob2  prob3  prob4  prob5  prob6 prob7  prob8  prob9
+  save.elec  save.elec.com  save.gas  save.gas.com  invs  invs.com
+  save.elec.g1 save.elec.g2 save.elec.g3 save.elec.g4 save.elec.g5 save.elec.g6 save.elec.g7 save.elec.g8 save.elec.g9 save.elec.g10 save.elec.g11 save.elec.g12
+  save.gas.g1 save.gas.g2 save.gas.g3 save.gas.g4 save.gas.g5 save.gas.g6 save.gas.g7 save.gas.g8 save.gas.g9 save.gas.g10 save.gas.g11 save.gas.g12
+  elec.total  gas.total elec.all gas.all
+  elec.g1 elec.g2 elec.g3 elec.g4 elec.g5 elec.g6 elec.g7 elec.g8 elec.g9 elec.g10 elec.g11 elec.g12
+  elec.t1.a1 elec.t1.a2 elec.t1.a3 elec.t2.a1 elec.t2.a2 elec.t2.a3 elec.t1 elec.t2
+  gas.t1.a1 gas.t1.a2 gas.t1.a3 gas.t2.a1 gas.t2.a2 gas.t2.a3 gas.t1 gas.t2
+  gas.g1 gas.g2 gas.g3 gas.g4 gas.g5 gas.g6 gas.g7 gas.g8 gas.g9 gas.g10 gas.g11 gas.g12
+  invs.a1.g1  invs.a2.g1  invs.a3.g1  invs.a1.g2  invs.a2.g2  invs.a3.g2   invs.a1.g3  invs.a2.g3  invs.a3.g3   invs.a1.g4  invs.a2.g4  invs.a3.g4   invs.a1.g5  invs.a2.g5  invs.a3.g5   invs.a1.g6  invs.a2.g6  invs.a3.g6
+  invs.a1.g7  invs.a2.g7  invs.a3.g7  invs.a1.g8  invs.a2.g8  invs.a3.g8   invs.a1.g9  invs.a2.g9  invs.a3.g9   invs.a1.g10  invs.a2.g10  invs.a3.g10  invs.a1.g11  invs.a2.g11  invs.a3.g11  invs.a1.g12  invs.a2.g12  invs.a3.g12
+  invs1.com  invs2.com  invs3.com
+  number.g1 number.g2 number.g3 number.g4 number.g5 number.g6 number.g7 number.g8 number.g9 number.g10 number.g11 number.g12   ;edu+age
+  number.group1 number.group2 number.group3 number.group4 number.group5   ;income
+  number.t1 number.t2
+  number.elab1 number.elab2 number.elab3 number.elab4 number.elab5
+  number.dwage1 number.dwage2 number.dwage3
+  number.dwage1R  number.dwage3R  number.dwage5R
+  n.hh.eff n.hh.pro
+  number.households
+]
+
+turtles-own[
+  h.id  h.group h.sta sdgroup
+  income  gen  edu  ecom  age
+  dw.st  dw.elab  dw.type  dw.age  dw.size
+  elec  gas
+  aware  know  cee.aw  ed.aw  guilt
+  m1  m2  m3  m1.st  m2.st  m3.st  pn1  pn2  pn3  sn1  sn2  sn3
+  pbcI1  pbcI2  pbcI3  pbcC1  pbcC2  pbcC3 pbcS1  pbcS2  pbcS3  ene.pat1  ene.pat2  ene.pat3  ene.prov
+  cI1.st  cI2.st  cI3.st  cC1.st  cC2.st  cC3.st  cS1.st  cS2.st  cS3.st
+  U1  act1  U2  act2  U3  act3  U4  act4  U5  act5  U6  act6  U7  act7  U8  act8  U9  act9
+  erI1  erI2  erI3  erC1  erC2  erC3  erS1  erS2  erS3
+  save.a1  save.a2  save.a3  save.a4   save.a5  save.a6
+  act1.year  act2.year  act3.year  invest1  invest2  invest3
+  invs.a1  invs.a2  invs.a3  invs.a4  invs.a5  invs.a6  invs.a7  invs.a8  invs.a9
+  ngb.k  ngb.k.mean  ngb.ca  ngb.ca.mean  ngb.ed  ngb.ea.mean ngb.pn1  ngb.pn2  ngb.pn3  ngb.sn1  ngb.sn2  ngb.sn3 ngb.pbcI1  ngb.pbcI2  ngb.pbcI3  ngb.pbcC1  ngb.pbcC2  ngb.pbcC3  ngb.pbcS1  ngb.pbcS2  ngb.pbcS3
+  renov
+]
+
+; #####################################################################################
+; ############################# loading data ##########################################
+; #####################################################################################
+
+to load-data
+
+  if case-study = "ES"[
+    if Scenario = "Ref.SSP2"[
+      ifelse (file-exists? "cge-es-ssp2-h.csv")[               ;; income growth
+        file-open "cge-es-ssp2-h.csv"
+        set cge-es-ssp2-h csv:from-file "cge-es-ssp2-h.csv"
+        file-close][
+        user-message "Sorry, there is no <cge-es-ssp2-h> file in the directory" ]
+    ]]
+
+  if case-study = "NL"[
+    if Scenario = "Ref.SSP2"[
+      ifelse (file-exists? "cge-nl-ssp2-h.csv")[               ;; income growths
+        file-open "cge-nl-ssp2-h.csv"
+        set cge-nl-ssp2-h csv:from-file "cge-nl-ssp2-h.csv"
+        file-close][
+        user-message "Sorry, there is no <cge-nl-ssp2-h> file in the directory" ]
+    ]]
+
+end
+
+; #####################################################################################
+; ################################### setup ###########################################
+; #####################################################################################
+
+To setup
+  clear-all
+  clear-drawing
+  ct
+  file-close-all
+
+  if generate-seed? [set Seed-for-random new-seed]
+  random-seed Seed-for-random
+
+  createfiles
+  load-data
+  set year 2016
+
+  set aware.total 0
+  set pn1.total 0 set pn2.total 0 set pn3.total 0  set sn1.total 0 set sn2.total 0 set sn3.total 0
+  set a.total 0 set prob1 0  set prob2 0  set prob3 0  set prob4 0  set prob5 0  set prob6 0  set prob7 0  set prob8 0  set prob9 0
+  set save.elec 0  set save.elec.com 0  set save.gas 0  set save.gas.com 0  set invs 0  set invs.com 0
+
+  set t1.a1 0 set t1.a2 0  set t1.a3 0
+  set t2.a1 0 set t2.a2 0  set t2.a3 0
+  set dwage1.a1 0  set dwage2.a1 0  set dwage3.a1 0
+  set dwage1R.a1 0 set dwage3R.a1 0 set dwage5R.a1 0
+
+
+  set elec.t1.a1 0 set elec.t1.a2 0 set elec.t1.a3 0
+  set elec.t2.a1 0 set elec.t2.a2 0 set elec.t2.a3 0
+  set elec.t1 0 set elec.t2 0
+  set gas.t1.a1 0 set gas.t1.a2 0 set gas.t1.a3 0
+  set gas.t2.a1 0 set gas.t2.a2 0 set gas.t2.a3 0
+  set gas.t1 0 set gas.t2 0
+  set n.hh.eff 0 set n.hh.pro 0
+
+ if case-study = "ES" [
+    if Data = "Empirical-survey"[
+      create-turtles 793 [ setxy random-xcor random-ycor  set shape "house"  set color grey]
+
+      ask turtles[
+        set h.id who
+        set h.sta ""
+        set sdgroup 0
+        set aware 0 set guilt "Null" set k 0
+        set m1.st "Null" set m2.st "Null" set m3.st "Null" set m1 0 set m2 0 set m3 0
+        set cI1.st "Null" set cI2.st "Null" set cI3.st "Null"
+        set cC1.st "Null" set cC2.st "Null" set cC3.st "Null"
+        set cS1.st "Null" set cS2.st "Null" set cS3.st "Null"
+        set U1 0 set U2 0 set U3 0
+        set act1 "Null"  set act2 "Null"  set act3 "Null"
+        set act1.year 0  set act2.year 0  set act3.year 0
+        set save.a1 0  set save.a2 0  set save.a3 0  set save.a4 0  set save.a5 0  set save.a6 0
+        set invest1 False set invest2 False  set invest3 False
+        set invs.a1 0  set invs.a2 0  set invs.a3 0  set invs.a4 0  set invs.a5 0  set invs.a6 0  set invs.a7 0  set invs.a8 0 set invs.a9 0
+
+        set elec randomNumber 1000 5000 100
+        set rn random-float 100                  ;; to assign incomes
+
+        if (rn < 11.4 ) [                        ;; 11.4% --> income group 1
+          set h.group 1
+          set income randomNumber 800 10000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 3 7 0.05          set cee.aw randomNumber 3 7 0.05         set ed.aw randomNumber 2.4 7 0.05
+          set pn1 randomNumber 2.87 7 0.05        set pn2 randomNumber 2.87 7 0.05         set pn3 randomNumber 2.87 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 1 7 0.05         set pbcI2 randomNumber 1 7 0.05          set pbcI3 randomNumber 1 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 2.5 0.05    set ene.pat2 randomNumber 1 2.5 0.05     set ene.pat3 randomNumber 1 2.5 0.05
+
+          set erI1 randomNumber -0.03 0.01 0.01   set erI2 randomNumber -0.01 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.05 0.01  set erC2 randomNumber -0.05 -0.03 0.01   set erC3 randomNumber -0.05 -0.03 0.01
+          set erS1 randomNumber -0.01 0.00 0.01   set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 71) [set gen 1]
+          if (ge >= 71) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 6 ) [set age 1]
+          if (sa >= 6 ) and (sa < 64 ) [set age 2]
+          if (sa >= 64 ) and (sa < 95 ) [set age 3]
+          if (sa >= 95 ) and (sa <= 100 ) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 73 ) [set ecom 1]
+          if (ec >= 73 ) and (ec < 96) [set ecom 2]
+          if (ec >= 96 ) and (ec <= 100) [set ecom 3]
+          set ed random 100                      ;; to assign education level
+          if (ed < 36) [set edu 1]
+          if (ed >= 36) and (ed < 58) [set edu 2]
+          if (ed >= 58) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 37) [set dw.st 1]             ;; 37% owner
+          if (ow >= 37) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 83 ) [set dw.type 1]
+          if (ty >= 83 ) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 22 ) [set dw.age 1]
+          if (dag >= 22 ) and (dag < 69) [set dw.age 2]
+          if (dag >= 69) and (dag <= 100 ) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 71 ) [set dw.size 1]
+          if (dsi >= 71 ) and (dsi < 93) [set dw.size 2]
+          if (dsi >= 93) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 21) [set dw.elab 1]                           ;; 21% --> A
+          if (en >= 21) and (en < 63.1) [set dw.elab 2]          ;; 42.1% --> B
+          if (en >= 63.1) and (en < 78.9) [set dw.elab 3]        ;; 15.8% --> C
+          if (en >= 78.9) and (en < 94.7) [set dw.elab 4]        ;; 15.8% --> D
+          if (en >= 94.7) and (en <= 100) [set dw.elab 5]        ;; 5.3% --> E
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 3.49) [set ene.prov 2]                      ;; 3.49% --> brown
+          if (prov >= 3.49) and (prov <= 100) [set ene.prov 1]   ;; rest  --> grey
+        ]
+
+        if (rn >= 11.4) and (rn < 58.2) [         ;; 46.8% -->  income group 2
+          set h.group 2
+          set income randomNumber 10000 30000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 1 7 0.05          set cee.aw randomNumber 2 7 0.05         set ed.aw randomNumber 1 7 0.05
+          set pn1 randomNumber 2.25 7 0.05        set pn2 randomNumber 2.25 7 0.05         set pn3 randomNumber 2.25 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 1 7 0.05         set pbcI2 randomNumber 1 7 0.05          set pbcI3 randomNumber 1 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 2.5 0.05    set ene.pat2 randomNumber 1 2.5 0.05     set ene.pat3 randomNumber 1 2.5 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01  set erI2 randomNumber -0.01 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.05 -0.03 0.01   set erC3 randomNumber -0.05 -0.03 0.01
+          set erS1 randomNumber -0.01 0.00 0.01   set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 63) [set gen 1]
+          if (ge >= 63) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 3) [set age 1]
+          if (sa >= 3) and (sa < 48) [set age 2]
+          if (sa >= 48) and (sa < 93) [set age 3]
+          if (sa >= 93) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 24) [set ecom 1]
+          if (ec >= 24) and (ec < 75) [set ecom 2]
+          if (ec >= 75) and (ec <= 100) [set ecom 3]
+          set ed random 100                    ;; to assign education level
+          if (ed < 19) [set edu 1]
+          if (ed >= 19) and (ed < 46) [set edu 2]
+          if (ed >= 46) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 78) [set dw.st 1]             ;; 37% owner
+          if (ow >= 78) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 81) [set dw.type 1]
+          if (ty >= 81) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 30) [set dw.age 1]
+          if (dag >= 30) and (dag < 76) [set dw.age 2]
+          if (dag >= 76) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 72) [set dw.size 1]
+          if (dsi >= 72) and (dsi < 91) [set dw.size 2]
+          if (dsi >= 91) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 32.3) [set dw.elab 1]
+          if (en >= 32.3) and (en < 64.6) [set dw.elab 2]
+          if (en >= 64.6) and (en < 83.1) [set dw.elab 3]
+          if (en >= 83.1) and (en < 90.8) [set dw.elab 4]
+          if (en >= 90.8) and (en < 97) [set dw.elab 5]
+          if (en >= 97) and (en < 100) [set dw.elab 6]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 4.25) [set ene.prov 2]
+          if (prov >= 4.25) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn >= 58.2) and (rn < 86) [            ;; 27.8% --> income group 3
+          set h.group 3
+          set income randomNumber 30001 50000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 1 7 0.05          set cee.aw randomNumber 1 7 0.05         set ed.aw randomNumber 1 7 0.05
+          set pn1 randomNumber 2 7 0.05           set pn2 randomNumber 2 7 0.05            set pn3 randomNumber 2 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 2.2 7 0.05       set pbcI2 randomNumber 2.2 7 0.05        set pbcI3 randomNumber 2.2 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 3 0.05      set ene.pat2 randomNumber 1 3 0.05       set ene.pat3 randomNumber 1 3 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01  set erI2 randomNumber -0.01 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.05 -0.02 0.01   set erC3 -0.01
+          set erS1 randomNumber -0.302 -0.01 0.01 set erS2 randomNumber -0.02 -0.01 0.01   set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 46) [set gen 1]
+          if (ge >= 46) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 2) [set age 1]
+          if (sa >= 2) and (sa < 46) [set age 2]
+          if (sa >= 46) and (sa < 91) [set age 3]
+          if (sa >= 91) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 28) [set ecom 1]
+          if (ec >= 28) and (ec < 75) [set ecom 2]
+          if (ec >= 75) and (ec <= 100) [set ecom 3]
+          set ed random 100                      ;; to assign education level
+          if (ed < 10) [set edu 1]
+          if (ed >= 10) and (ed < 31) [set edu 2]
+          if (ed >= 31) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 85) [set dw.st 1]
+          if (ow >= 85) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 76) [set dw.type 1]
+          if (ty >= 76) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 29) [set dw.age 1]
+          if (dag >= 29) and (dag < 78) [set dw.age 2]
+          if (dag >= 78) and (dag <= 100 ) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 58) [set dw.size 1]
+          if (dsi >= 58) and (dsi < 86) [set dw.size 2]
+          if (dsi >= 86) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 32) [set dw.elab 1]
+          if (en >= 32) and (en < 57.5) [set dw.elab 2]
+          if (en >= 57.5) and (en < 76.6) [set dw.elab 3]
+          if (en >= 76.6) and (en < 83) [set dw.elab 4]
+          if (en >= 83) and (en < 93.6) [set dw.elab 5]
+          if (en >= 93.6) and (en <= 100) [set dw.elab 6]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 5.71) [set ene.prov 2]
+          if (prov >= 5.71) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn >= 86) and (rn < 94.7) [            ;; 8.7% -->  income group 4
+          set h.group 4
+          set income randomNumber 50001 70000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 3.66 6.33 0.05    set cee.aw randomNumber 2.92 7 0.05      set ed.aw randomNumber 2.33 7 0.05
+          set pn1 randomNumber 2 7 0.05           set pn2 randomNumber 2 7 0.05            set pn3 randomNumber 2 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 2.6 7 0.05       set pbcI2 randomNumber 2.6 7 0.05        set pbcI3 randomNumber 2.6 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 2 0.05      set ene.pat2 randomNumber 1 2 0.05       set ene.pat3 randomNumber 1 2 0.05
+
+          set erI1 randomNumber -0.03 -0.02 0.01  set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.06 -0.02 0.01   set erC3 randomNumber -0.05 -0.02 0.01
+          set erS1 -0.01                          set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 50) [set gen 1]
+          if (ge >= 50) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 2) [set age 1]
+          if (sa >= 2) and (sa < 47) [set age 2]
+          if (sa >= 47) and (sa < 92) [set age 3]
+          if (sa >= 92) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 8) [set ecom 1]
+          if (ec >= 8) and (ec <= 49) [set ecom 2]
+          if (ec >= 49) and (ec <= 100) [set ecom 3]
+          set ed random 100                     ;; to assign education level
+          if (ed < 5) [set edu 1]
+          if (ed >= 5) and (ed < 18) [set edu 2]
+          if (ed >= 18) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 94) [set dw.st 1]
+          if (ow >= 94) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 65) [set dw.type 1]
+          if (ty >= 65) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 33) [set dw.age 1]
+          if (dag >= 33) and (dag < 80) [set dw.age 2]
+          if (dag >= 80) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 59) [set dw.size 1]
+          if (dsi >= 59) and (dsi < 76) [set dw.size 2]
+          if (dsi >= 76) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 31.3) [set dw.elab 1]
+          if (en >= 31.3) and (en < 56.3) [set dw.elab 2]
+          if (en >= 56.3) and (en < 68.8) [set dw.elab 3]
+          if (en >= 68.8) and (en < 87.5) [set dw.elab 4]
+          if (en >= 87.5) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 3.03) [set ene.prov 2]
+          if (prov >= 3.03) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn >= 94.7) and (rn < 97.8) [        ;; 3.1% --> income group 5
+          set h.group 5
+          set income randomNumber 70001 90000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 3.83 7 0.05       set cee.aw randomNumber 3.28 7 0.05      set ed.aw randomNumber 2.8 7 0.05
+          set pn1 randomNumber 2.5 7 0.05         set pn2 randomNumber 2.5 7 0.05          set pn3 randomNumber 2.5 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 1.6 6.8 0.05     set pbcI2 randomNumber 1.6 6.8 0.05      set pbcI3 randomNumber 1.6 6.8 0.05
+          set pbcC1 randomNumber 1.5 7 0.05       set pbcC2 randomNumber 1.5 7 0.05        set pbcC3 randomNumber 1.5 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 2 0.05      set ene.pat2 randomNumber 1 2 0.05       set ene.pat3 randomNumber 1 2 0.05
+
+          set erI1 randomNumber -0.03 0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.06 -0.02 0.01   set erC3 randomNumber -0.05 -0.03 0.01
+          set erS1 -0.01                          set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random 100                ;; to assign gender
+          if (ge < 39) [set gen 1]
+          if (ge >= 39) and (ge <= 100) [set gen 2]
+          set sa random 100                ;; to assign age
+          if (sa < 52) [set age 2]
+          if (sa >= 52) and (sa < 96) [set age 3]
+          if (sa >= 96) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 7) [set ecom 1]
+          if (ec >= 7) and (ec <= 84) [set ecom 2]
+          if (ec >= 84) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 10) [set edu 2]
+          if (ed >= 10) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 96) [set dw.st 1]
+          if (ow >= 96) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 74) [set dw.type 1]
+          if (ty >= 74) and (ty <= 100 ) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 35) [set dw.age 1]
+          if (dag >= 35) and (dag < 87) [set dw.age 2]
+          if (dag >= 87) and (dag <= 100 ) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 57) [set dw.size 1]
+          if (dsi >= 57) and (dsi < 83) [set dw.size 2]
+          if (dsi >= 83) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 33.3) [set dw.elab 2]
+          if (en >= 33.3) and (en <= 100) [set dw.elab 3]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 13.4) [set ene.prov 2]
+          if (prov >= 13.4) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn >=  97.8) and (rn < 98.7) [       ;; 0.9% --> income group 6
+          set h.group 5
+          set income randomNumber 90001 110000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 3.83 7 0.05       set cee.aw randomNumber 3.5 6.5 0.05   set ed.aw randomNumber 3.2 7 0.05
+          set pn1 randomNumber 2.25 6.75 0.05     set pn2 randomNumber 2.25 6.75 0.05    set pn3 randomNumber 2.25 6.75 0.05
+          set sn1 randomNumber 1 6 0.05           set sn2  randomNumber 1 6 0.05         set sn3  randomNumber 1 6 0.05
+          set pbcI1 randomNumber 1 5.6 0.05       set pbcI2 randomNumber 1 5.6 0.05      set pbcI3 randomNumber 1 5.6 0.05
+          set pbcC1 randomNumber 1 5.6 0.05       set pbcC2 randomNumber 1 5.6 0.05      set pbcC3 randomNumber 1 5.6 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05        set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 1 1.75 0.05   set ene.pat2 randomNumber 1 1.75 0.05  set ene.pat3 randomNumber 1 1.75 0.05
+
+          set erI1 randomNumber -0.03 0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.06 -0.02 0.01   set erC3 randomNumber -0.05 -0.03 0.01
+          set erS1 -0.01                          set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 57) [set gen 1]
+          if (ge >= 57) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 28) [set age 2]
+          if (sa >= 28) and (sa <= 100) [set age 3]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 25) [set ecom 1]
+          if (ec >= 25) and (ec <= 50) [set ecom 2]
+          if (ec >= 50) and (ec <= 100) [set ecom 3]
+          set edu 3
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 86) [set dw.st 1]
+          if (ow >= 86) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 86) [set dw.type 1]
+          if (ty >= 86) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 71) [set dw.age 2]
+          if (dag >= 71) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 14) [set dw.size 1]
+          if (dsi >= 14) and (dsi < 71) [set dw.size 2]
+          if (dsi >= 71) and (dsi <= 100) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 66.7) [set dw.elab 2]
+          if (en >= 66.7) and (en < 100) [set dw.elab 6]
+          set ene.prov 1
+        ]
+
+        if (rn >= 98.7) and (rn <= 100) [           ;; 1.3% -->  income group 7
+          set h.group 5
+          set income randomNumber 110001 150000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 4 6.33 0.05       set cee.aw randomNumber 4.57 6.28 0.05   set ed.aw randomNumber 3.5 6.33 0.05
+          set pn1 randomNumber 4.42 7 0.05        set pn2 randomNumber 4.42 7 0.05         set pn3 randomNumber 4.42 7 0.05
+          set sn1  randomNumber 3.33 6.2 0.05     set sn2  randomNumber 3.33 6.2 0.05      set sn3  randomNumber 3.33 6.2 0.05
+          set pbcI1 randomNumber 3.6 7 0.05       set pbcI2 randomNumber 3.6 7 0.05        set pbcI3 randomNumber 3.6 7 0.05
+          set pbcC1 randomNumber 1 6.5 0.05       set pbcC2 randomNumber 1 6.5 0.05        set pbcC3 randomNumber 1 6.5 0.05
+          set pbcS1 randomNumber 3 6 0.05         set pbcS2 randomNumber 3 6 0.05          set pbcS3 randomNumber 3 6 0.05
+          set ene.pat1 randomNumber 1 3 0.05      set ene.pat2 randomNumber 1 3 0.05       set ene.pat3 randomNumber 1 3 0.05
+
+          set erI1 randomNumber -0.03 0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.03 0.01  set erC2 randomNumber -0.06 -0.02 0.01   set erC3 randomNumber -0.05 -0.03 0.01
+          set erS1 -0.01                          set erS2 -0.01                           set erS3 randomNumber -0.02 -0.01 0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 40) [set gen 1]
+          if (ge >= 40) and (ge <= 100) [set gen 2]
+          set sa random 100                      ;; to assign age
+          if (sa < 20) [set age 2]
+          if (sa >= 20) and (sa < 70) [set age 3]
+          if (sa >= 70) and (sa < 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 17) [set ecom 1]
+          if (ec >= 17) and (ec <= 100) [set ecom 3]
+          set ed random 100                      ;; to assign education level
+          if (ed < 20) [set edu 2]
+          if (ed >= 20) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 80) [set dw.st 1]
+          if (ow >= 80) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 50) [set dw.type 1]
+          if (ty >= 50) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 30) [set dw.age 1]
+          if (dag >= 30) and (dag < 80) [set dw.age 2]
+          if (dag >= 80) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 30) [set dw.size 1]
+          if (dsi >= 30) and (dsi < 80) [set dw.size 2]
+          if (dsi >= 80) and (dsi <= 100) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 50) [set dw.elab 2]
+          if (en >= 50) and (en <= 100) [set dw.elab 6]
+          set ene.prov 1
+        ]
+      ]
+    ]
+  ]
+
+  if case-study = "NL" [
+    if Data = "Empirical-survey"[
+      create-turtles 759 [ setxy random-xcor random-ycor  set shape "house"  set color grey]  ; 1/10000
+      ask turtles[
+        set h.id who
+        set h.sta ""
+        set sdgroup 0
+        set aware 0 set guilt "Null" set k 0
+        set m1.st "Null" set m2.st "Null" set m3.st "Null" set m1 0 set m2 0 set m3 0
+        set cI1.st "Null" set cI2.st "Null" set cI3.st "Null"
+        set cC1.st "Null" set cC2.st "Null" set cC3.st "Null"
+        set cS1.st "Null" set cS2.st "Null" set cS3.st "Null"
+        set U1 0 set U2 0 set U3 0
+        set act1 "Null"  set act2 "Null"  set act3 "Null"
+        set act1.year 0  set act2.year 0  set act3.year 0
+        set save.a1 0  set save.a2 0  set save.a3 0  set save.a4 0  set save.a5 0  set save.a6 0
+        set invest1 False set invest2 False  set invest3 False
+        set invs.a1 0  set invs.a2 0  set invs.a3 0  set invs.a4 0  set invs.a5 0  set invs.a6 0  set invs.a7 0  set invs.a8 0 set invs.a9 0
+        set renov False
+
+        set elec randomNumber 1000 5000 100
+        set rn random-float 100                  ;; to assign incomes
+
+        if (rn < 5.5 ) [                         ;; 5.5% --> income group 1
+          set h.group 1
+          set income randomNumber 800 10000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 1 7 0.05          set cee.aw randomNumber 1.2 6.8 0.05     set ed.aw randomNumber 1 7 0.05
+          set pn1 randomNumber 1 6.5 0.05         set pn2 randomNumber 1 6.5 0.05          set pn3 randomNumber 1 6.5 0.05
+          set sn1  randomNumber 1 6.5 0.05        set sn2  randomNumber 1 6.5 0.05         set sn3  randomNumber 1 6.5 0.05
+          set pbcI1 randomNumber 1 7 0.05         set pbcI2 randomNumber 1 7 0.05          set pbcI3 randomNumber 1 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 0.25 2.22 0.05   set ene.pat2 randomNumber 0.25 2.22 0.05     set ene.pat3 randomNumber 0.25 2.22 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01   set erI2 randomNumber -0.02 -0.01 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.04 -0.03 0.01   set erC2 randomNumber -0.06 -0.03 0.01    set erC3 randomNumber -0.04 -0.02 0.01
+          set erS1 randomNumber -0.01 0.00 0.01    set erS2 randomNumber -0.02 -0.01 0.01    set erS3  -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 66.7) [set gen 1]
+          if (ge >= 66.7) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 1.8 ) [set age 1]
+          if (sa >= 1.8 ) and (sa < 35.1 ) [set age 2]
+          if (sa >= 35.1 ) and (sa < 78.9 ) [set age 3]
+          if (sa >= 78.9 ) and (sa <= 100 ) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 43.9 ) [set ecom 1]
+          if (ec >= 43.9 ) and (ec < 64.9) [set ecom 2]
+          if (ec >= 64.9 ) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 57.9) [set edu 1]
+          if (ed >= 57.9) and (ed < 82.5) [set edu 2]
+          if (ed >= 82.5) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 49) [set dw.st 1]             ;; owner
+          if (ow >= 49) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 28.1 ) [set dw.type 1]
+          if (ty >= 28.1 ) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 14 ) [set dw.age 1]
+          if (dag >= 14 ) and (dag < 63.2) [set dw.age 2]
+          if (dag >= 63.2) and (dag <= 100 ) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 47.1 ) [set dw.size 1]
+          if (dsi >= 47.1 ) and (dsi < 80.7) [set dw.size 2]
+          if (dsi >= 80.7) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 25) [set dw.elab 1]                           ;; A
+          if (en >= 25) and (en < 34.4) [set dw.elab 2]          ;; B
+          if (en >= 34.4) and (en < 40.6) [set dw.elab 3]        ;; C
+          if (en >= 40.6) and (en < 43.7) [set dw.elab 4]        ;; D
+          if (en >= 43.7) and (en <= 100) [set dw.elab 5]        ;; E
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 24.57) [set ene.prov 2]                     ;;  brown
+          if (prov >= 24.57) and (prov <= 100) [set ene.prov 1]   ;; grey
+        ]
+
+        if (rn >= 5.5) and (rn <= 40.19) [       ;; 34.69% -->  income group 2
+          set h.group 2
+          set income randomNumber 10000 30000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 1 7 0.05          set cee.aw randomNumber 1 6.8 0.05       set ed.aw randomNumber 1.3 7 0.05
+          set pn1 randomNumber 2 7 0.05           set pn2 randomNumber 2 7 0.05            set pn3 randomNumber 2 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 1.4 7 0.05       set pbcI2 randomNumber 1.4 7 0.05        set pbcI3 randomNumber 1.4 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 0.25 1.7 0.05    set ene.pat2 randomNumber 0.25 1.7 0.05     set ene.pat3 randomNumber 0.25 1.7 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01  set erI2 randomNumber -0.02 -0.01 0.01   set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.02 0.01  set erC2 randomNumber -0.06 -0.03 0.01   set erC3 randomNumber -0.04 -0.01 0.01
+          set erS1 randomNumber -0.01 0.00 0.01   set erS2 randomNumber -0.02 -0.01 0.01   set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 54.6) [set gen 1]
+          if (ge >= 54.6) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 18.4) [set age 2]
+          if (sa >= 18.4) and (sa < 57.4) [set age 3]
+          if (sa >= 57.4) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 18.9) [set ecom 1]
+          if (ec >= 18.9) and (ec < 41.5) [set ecom 2]
+          if (ec >= 41.5) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 72.1) [set edu 1]
+          if (ed >= 72.1) and (ed < 84.6) [set edu 2]
+          if (ed >= 84.6) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 52) [set dw.st 1]             ;; owner
+          if (ow >= 52) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 21.2) [set dw.type 1]
+          if (ty >= 21.2) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 8.6) [set dw.age 1]
+          if (dag >= 8.6) and (dag < 42.6) [set dw.age 2]
+          if (dag >= 42.6) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 54.3) [set dw.size 1]
+          if (dsi >= 54.3) and (dsi < 83.6) [set dw.size 2]
+          if (dsi >= 83.6) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 8.5) [set dw.elab 1]
+          if (en >= 8.5) and (en < 22.6) [set dw.elab 2]
+          if (en >= 22.6) and (en < 35) [set dw.elab 3]
+          if (en >= 35) and (en < 39) [set dw.elab 4]
+          if (en >= 39) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 42.33) [set ene.prov 2]
+          if (prov >= 42.33) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn > 40.19) and (rn <= 78.17) [      ;; 37.98% --> income group 3
+          set h.group 3
+          set income randomNumber 30001 50000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 2.6 7 0.05        set cee.aw randomNumber 2.71 7 0.05      set ed.aw randomNumber 1.4 7 0.05
+          set pn1 randomNumber 1.5 7 0.05         set pn2 randomNumber 1.5 7 0.05          set pn3 randomNumber 1.5 7 0.05
+          set sn1  randomNumber 1 7 0.05          set sn2  randomNumber 1 7 0.05           set sn3  randomNumber 1 7 0.05
+          set pbcI1 randomNumber 2.2 7 0.05       set pbcI2 randomNumber 2.2 7 0.05        set pbcI3 randomNumber 2.2 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 0 1.6 0.05    set ene.pat2 randomNumber 0 1.6 0.05     set ene.pat3 randomNumber 0 1.6 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01  set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.05 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.02 0.01  set erC2 randomNumber -0.06 -0.03 0.01   set erC3 randomNumber -0.04 -0.01 0.01
+          set erS1 -0.01                          set erS2 randomNumber -0.02 -0.01 0.01   set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 39.7) [set gen 1]
+          if (ge >= 39.7) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 19.6) [set age 2]
+          if (sa >= 19.6) and (sa < 64.4) [set age 3]
+          if (sa >= 64.4) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 7.4) [set ecom 1]
+          if (ec >= 7.4) and (ec < 30.3) [set ecom 2]
+          if (ec >= 30.3) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 49.9) [set edu 1]
+          if (ed >= 49.9) and (ed < 74.8) [set edu 2]
+          if (ed >= 74.8) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 80) [set dw.st 1]
+          if (ow >= 80) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 87.3) [set dw.type 1]
+          if (ty >= 87.3) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 11.2) [set dw.age 1]
+          if (dag >= 11.2) and (dag < 52.9) [set dw.age 2]
+          if (dag >= 52.9) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 36.9) [set dw.size 1]
+          if (dsi >= 36.9) and (dsi < 77.6) [set dw.size 2]
+          if (dsi >= 77.6) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 16.4) [set dw.elab 1]
+          if (en >= 16.4) and (en < 33.4) [set dw.elab 2]
+          if (en >= 33.4) and (en < 43.3) [set dw.elab 3]
+          if (en >= 43.3) and (en < 47.3) [set dw.elab 4]
+          if (en >= 47.3) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 36.13) [set ene.prov 2]
+          if (prov >= 36.13) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn > 78.17) and (rn <= 91.69) [      ;; 13.52% -->  income group 4
+          set h.group 4
+          set income randomNumber 50001 70000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 2.8 6.6 0.05      set cee.aw randomNumber 3 6.6 0.05       set ed.aw randomNumber 1.8 7 0.05
+          set pn1 randomNumber 2.5 7 0.05         set pn2 randomNumber 2.5 7 0.05          set pn3 randomNumber 2.5 7 0.05
+          set sn1  randomNumber 1.1 7 0.05        set sn2  randomNumber 1.1 7 0.05         set sn3  randomNumber 1.1 7 0.05
+          set pbcI1 randomNumber 2.2 7 0.05       set pbcI2 randomNumber 2.2 7 0.05        set pbcI3 randomNumber 2.2 7 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 0.6 1.6 0.05  set ene.pat2 randomNumber 0.6 1.6 0.05   set ene.pat3 randomNumber 0.6 1.6 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01  set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.05 -0.02 0.01
+          set erC1 randomNumber -0.05 -0.02 0.01  set erC2 randomNumber -0.06 -0.03 0.01   set erC3 randomNumber -0.04 -0.01 0.01
+          set erS1 -0.01                          set erS2 randomNumber -0.02 -0.01 0.01   set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 37.1) [set gen 1]
+          if (ge >= 37.1) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 26.4) [set age 2]
+          if (sa >= 26.4) and (sa < 79.3) [set age 3]
+          if (sa >= 79.3) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 2.9) [set ecom 1]
+          if (ec >= 2.9) and (ec <= 44.3) [set ecom 2]
+          if (ec >= 44.3) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 57.2) [set edu 1]
+          if (ed >= 57.2) and (ed < 79.3) [set edu 2]
+          if (ed >= 79.3) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 92) [set dw.st 1]
+          if (ow >= 92) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 5.1) [set dw.type 1]
+          if (ty >= 5.1) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 20) [set dw.age 1]
+          if (dag >= 20) and (dag < 71.4) [set dw.age 2]
+          if (dag >= 71.4) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 23.6) [set dw.size 1]
+          if (dsi >= 23.6) and (dsi < 61.4) [set dw.size 2]
+          if (dsi >= 61.4) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 22.9) [set dw.elab 1]
+          if (en >= 22.9) and (en < 42.9) [set dw.elab 2]
+          if (en >= 42.9) and (en < 60) [set dw.elab 3]
+          if (en >= 60) and (en < 67.1) [set dw.elab 4]
+          if (en >= 67.1) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 46.43) [set ene.prov 2]
+          if (prov >= 46.43) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn > 91.69) and (rn <= 97.39) [      ;; 5.7% --> income group 5
+          set h.group 5
+          set income randomNumber 70001 90000 100
+          set gas randomNumber 0 5000 100
+          set know randomNumber 3 5.66 0.05       set cee.aw randomNumber 3.14 6.42 0.05   set ed.aw randomNumber 2 7 0.05
+          set pn1 randomNumber 3.5 6.25 0.05      set pn2 randomNumber 3.5 6.25 0.05       set pn3 randomNumber 3.5 6.25 0.05
+          set sn1  randomNumber 1 5.8 0.05        set sn2  randomNumber 1 5.8 0.05         set sn3  randomNumber 1 5.8 0.05
+          set pbcI1 randomNumber 2.2 7 0.05       set pbcI2 randomNumber 2.2 7 0.05        set pbcI3 randomNumber 2.2 7 0.05
+          set pbcC1 randomNumber 1 6.5 0.05       set pbcC2 randomNumber 1 6.5 0.05        set pbcC3 randomNumber 1 6.5 0.05
+          set pbcS1 randomNumber 1 7 0.05         set pbcS2 randomNumber 1 7 0.05          set pbcS3 randomNumber 1 7 0.05
+          set ene.pat1 randomNumber 0.70 1.60 0.05       set ene.pat2 randomNumber 0.70 1.60 0.05        set ene.pat3 randomNumber 0.70 1.60 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.04 -0.03 0.01  set erC2 randomNumber -0.06 -0.03 0.01    set erC3 randomNumber -0.03 -0.01 0.01
+          set erS1 -0.01                          set erS2 randomNumber -0.02 -0.01 0.01    set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 39) [set gen 1]
+          if (ge >= 39) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 25.4) [set age 2]
+          if (sa >= 25.4) and (sa < 84.7) [set age 3]
+          if (sa >= 84.7) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 22.2) [set ecom 2]
+          if (ec >= 22.2) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 57.2) [set edu 1]
+          if (ed >= 57.2) and (ed < 79.3) [set edu 2]
+          if (ed >= 79.3) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 92) [set dw.st 1]
+          if (ow >= 92) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 6.8) [set dw.type 1]
+          if (ty >= 6.8) and (ty <= 100 ) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 10.2) [set dw.age 1]
+          if (dag >= 10.2) and (dag < 96) [set dw.age 2]
+          if (dag >= 96) and (dag <= 100 ) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 15.3) [set dw.size 1]
+          if (dsi >= 15.3) and (dsi < 54) [set dw.size 2]
+          if (dsi >= 54) and (dsi <= 100 ) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 25.9) [set dw.elab 1]
+          if (en >= 25.9) and (en < 40.7) [set dw.elab 2]
+          if (en >= 40.7) and (en < 51.8) [set dw.elab 3]
+          if (en >= 51.8) and (en < 55.5) [set dw.elab 4]
+          if (en >= 55.5) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 44.07) [set ene.prov 2]
+          if (prov >= 44.07) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn > 97.39) and (rn <= 98.36) [      ;; 0.99% --> income group 6
+          set h.group 5
+          set income randomNumber 90001 110000 100
+          set gas randomNumber 0 3000 100
+          set know randomNumber 3.1 4.66 0.05     set cee.aw randomNumber 2.72 5.57 0.05 set ed.aw randomNumber 3.66 6.33 0.05
+          set pn1 randomNumber 3.62 5.75 0.05     set pn2 randomNumber 3.62 5.75 0.05    set pn3 randomNumber 3.62 5.75 0.05
+          set sn1 randomNumber 2 3.83 0.05        set sn2  randomNumber 2 3.83 0.05      set sn3  randomNumber 2 3.83 0.05
+          set pbcI1 randomNumber 2.4 6.4 0.05     set pbcI2 randomNumber 2.4 6.4 0.05    set pbcI3 randomNumber 2.4 6.4 0.05
+          set pbcC1 randomNumber 1 5.6 0.05       set pbcC2 randomNumber 1 5.6 0.05      set pbcC3 randomNumber 1 5.6 0.05
+          set pbcS1 randomNumber 1.5 5.5 0.05     set pbcS2 randomNumber 1.5 5.5 0.05    set pbcS3 randomNumber 1.5 5.5 0.05
+          set ene.pat1 randomNumber 0.78 1.82 0.05      set ene.pat2 randomNumber 0.78 1.82 0.05     set ene.pat3 randomNumber 0.78 1.82 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.04 -0.03 0.01  set erC2 randomNumber -0.06 -0.03 0.01    set erC3 randomNumber -0.03 -0.01 0.01
+          set erS1 -0.01                          set erS2 randomNumber -0.02 -0.01 0.01    set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 50) [set gen 1]
+          if (ge >= 50) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 40) [set age 2]
+          if (sa >= 40) and (sa < 90) [set age 3]
+          if (sa >= 90) and (sa <= 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec < 33.3) [set ecom 2]
+          if (ec >= 33.3) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 10) [set edu 1]
+          if (ed >= 10) and (ed < 20) [set edu 2]
+          if (ed >= 20) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 20) [set dw.st 1]
+          if (ow >= 20) and (ow <= 100) [set dw.st 2]
+          set dw.type 2
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 40) [set dw.age 1]
+          if (dag >= 40 and dag <= 60) [set dw.age 2]
+          if (dag >= 60 and dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 14) [set dw.size 1]
+          if (dsi >= 14) and (dsi < 71) [set dw.size 2]
+          if (dsi >= 71) and (dsi <= 100) [set dw.size 3]
+          set dw.elab 5
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 20) [set ene.prov 2]
+          if (prov >= 20) and (prov <= 100) [set ene.prov 1]
+        ]
+
+        if (rn > 98.36) and (rn <= 100) [        ;; 1.64% -->  income group 7
+          set h.group 5
+          set income randomNumber 110001 150000 100
+          set gas randomNumber 0 3000 100
+          set know randomNumber 3.33 5.33 0.05    set cee.aw randomNumber 3.85 6.21 0.05   set ed.aw randomNumber 2.66 6 0.05
+          set pn1 randomNumber 2.62 7 0.05        set pn2 randomNumber 2.62 7 0.05         set pn3 randomNumber 2.62 7 0.05
+          set sn1  randomNumber 1 5.66 0.05       set sn2  randomNumber 1 5.66 0.05        set sn3  randomNumber 1 5.66 0.05
+          set pbcI1 randomNumber 1.6 6.6 0.05     set pbcI2 randomNumber 1.6 6.6 0.05      set pbcI3 randomNumber 1.6 6.6 0.05
+          set pbcC1 randomNumber 1 7 0.05         set pbcC2 randomNumber 1 7 0.05          set pbcC3 randomNumber 1 7 0.05
+          set pbcS1 randomNumber 3 6 0.05         set pbcS2 randomNumber 3 6 0.05          set pbcS3 randomNumber 3 6 0.05
+          set ene.pat1 randomNumber 1 3 0.05       set ene.pat2 randomNumber 1 3 0.05        set ene.pat3 randomNumber 1 3 0.05
+
+          set erI1 randomNumber -0.03 -0.01 0.01   set erI2 randomNumber -0.02 0.00 0.01    set erI3 randomNumber -0.04 -0.02 0.01
+          set erC1 randomNumber -0.04 -0.03 0.01  set erC2 randomNumber -0.06 -0.03 0.01    set erC3 randomNumber -0.03 -0.01 0.01
+          set erS1 -0.01                          set erS2 randomNumber -0.02 -0.01 0.01    set erS3 -0.01
+
+          set ge random-float 100                ;; to assign gender
+          if (ge < 37.1) [set gen 1]
+          if (ge >= 37.1) and (ge <= 100) [set gen 2]
+          set sa random-float 100                ;; to assign age
+          if (sa < 5.9) [set age 2]
+          if (sa >= 5.9) and (sa < 70.6) [set age 3]
+          if (sa >= 70.6) and (sa < 100) [set age 4]
+          set ec random-float 100                ;; to assign economy comfort
+          if (ec <  2.9) [set ecom 1]
+          if (ec >=  2.9) and (ec < 44.3) [set ecom 2]
+          if (ec >=  44.3) and (ec <= 100) [set ecom 3]
+          set ed random-float 100                ;; to assign education level
+          if (ed < 29.4) [set edu 1]
+          if (ed >= 29.4) and (ed < 64.7) [set edu 2]
+          if (ed >= 64.7) and (ed <= 100) [set edu 3]
+
+          set ow random-float 100                ;; to assign owner/rental statuse
+          if (ow < 80) [set dw.st 1]
+          if (ow >= 80) and (ow <= 100) [set dw.st 2]
+          set ty random-float 100                ;; to assign dwelling type
+          if (ty < 5.7) [set dw.type 1]
+          if (ty >= 5.7) and (ty <= 100) [set dw.type 2]
+          set dag random-float 100               ;; to assign dwelling age
+          if (dag < 20) [set dw.age 1]
+          if (dag >= 20) and (dag < 71.4) [set dw.age 2]
+          if (dag >= 71.4) and (dag <= 100) [set dw.age 3]
+          set dsi random-float 100               ;; to assign dwelling size
+          if (dsi < 23.6) [set dw.size 1]
+          if (dsi >= 23.6) and (dsi < 61.4) [set dw.size 2]
+          if (dsi >= 61.4) and (dsi <= 100) [set dw.size 3]
+          set en random-float 100                ;; to assign dwelling energy lable
+          if (en < 20) [set dw.elab 1]
+          if (en >= 20) and (en < 50) [set dw.elab 2]
+          if (en >= 50) and (en < 70) [set dw.elab 3]
+          if (en >= 70) and (en < 90) [set dw.elab 4]
+          if (en >= 90) and (en <= 100) [set dw.elab 5]
+          set prov random-float 100              ;; to assign energy provider
+          if (prov < 29.41) [set ene.prov 2]
+          if (prov >= 29.41) and (prov <= 100) [set ene.prov 1]
+        ]
+      ]
+    ]
+  ]
+  reset-ticks
+
+end
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ;;;;;;;;;;;;;;;;;;;;;; Creating Files ;;;;;;;;;;;;;;;;;;;;
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+to createfiles
+
+   if debugfiles = true[
+    if file-exists? "debug.csv" [file-delete "debug.csv"]
+    file-open "debug.csv"
+    file-print (word "year, " "id, " "group id, " "status, " "invest1, " "invest2, " "provider, " "income, " "gender, " "education, " "economic comfort, " "age, " "dwelling status, " "dwelling label, " "dwelling type, " "dwelling age, " "dwelling size, "
+                     "elec, " "gas, " "pattern1, " "pattern2, " "pattern3, " "knowledge, " "cee.aw, " "ed.aw, " "guilt, " "awareness, "
+                     "pn1, " "pn2, " "pn3, " "sn1, " "sn2, " "sn3, " "m1st, " "m2st, " "m3st, " "pbcI1, " "pbcI2, " "pbcI3, " "pbcC1, " "pbcC2, " "pbcC3, " "pbcS1, " "pbcS2, " "pbcS3, "
+                     "cI1st, " "cI2st, " "cI3.st, " "cC1.st, " "cC2.st, " "cC3.st, " "cS1.st, " "cS2.st, " "cS3.st, "  "U1, " "act1, " "U2, " "act2, " "U3, " "act3, " "U4, " "act4, " "U5, " "act5, " "U6, " "act6, "
+                     "U7, " "act7, " "U8, " "act8, " "U9, " "act9, ")
+   ]
+
+  file-close-all
+
+end
+
+; ########################################################################################
+; #################################### Functions #########################################
+; ########################################################################################
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Go
+
+To go
+  
+  tick
+  set number.households count turtles
+  set greyuser (count turtles with [ene.prov = 1])
+  set brownuser (count turtles with [ene.prov = 2])
+  set greenuser (count turtles with [ene.prov = 3])
+
+  set number.group1 (count turtles with [h.group = 1])
+  set number.group2 (count turtles with [h.group = 2])
+  set number.group3 (count turtles with [h.group = 3])
+  set number.group4 (count turtles with [h.group = 4])
+  set number.group5 (count turtles with [(h.group = 5 or h.group = 6 or h.group = 7)])
+
+  set number.t1 (count turtles with [dw.type = 1])
+  set number.t2 (count turtles with [dw.type = 2])
+
+  recallmemory
+  debug
+  update.info
+  update.dwelling
+
+  if Scenario = "Ref.SSP2"[
+    if NAT = False and TPB = False and COM = True [
+      knowledge
+      motivation
+      consideration]
+    utility
+    action
+    save.energy
+    invest
+    learn
+    update.income
+    update.energy
+    update.memory
+  ]
+  set year (year + 1)
+  set n (n + 1)
+  
+  
+  ; === SAFETY STOP ===
+  ; If n reaches 35, we have run out of our 35 years of data (0 to 34). 
+  ; This safely halts the 'Go' button or Python loop without crashing.
+  ;time series of the empricial data is 35 years of income growth
+  if year >= 2051 [ stop ]
+  
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Memory
+
+to recallmemory
+
+if year = 2016 and Memory = True [
+  if case-study = "ES" [ask turtles[
+      set h.id who
+      if h.group = 1 [
+        let aa random-float 100
+        if (aa <= 2.3)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 2.3) and (aa <= 100)[set act1 false  set invest1 False]]
+      if h.group = 2 [
+        let aa random-float 100
+        if (aa <= 1.7)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.7) and (aa <= 100)[set act1 false set invest1 False]]
+      if h.group = 3[
+        let aa random-float 100
+        if (aa <= 2.9)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.7) and (aa <= 100)[set act1 false  set invest1 False ]]
+      if h.group = 4[
+        let aa random-float 100
+        if (aa <= 3.0)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 3.0) and (aa <= 100)[set act1 false set invest1 False]]
+      if h.group = 5 or h.group = 6 or h.group = 7 [
+        let aa random-float 100
+        if (aa <= 2.5)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 2.5) and (aa <= 100)[set act1 false set invest1 False]]
+    ]]
+
+  if case-study = "NL" [ask turtles[
+  set h.id who
+      if h.group = 1 [
+        let aa random-float 100
+        if (aa <= 1.8)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.8) and (aa <= 100)[set act1 false set invest1 False]]
+      if h.group = 2 [
+        let aa random-float 100
+        if (aa <= 1.4)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.4) and (aa <= 100)[set act1 false set invest1 False]]
+      if h.group = 3[
+        let aa random-float 100
+        if (aa <= 1.5)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.5) and (aa <= 100)[set act1 false  set invest1 False]]
+      if h.group = 4[
+        let aa random-float 100
+        if (aa <= 3.6)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 3.6) and (aa <= 100)[set act1 false  set invest1 False]]
+      if h.group = 5 or h.group = 6 or h.group = 7 [
+        let aa random-float 100
+        if (aa <= 1.2)[set act1 true  set invest1 true set h.sta "insulated"]
+        if (aa > 1.2) and (aa <= 100)[set act1 false set invest1 False]]]]
+  ]
+
+end
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; behavioral part ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Knowledge
+
+To knowledge
+
+  ask turtles [
+      set aware ((know + cee.aw + ed.aw) / 3)
+      if case-study = "NL" [
+        if (aware < 4.6 )[set guilt "L"]
+        if (aware >= 4.6) [set guilt "H"]]
+      if case-study = "ES" [
+        if (aware < 5.2 )[set guilt "L"]
+        if (aware >= 5.2) [set guilt "H"]]
+      if (guilt = "H") [set k ( aware / 7)]]
+
+  set aware.total sum [aware] of turtles
+  plot.awareness
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Motivation
+
+To motivation
+
+  ask turtles[
+    if guilt = "H"[
+      if case-study = "NL" [
+        if ((pn1 < 4.7) or (sn1 < 3.5))[set m1.st "L"]
+        if ((pn1 >= 4.7) and (sn1 >= 3.5))[set m1.st "H"]
+        if ((pn2 < 4.8) or (sn2 < 3.6))[set m2.st "L"]
+        if ((pn2 >= 4.8) and (sn2 >= 3.6))[set m2.st "H"]
+        if ((pn3 < 4.8) or (sn3 < 3.7))[set m3.st "L"]
+        if ((pn3 >= 4.8) and (sn3 >= 3.7))[set m3.st "H"]]
+
+      if case-study = "ES" [
+        if ((pn1 < 5.67) or (sn1 < 4.77))[set m1.st "L"]
+        if ((pn1 >= 5.67) and (sn1 >= 4.77))[set m1.st "H"]
+        if ((pn2 < 5.40) or (sn2 < 4.45))[set m2.st "L"]
+        if ((pn2 >= 5.40) and (sn2 >= 4.45))[set m2.st "H"]
+        if ((pn3 < 5.78) or (sn3 < 5.05))[set m3.st "L"]
+        if ((pn3 >= 5.78) and (sn3 >= 5.05))[set m3.st "H"]]
+    ]]
+
+  set pn1.total sum [pn1] of turtles
+  set pn2.total sum [pn2] of turtles
+  set pn3.total sum [pn3] of turtles
+  set sn1.total sum [sn1] of turtles
+  set sn2.total sum [sn2] of turtles
+  set sn3.total sum [sn3] of turtles
+
+  plot.motivation
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Consideration
+
+To consideration
+
+  ask turtles[
+
+    if case-study = "NL" [
+      if Investment = True and m1.st = "H" [
+        if ((pbcI1 < 1) or (dw.st = 2))[set cI1.st "L"]                          ;; insulation
+        if ((pbcI1 >= 1) and (dw.st = 1)) [set cI1.st  "H"]
+        if ((pbcI2 < 1) or (dw.st = 2))[set cI2.st  "L"]                         ;; installation
+        if ((pbcI2 >= 1) and (dw.st = 1)) [set cI2.st "H"]
+        if (pbcI3 < 1) [set cI3.st "L"]                                          ;; appliances
+        if (pbcI3 >= 1) [set cI3.st "H"]]
+
+      if Conservation = True and m2.st = "H" [
+        if ((pbcC1 < 1) or (ene.pat1 = 3)) [set cC1.st "L"]                        ;; switch off extra(3 = almost always)
+        if (pbcC1 >= 1) [set cC1.st "H"]
+        if ((pbcC2 < 1) or (ene.pat2 = 3)) [set cC2.st "L"]                        ;; turn down
+        if (pbcC2 >= 1) [set cC2.st "H"]
+        if ((pbcC3 < 1) or (ene.pat3 = 3)) [set cC3.st "L"]                        ;; use less
+        if (pbcC3 >= 1) [set cC3.st "H"]]
+
+      if Switching = True and m3.st = "H" [
+        if ene.prov = 1 [
+          if (pbcS1 < 1) [set cS1.st "L"]                                        ;; grey to brown
+          if (pbcS1 >= 1) [set cS1.st "H"]]
+        if ene.prov = 2 [
+          if (pbcS2 < 1) [set cS2.st "L"]                                        ;; brown to green
+          if (pbcS2 >= 1) [set cS2.st "H"]]
+        if ene.prov = 1 [
+          if (pbcS3 < 1) [set cS3.st "L"]                                        ;; grey to grey
+          if (pbcS3 >= 1) [set cS3.st "H"]]]
+    ]
+
+
+    if case-study = "ES" [
+      if Investment = True and m1.st = "H" [
+        if ((pbcI1 < 2.2) or (dw.st = 2))[set cI1.st "L"]                          ;; insulation
+        if ((pbcI1 >= 2.2) and (dw.st = 1)) [set cI1.st  "H"]
+        if ((pbcI2 < 2.2) or (dw.st = 2) )[set cI2.st  "L"]                        ;; installation
+        if ((pbcI2 >= 2.2) and (dw.st = 1)) [set cI2.st "H"]
+        if (pbcI3 < 2.2) [set cI3.st "L"]                                          ;; appliances
+        if (pbcI3 >= 2.2) [set cI3.st "H"]]
+
+      if Conservation = True and m2.st = "H" [
+        if ((pbcC1 < 1) or (ene.pat1 = 3)) [set cC1.st "L"]                        ;; switch off extra(3 = almost always)
+        if (pbcC1 >= 1) [set cC1.st "H"]
+        if ((pbcC2 < 1) or (ene.pat2 = 3)) [set cC2.st "L"]                        ;; turn down
+        if (pbcC2 >= 1) [set cC2.st "H"]
+        if ((pbcC3 < 1) or (ene.pat3 = 3)) [set cC3.st "L"]                        ;; use less
+        if (pbcC3 >= 1) [set cC3.st "H"]]
+
+      if Switching = True and m3.st = "H" [
+        if ene.prov = 1 [
+          if (pbcS1 < 3.5) [set cS1.st "L"]                                        ;; grey to brown
+          if (pbcS1 >= 3.5) [set cS1.st "H"]]
+        if ene.prov = 2 [
+          if (pbcS2 < 3.5) [set cS2.st "L"]                                        ;; brown to green
+          if (pbcS2 >= 3.5) [set cS2.st "H"]]
+        if ene.prov = 1 [
+          if (pbcS3 < 3.5) [set cS3.st "L"]                                        ;; grey to grey
+          if (pbcS3 >= 3.5) [set cS3.st "H"]]]
+    ]
+  ]
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Random utility
+
+To utility
+
+ ask turtles[
+
+    if cI1.st = "L" [set U1 0]
+    if cI1.st = "H" [set U1 ((edu * 0.0563284 + age * 0.0008106 + dw.elab * -0.0769971 + dw.type * 0.4265 + dw.age * 0.0883428 + dw.size * 0.0857047 + gas * 0.0000488 + pn1 * 0.052849 ) + erI1 )]
+  ]
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Action
+
+To action
+
+  ask turtles [
+    if U1 <= 0 or invest1 = True or h.sta = "insulated" [set act1 False]
+    if (U1 > 0 and invest1 = False and dw.elab > 1) [set act1 True set invest1 True set color 65]
+  ]
+
+  set noaction count turtles with [act1 = False]
+  set a1 count turtles with [act1 = True]
+  set a1.com  a1.com + a1
+
+  plot.investment
+  plot.conservation
+  plot.switching
+  plot.behaviors
+
+; socio-demographic dynamics
+;; Education and Age
+
+  ask turtles[
+
+   set group1.a1 count turtles with [h.group = 1 and act1 = True]
+   set group2.a1 count turtles with [h.group = 2 and act1 = True]
+   set group3.a1 count turtles with [h.group = 3 and act1 = True]
+   set group4.a1 count turtles with [h.group = 4 and act1 = True]
+   set group5.a1 count turtles with [(h.group = 5  or h.group = 6 or h.group = 7) and act1 = True]
+
+   set t1.a1 count turtles with [dw.type = 1 and act1 = True]
+   set t2.a1 count turtles with [dw.type = 2 and act1 = True]
+
+   set dwage1.a1 count turtles with [dw.age = 1 and act1 = True]
+   set dwage2.a1 count turtles with [dw.age = 2 and act1 = True]
+   set dwage3.a1 count turtles with [dw.age = 3 and act1 = True]
+
+   set elab1.a1 count turtles with [dw.elab = 1 and act1 = True]
+   set elab2.a1 count turtles with [(dw.elab = 2 or dw.elab = 3 )and act1 = True]
+   set elab3.a1 count turtles with [(dw.elab = 4 or  dw.elab = 5 ) and act1 = True]
+  ]
+
+  set number.dwage1 count turtles with [dw.age = 1]
+  set number.dwage2 count turtles with [dw.age = 2 ]
+  set number.dwage3 count turtles with [dw.age = 3 ]
+
+  set number.elab1 (count turtles with [dw.elab = 1])
+  set number.elab2 (count turtles with [dw.elab = 2])
+  set number.elab3 (count turtles with [dw.elab = 3])
+  set number.elab4 (count turtles with [dw.elab = 4])
+  set number.elab5 (count turtles with [dw.elab = 5])
+
+  set n.hh.eff count turtles with [h.sta = "Efficient"]
+
+end
+
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Save
+
+To save.energy
+
+  set gas.total sum [gas] of turtles
+
+  if year >= 2017 [
+    ask turtles[
+      if (act1 = True) [
+        set save.a1 (gas * 20 / 100)
+        set gas (gas - save.a1)]
+      if (act1 = False) [set save.a1 0]
+  ]]
+
+  set save.gas (sum [save.a1] of turtles)
+  set save.gas.com (save.gas.com + save.gas)
+
+  plot.saveenergy
+
+end
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Invesments
+
+To invest
+
+  if year >= 2017 [
+    ask turtles[
+      if (act1 = True) [set invs.a1 I1.cost]   if act1 = False [set invs.a1 0]
+  ]]
+
+  set invs1.com  invs1.com + (sum [invs.a1] of turtles)
+
+end
+
+; ::::::::::::::::::::::::::::::::::::::::::::::::::
+; Social dynamics and learning
+
+To learn
+
+  if year >= 2017 [
+    ask turtles[
+      if Learning = "No learning" [ ]
+      if Learning = "Slow dynamics"[
+        if (act1 = True or invest1 = True) [
+          if (pbcI1 < 6.6) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]
+
+          create-links-to other turtles-on neighbors
+          ask link-neighbors [
+            set ngb.k.mean mean [know] of turtles-on neighbors
+            let ngb.k.median median [know] of turtles-on neighbors
+            set ngb.k max list ngb.k.mean ngb.k.median
+            set ngb.ca.mean mean [cee.aw] of turtles-on neighbors
+            let ngb.ca.median median [cee.aw] of turtles-on neighbors
+            set ngb.ca max list ngb.ca.mean  ngb.ca.median
+            set ngb.ea.mean mean [ed.aw] of turtles-on neighbors
+            let ngb.ea.median median [ed.aw] of turtles-on neighbors
+            set ngb.ed max list ngb.ea.mean  ngb.ea.median
+            let ngb.pn1.mean mean [pn1]  of turtles-on neighbors
+            let ngb.pn1.median median [pn1] of turtles-on neighbors
+            set ngb.pn1 max list ngb.pn1.mean  ngb.pn1.median
+            let ngb.sn1.mean mean [sn1] of turtles-on neighbors
+            let ngb.sn1.median median [sn1] of turtles-on neighbors
+            set ngb.sn1 max list ngb.sn1.mean  ngb.sn1.median
+            let ngb.pbcI1.mean mean [pbcI1] of turtles-on neighbors
+            let ngb.pbcI1.median median [pbcI1] of turtles-on neighbors
+            set ngb.pbcI1 max list ngb.pbcI1.mean  ngb.pbcI1.median]
+
+          if count link-neighbors > 4 [ ask link-neighbors [
+            if ((know < ngb.k) and (know < 6.6))[set know (know + (know * 0.05))]
+            if ((cee.aw < ngb.ca) and (cee.aw < 6.6))[set cee.aw (cee.aw + (cee.aw * 0.05))]
+            if ((ed.aw < ngb.ed) and (ed.aw < 6.6))[set ed.aw (ed.aw + (ed.aw * 0.05))]
+            if ((pn1 < ngb.pn1) and (pn1 < 6.6))[set pn1 (pn1 + (pn1 * 0.05))]
+            if ((sn1 < ngb.sn1) and (sn1 < 6.6)) [set sn1 (sn1 + (0.05 * sn1))]
+            if ((pbcI1 < 6.5) and (pbcI1 < ngb.pbcI1)) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]]]
+        ]
+      ]
+
+
+      if Learning = "Fast dynamics" [
+        if (act1 = True or invest1 = True) [
+          if (pbcI1 < 6.6) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]
+
+          create-links-to other turtles-on neighbors
+          ask link-neighbors [
+            set ngb.k.mean mean [know] of turtles-on neighbors
+            let ngb.k.median median [know] of turtles-on neighbors
+            set ngb.k max list ngb.k.mean ngb.k.median
+            set ngb.ca.mean mean [cee.aw] of turtles-on neighbors
+            let ngb.ca.median median [cee.aw] of turtles-on neighbors
+            set ngb.ca max list ngb.ca.mean  ngb.ca.median
+            set ngb.ea.mean mean [ed.aw] of turtles-on neighbors
+            let ngb.ea.median median [ed.aw] of turtles-on neighbors
+            set ngb.ed max list ngb.ea.mean  ngb.ea.median
+            let ngb.pn1.mean mean [pn1]  of turtles-on neighbors
+            let ngb.pn1.median median [pn1] of turtles-on neighbors
+            set ngb.pn1 max list ngb.pn1.mean  ngb.pn1.median
+            let ngb.sn1.mean mean [sn1] of turtles-on neighbors
+            let ngb.sn1.median median [sn1] of turtles-on neighbors
+            set ngb.sn1 max list ngb.sn1.mean  ngb.sn1.median
+            let ngb.pbcI1.mean mean [pbcI1] of turtles-on neighbors
+            let ngb.pbcI1.median median [pbcI1] of turtles-on neighbors
+            set ngb.pbcI1 max list ngb.pbcI1.mean  ngb.pbcI1.median
+
+            if ((know < ngb.k) and (know < 6.6))[set know (know + (know * 0.05))]
+            if ((cee.aw < ngb.ca) and (cee.aw < 6.6))[set cee.aw (cee.aw + (cee.aw * 0.05))]
+            if ((ed.aw < ngb.ed) and (ed.aw < 6.6))[set ed.aw (ed.aw + (ed.aw * 0.05))]
+            if ((pn1 < ngb.pn1) and (pn1 < 6.6))[set pn1 (pn1 + (pn1 * 0.05))]
+            if ((sn1 < ngb.sn1) and (sn1 < 6.6)) [set sn1 (sn1 + (0.05 * sn1))]
+            if ((pbcI1 < 6.5) and (pbcI1 < ngb.pbcI1)) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]
+          ]
+        ]
+      ]
+
+
+      if Learning ="Informative"[
+        if (know <= 6.6 )[set know (know + (know * 0.05))]
+        if (cee.aw <= 6.6 )[set cee.aw (cee.aw + (cee.aw * 0.05))]
+        if (ed.aw <= 6.6 )[set ed.aw (ed.aw + (ed.aw * 0.05))]
+        if (act1 = True or invest1 = True) [
+          if (pbcI1 < 6.6) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]
+
+          create-links-to other turtles-on neighbors
+          ask link-neighbors [
+            set ngb.k.mean mean [know] of turtles-on neighbors
+            let ngb.k.median median [know] of turtles-on neighbors
+            set ngb.k max list ngb.k.mean ngb.k.median
+            set ngb.ca.mean mean [cee.aw] of turtles-on neighbors
+            let ngb.ca.median median [cee.aw] of turtles-on neighbors
+            set ngb.ca max list ngb.ca.mean  ngb.ca.median
+            set ngb.ea.mean mean [ed.aw] of turtles-on neighbors
+            let ngb.ea.median median [ed.aw] of turtles-on neighbors
+            set ngb.ed max list ngb.ea.mean  ngb.ea.median
+            let ngb.pn1.mean mean [pn1]  of turtles-on neighbors
+            let ngb.pn1.median median [pn1] of turtles-on neighbors
+            set ngb.pn1 max list ngb.pn1.mean  ngb.pn1.median
+            let ngb.sn1.mean mean [sn1] of turtles-on neighbors
+            let ngb.sn1.median median [sn1] of turtles-on neighbors
+            set ngb.sn1 max list ngb.sn1.mean  ngb.sn1.median
+            let ngb.pbcI1.mean mean [pbcI1] of turtles-on neighbors
+            let ngb.pbcI1.median median [pbcI1] of turtles-on neighbors
+            set ngb.pbcI1 max list ngb.pbcI1.mean  ngb.pbcI1.median
+
+            if ((know < ngb.k) and (know < 6.6))[set know (know + (know * 0.05))]
+            if ((cee.aw < ngb.ca) and (cee.aw < 6.6))[set cee.aw (cee.aw + (cee.aw * 0.05))]
+            if ((ed.aw < ngb.ed) and (ed.aw < 6.6))[set ed.aw (ed.aw + (ed.aw * 0.05))]
+            if ((pn1 < ngb.pn1) and (pn1 < 6.6))[set pn1 (pn1 + (pn1 * 0.05))]
+            if ((sn1 < ngb.sn1) and (sn1 < 6.6)) [set sn1 (sn1 + (0.05 * sn1))]
+            if ((pbcI1 < 6.6) and (pbcI1 < ngb.pbcI1)) [set pbcI1 (pbcI1 + (pbcI1 * 0.05))]
+        ]
+      ]
+      ]
+
+      if Learning = "Informative-Soft"[]
+      if Learning = "Promoting"[]
+
+    ]
+  ]
+
+end
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Updates
+
+To update.income
+
+  ask turtles[
+    if case-study = "ES"[
+      if scenario = "Ref.SSP2"[
+        if (rn < 11.4 ) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn >= 11.4) and (rn <= 58.2) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn > 58.2) and (rn <= 86) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn > 86) and (rn <= 94.7) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn > 94.7) and (rn <= 97.8) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn >  97.8) and (rn <= 98.7) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+        if (rn > 98.7) and (rn <= 100) [
+          set income (income * (item 0 item n cge-es-ssp2-h))]
+    ]]
+
+    if case-study = "NL"[
+      if scenario = "Ref.SSP2"[
+        if (rn < 5.5 ) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn >= 5.5) and (rn <= 40.19) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn > 40.19) and (rn <= 78.17) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn > 78.17) and (rn <= 91.69) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn > 91.69) and (rn <= 97.39) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn >  97.39) and (rn <= 98.36) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+        if (rn > 98.36) and (rn <= 100) [
+          set income (income * (item 0 item n cge-nl-ssp2-h))]
+    ]]
+  ]
+end
+
+
+To update.energy
+
+  if year >= 2017 [
+    ask turtles [
+    if (act1 = True and dw.elab >= 2) [set dw.elab (dw.elab - 1)]
+    if (act1 = True and dw.elab = 1) [set h.sta "Efficient"]
+  ]]
+
+end
+
+;update memory and actions
+
+To update.memory
+
+  ask turtles[
+    if invest1 = True [set act1.year (act1.year + 1)]
+    if (act1.year >= 15 AND dw.age = 1)
+    [set invest1 False set act1.year 0]
+
+    if (act1.year >= 7 AND dw.age = 2)
+    [set invest1 False set act1.year 0]
+
+    if (act1.year >= 2 AND dw.age >= 3)
+    [set invest1 False set act1.year 0]
+  ]
+
+end
+
+;update dwelling age based on MESSAGE input
+
+To update.dwelling
+  ask turtles[
+    if case-study = "NL"[
+      if (year >= 2025 AND year < 2030 )[
+        set dag random-float 100
+        if (dag < 51) [set dw.age 1  set dw.age 1]
+        if (dag >= 51) and (dag < 83) [set dw.age 2]
+        if (dag >= 83) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2030 AND year < 2035 )[
+        set dag random-float 100
+        if (dag < 51) [set dw.age 1 set dw.age 1]
+        if (dag >= 51) and (dag < 83) [set dw.age 2]
+        if (dag >= 83) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2035 AND year < 2040 )[
+        set dag random-float 100
+        if (dag < 53) [set dw.age 1 set dw.age 1]
+        if (dag >= 53) and (dag < 83) [set dw.age 2]
+        if (dag >= 83) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2040 AND year < 2045 )[
+        set dag random-float 100
+        if (dag < 55) [set dw.age 1 set dw.age 1]
+        if (dag >= 55) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2040 AND year < 2045 )[
+        set dag random-float 100
+        if (dag < 57) [set dw.age 1 set dw.age 1]
+        if (dag >= 57) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2045 AND year < 2050 )[
+        set dag random-float 100
+        if (dag < 59) [set dw.age 1 set dw.age 1]
+        if (dag >= 59) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+    ]
+
+    if case-study = "ES"[
+      if (year >= 2025 AND year < 2030 )[
+        set dag random-float 100
+        if (dag < 49) [set dw.age 1  set dw.age 1]
+        if (dag >= 49) and (dag < 80) [set dw.age 2]
+        if (dag >= 80) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2030 AND year < 2035 )[
+        set dag random-float 100
+        if (dag < 49) [set dw.age 1 set dw.age 1]
+        if (dag >= 49) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2035 AND year < 2040 )[
+        set dag random-float 100
+        if (dag < 49) [set dw.age 1 set dw.age 1]
+        if (dag >= 49) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2040 AND year < 2045 )[
+        set dag random-float 100
+        if (dag < 49) [set dw.age 1 set dw.age 1]
+        if (dag >= 49) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2040 AND year < 2045 )[
+        set dag random-float 100
+        if (dag < 53) [set dw.age 1 set dw.age 1]
+        if (dag >= 53) and (dag < 83) [set dw.age 2]
+        if (dag >= 83) and (dag <= 100) [set dw.age 3]
+      ]
+
+      if (year >= 2045 AND year < 2050 )[
+        set dag random-float 100
+        if (dag < 57) [set dw.age 1 set dw.age 1]
+        if (dag >= 57) and (dag < 84) [set dw.age 2]
+        if (dag >= 84) and (dag <= 100) [set dw.age 3]
+      ]
+    ]
+  ]
+end
+
+To update.info
+
+  ask turtles[
+    set act1 False
+  ]
+end
+
+
+
+; ########################################################################################
+; ################################ Visulization adn Outputs ##############################
+; ########################################################################################
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Debuging
+
+To debug
+
+  ask turtles[
+    file-open "debug.csv"
+    file-print (word year "," h.id "," h.group "," h.sta "," invest1 "," invest2 "," ene.prov "," income "," gen "," edu "," ecom "," age "," dw.st "," dw.elab "," dw.type "," dw.age "," dw.size "," elec "," gas "," ene.pat1 "," ene.pat2 "," ene.pat3 ","
+                     know "," cee.aw "," ed.aw "," guilt "," aware "," pn1 "," pn2 "," pn3 "," sn1 "," sn2 "," sn3 "," m1.st "," m2.st "," m3.st ","
+                     pbcI1 "," pbcI2 "," pbcI3 "," pbcC1 "," pbcC2 "," pbcC3 "," pbcS1 "," pbcS2 "," pbcS3 "," cI1.st "," cI2.st "," cI3.st "," cC1.st "," cC2.st "," cC3.st "," cS1.st "," cS2.st "," cS3.st ","
+                     U1 "," act1 "," U2 "," act2 "," U3 "," act3 "," U4 "," act4 "," U5 "," act5 "," U6 "," act6 "," U7 "," act7 "," U8 "," act8 "," U9 "," act9)
+  ]
+end
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; plots
+
+To plot.awareness
+  set-current-plot "Awareness"
+  set-current-plot-pen "Low"             plot count turtles with [aware < 4]
+  set-current-plot-pen "Medium"          plot count turtles with [aware >= 4 and aware < 5]
+  set-current-plot-pen "High"            plot count turtles with [aware >= 5 and aware <= 7]
+end
+
+To plot.motivation
+  set-current-plot "Motivation"
+  set-current-plot-pen "PN1"    plot pn1.total
+  set-current-plot-pen "PN2"    plot pn2.total
+  set-current-plot-pen "PN3"    plot pn3.total
+  set-current-plot-pen "SN1"    plot sn1.total
+  set-current-plot-pen "SN2"    plot sn2.total
+  set-current-plot-pen "SN3"    plot sn3.total
+end
+
+To plot.behaviors
+  if year >= 2017[
+    set-current-plot "Households behavioral change"
+    set-current-plot-pen "Investment"    plot a1.com + a2.com + a3.com
+    set-current-plot-pen "Conservation"  plot a4.com + a5.com + a6.com
+    set-current-plot-pen "Switching"     plot a7.com + a8.com + a9.com]
+end
+
+To plot.investment
+  if year >= 2017[
+    set-current-plot "Investment"
+    set-current-plot-pen "I1"           plot a1
+    set-current-plot-pen "I2"           plot a2
+    set-current-plot-pen "I3"           plot a3]
+end
+
+To plot.conservation
+  if year >= 2017[
+    set-current-plot "Conservation"
+    set-current-plot-pen "C1"           plot a4
+    set-current-plot-pen "C2"           plot a5
+    set-current-plot-pen "C3"           plot a6]
+end
+
+To plot.switching
+  if year >= 2017[
+    set-current-plot "Switching"
+    set-current-plot-pen "S1"           plot a7
+    set-current-plot-pen "S2"           plot a8
+    set-current-plot-pen "S3"           plot a9]
+end
+
+To plot.saveenergy
+  set-current-plot "Save energy"
+  set-current-plot-pen "Electricity"    plot save.elec.com
+  set-current-plot-pen "Gas"            plot save.gas.com
+end
+
+
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; reporter
+
+to-report randomNumber [lower.value upper.value step.value]                                              ;; Calculate an integer random number between the upper and the lower values, incuding those values
+  report lower.value + step.value * random (1 + floor ((upper.value - lower.value) / step.value ))
+end
+
+
+
+
+
+
+
+
+
+
+; ########################################################################################
+; ##################################### MY NOTES #########################################
+; ########################################################################################
+
+; 2021.10.17
+; number of households? how to increase over time?  >> number.households
+; get input from STURM on age --> check: not double counting energy lables
+
+
+
+; 2018.06.26:
+; setup:
+; pn1,2,3 and sn1,2,3 are the same
+; pbcI1,I2,I3 are the same ....
+; ene.pat1,2,3 are the same
+; gender: 1=female, 2=male
+; edu: 1-6 (L-H)
+; ecom: 1-3 (L-H)
+; dw.elab: 1-6 (A-F)
+; dw.type: A(1,2), H(3,4,5)
+; dw.size: S(1,2), M(3), B(4,5) --> 1-3
+; dw.age: N(1,2),M(3,4),O(5,6)  --> 1-3
+
+
+; 2018.07.16
+; Min Gas consumption  9.2
+; Min Elec consumption 1000
+; dw.age 1-3 ==> 1,3,5 (to provide middle classes)]]></code>
+  <widgets>
+    <view x="348" wrappingAllowedX="true" y="10" frameRate="30.0" minPycor="-44" height="358" showTickCounter="true" patchSize="3.98" fontSize="10" wrappingAllowedY="true" width="358" tickCounterLabel="ticks" maxPycor="44" updateMode="0" maxPxcor="44" minPxcor="-44"></view>
+    <button x="131" y="10" height="92" disableUntilTicks="false" forever="false" kind="Observer" width="98" display="Setup">setup</button>
+    <button x="239" y="10" height="92" disableUntilTicks="false" forever="true" kind="Observer" width="99" display="Go">go</button>
+    <chooser x="162" y="129" height="60" variable="Data" current="1" width="153" display="Data">
+      <choice type="string" value="Homogeneous"></choice>
+      <choice type="string" value="Empirical-survey"></choice>
+    </chooser>
+    <switch x="157" y="374" height="40" on="false" variable="debugfiles" width="123" display="debugfiles"></switch>
+    <chooser x="6" y="143" height="60" variable="case-study" current="1" width="151" display="case-study">
+      <choice type="string" value="ES"></choice>
+      <choice type="string" value="NL"></choice>
+    </chooser>
+    <switch x="4" y="10" height="40" on="true" variable="Generate-seed?" width="123" display="Generate-seed?"></switch>
+    <input x="4" multiline="false" y="55" height="60" variable="Seed-for-random" type="number" width="123">4.0254903E7</input>
+    <switch x="8" y="417" height="40" on="false" variable="Switching" width="127" display="Switching"></switch>
+    <switch x="8" y="372" height="40" on="false" variable="Conservation" width="127" display="Conservation"></switch>
+    <switch x="8" y="327" height="40" on="true" variable="Investment" width="128" display="Investment"></switch>
+    <note x="7" y="295" backgroundDark="0" fontSize="14" width="213" markdown="false" height="27" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">******* Behaviors *******</note>
+    <note x="6" y="122" backgroundDark="0" fontSize="14" width="229" markdown="false" height="34" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">******* Data *******</note>
+    <monitor x="1348" precision="17" y="111" height="60" fontSize="11" width="108" display="Population">count turtles</monitor>
+    <plot x="1001" autoPlotX="true" yMax="10.0" autoPlotY="true" y="207" xMin="0.0" height="217" legend="true" xMax="10.0" yMin="0.0" width="278" xAxis="Year" display="Motivation">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="PN1" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="PN2" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="PN3" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="SN1" color="-955883" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="SN2" color="-6459832" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="SN3" color="-1184463" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <monitor x="1347" precision="17" y="44" height="60" fontSize="11" width="100" display="Year">year</monitor>
+    <monitor x="1350" precision="17" y="243" height="60" fontSize="11" width="100" display="Action I1">count turtles with [act1 = True]</monitor>
+    <plot x="716" autoPlotX="true" yMax="50.0" autoPlotY="true" yAxis="Population" y="11" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="282" xAxis="Year" display="Investment">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="I1" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="I2" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="I3" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <monitor x="1354" precision="17" y="443" height="60" fontSize="11" width="115" display="Passive">noaction</monitor>
+    <plot x="1001" autoPlotX="true" yMax="10.0" autoPlotY="true" yAxis="Population" y="11" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="278" xAxis="Year" display="Awareness">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="Low" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="Medium" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="High" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <switch x="11" y="490" height="40" on="false" variable="NAT" width="103" display="NAT"></switch>
+    <switch x="121" y="490" height="40" on="false" variable="TPB" width="103" display="TPB"></switch>
+    <note x="6" y="463" backgroundDark="0" fontSize="14" width="244" markdown="false" height="24" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">****** Psychology Theories *******</note>
+    <monitor x="1455" precision="17" y="177" height="60" fontSize="11" width="100" display="Brown user">brownuser</monitor>
+    <monitor x="1349" precision="17" y="177" height="60" fontSize="11" width="100" display="Grey user">greyuser</monitor>
+    <chooser x="8" y="226" height="60" variable="Scenario" current="0" width="150" display="Scenario">
+      <choice type="string" value="Ref.SSP2"></choice>
+    </chooser>
+    <note x="7" y="208" backgroundDark="0" fontSize="14" width="236" markdown="false" height="34" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">******* Scenario ********</note>
+    <switch x="159" y="327" height="40" on="true" variable="Memory" width="121" display="Memory"></switch>
+    <plot x="348" autoPlotX="true" yMax="10.0" autoPlotY="true" y="379" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="363" display="Households behavioral change">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="Investment" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="Conservation" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="Switching" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <chooser x="162" y="213" height="60" variable="Learning" current="2" width="154" display="Learning">
+      <choice type="string" value="Slow dynamics"></choice>
+      <choice type="string" value="Fast dynamics"></choice>
+      <choice type="string" value="Informative"></choice>
+      <choice type="string" value="Informative-Soft"></choice>
+      <choice type="string" value="Promoting"></choice>
+      <choice type="string" value="No learning"></choice>
+    </chooser>
+    <monitor x="1560" precision="17" y="147" height="60" fontSize="11" width="100" display="Green user">greenuser</monitor>
+    <switch x="11" y="538" height="40" on="true" variable="COM" width="103" display="COM"></switch>
+    <note x="1345" y="10" backgroundDark="0" fontSize="14" width="185" markdown="false" height="33" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">******* Monitors *******</note>
+    <monitor x="1456" precision="17" y="243" height="60" fontSize="11" width="100" display="Action I2">count turtles with [act2 = True]</monitor>
+    <monitor x="1561" precision="17" y="212" height="60" fontSize="11" width="100" display="Action I3">count turtles with [act3 = True]</monitor>
+    <plot x="716" autoPlotX="true" yMax="50.0" autoPlotY="true" yAxis="Population" y="207" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="282" xAxis="Year" display="Conservation">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="C1" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="C2" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="C3" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <plot x="716" autoPlotX="true" yMax="50.0" autoPlotY="true" yAxis="Population" y="403" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="282" xAxis="Year" display="Switching">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="S1" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="S2" color="-7500403" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="S3" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+    <monitor x="1352" precision="17" y="310" height="60" fontSize="11" width="100" display="Action C1">count turtles with [act4 = True]</monitor>
+    <monitor x="1457" precision="17" y="310" height="60" fontSize="11" width="100" display="Action C2">count turtles with [act5 = True]</monitor>
+    <monitor x="1564" precision="17" y="279" height="60" fontSize="11" width="100" display="Action C3">count turtles with [act6 = true]</monitor>
+    <monitor x="1353" precision="17" y="378" height="60" fontSize="11" width="100" display="Action S1">count turtles with [act7 = true]</monitor>
+    <monitor x="1354" precision="17" y="508" height="60" fontSize="11" width="115" display="Insulation proccess">count turtles with [invest1 = True]</monitor>
+    <monitor x="1355" precision="17" y="573" height="60" fontSize="11" width="115" display="Installation proccess">count turtles with [invest2 = True]</monitor>
+    <monitor x="1457" precision="17" y="378" height="60" fontSize="11" width="100" display="Action S2">count turtles with [act8 = true]</monitor>
+    <monitor x="1564" precision="17" y="348" height="60" fontSize="11" width="100" display="Action S3">count turtles with [act9 = True]</monitor>
+    <input x="124" multiline="false" y="619" height="60" variable="I2.cost" type="number" width="107">4000.0</input>
+    <input x="12" multiline="false" y="617" height="60" variable="I1.cost" type="number" width="107">3000.0</input>
+    <input x="235" multiline="false" y="604" height="60" variable="I3.cost" type="number" width="108">300.0</input>
+    <note x="18" y="596" backgroundDark="0" fontSize="14" width="150" markdown="false" height="18" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">****** Costs ******</note>
+    <plot x="1001" autoPlotX="true" yMax="10.0" autoPlotY="true" y="429" xMin="0.0" height="191" legend="true" xMax="10.0" yMin="0.0" width="279" xAxis="Year" display="Save energy">
+      <setup></setup>
+      <update></update>
+      <pen interval="1.0" mode="0" display="Electricity" color="-16777216" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+      <pen interval="1.0" mode="0" display="Gas" color="-2674135" legend="true">
+        <setup></setup>
+        <update></update>
+      </pen>
+    </plot>
+  </widgets>
+  <info>## WHAT IS IT?
+BENCH model
+
+
+## HOW IT WORKS
+
+
+
+## HOW TO USE IT
+
+
+
+## THINGS TO NOTICE
+
+
+
+## THINGS TO TRY
+
+
+
+## EXTENDING THE MODEL
+
+
+
+## NETLOGO FEATURES
+
+
+
+## RELATED MODELS
+
+
+
+## CREDITS AND REFERENCES
+
+Dr. Leila Niamir 
+
+Research Scholar,
+International Institute of Applied Systems Analysis (IIASA)
+Schlossplatz 1, A-2361 Laxenburg, Austria
+T: +43 2236 807 257
+
+Email:leila.niamir[at]gmail.com
+niamir[at]iiasa.ac.at</info>
+  <turtleShapes>
+    <shape name="default" rotatable="true" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="5"></point>
+        <point x="40" y="250"></point>
+        <point x="150" y="205"></point>
+        <point x="260" y="250"></point>
+      </polygon>
+    </shape>
+    <shape name="airplane" rotatable="true" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="0"></point>
+        <point x="135" y="15"></point>
+        <point x="120" y="60"></point>
+        <point x="120" y="105"></point>
+        <point x="15" y="165"></point>
+        <point x="15" y="195"></point>
+        <point x="120" y="180"></point>
+        <point x="135" y="240"></point>
+        <point x="105" y="270"></point>
+        <point x="120" y="285"></point>
+        <point x="150" y="270"></point>
+        <point x="180" y="285"></point>
+        <point x="210" y="270"></point>
+        <point x="165" y="240"></point>
+        <point x="180" y="180"></point>
+        <point x="285" y="195"></point>
+        <point x="285" y="165"></point>
+        <point x="180" y="105"></point>
+        <point x="180" y="60"></point>
+        <point x="165" y="15"></point>
+      </polygon>
+    </shape>
+    <shape name="arrow" rotatable="true" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="0"></point>
+        <point x="0" y="150"></point>
+        <point x="105" y="150"></point>
+        <point x="105" y="293"></point>
+        <point x="195" y="293"></point>
+        <point x="195" y="150"></point>
+        <point x="300" y="150"></point>
+      </polygon>
+    </shape>
+    <shape name="box" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="285"></point>
+        <point x="285" y="225"></point>
+        <point x="285" y="75"></point>
+        <point x="150" y="135"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="135"></point>
+        <point x="15" y="75"></point>
+        <point x="150" y="15"></point>
+        <point x="285" y="75"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="15" y="75"></point>
+        <point x="15" y="225"></point>
+        <point x="150" y="285"></point>
+        <point x="150" y="135"></point>
+      </polygon>
+      <line endX="150" startY="285" marked="false" color="255" endY="135" startX="150"></line>
+      <line endX="15" startY="135" marked="false" color="255" endY="75" startX="150"></line>
+      <line endX="285" startY="135" marked="false" color="255" endY="75" startX="150"></line>
+    </shape>
+    <shape name="bug" rotatable="true" editableColorIndex="0">
+      <circle x="96" y="182" marked="true" color="-1920102913" diameter="108" filled="true"></circle>
+      <circle x="110" y="127" marked="true" color="-1920102913" diameter="80" filled="true"></circle>
+      <circle x="110" y="75" marked="true" color="-1920102913" diameter="80" filled="true"></circle>
+      <line endX="80" startY="100" marked="true" color="-1920102913" endY="30" startX="150"></line>
+      <line endX="220" startY="100" marked="true" color="-1920102913" endY="30" startX="150"></line>
+    </shape>
+    <shape name="butterfly" rotatable="true" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="165"></point>
+        <point x="209" y="199"></point>
+        <point x="225" y="225"></point>
+        <point x="225" y="255"></point>
+        <point x="195" y="270"></point>
+        <point x="165" y="255"></point>
+        <point x="150" y="240"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="165"></point>
+        <point x="89" y="198"></point>
+        <point x="75" y="225"></point>
+        <point x="75" y="255"></point>
+        <point x="105" y="270"></point>
+        <point x="135" y="255"></point>
+        <point x="150" y="240"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="139" y="148"></point>
+        <point x="100" y="105"></point>
+        <point x="55" y="90"></point>
+        <point x="25" y="90"></point>
+        <point x="10" y="105"></point>
+        <point x="10" y="135"></point>
+        <point x="25" y="180"></point>
+        <point x="40" y="195"></point>
+        <point x="85" y="194"></point>
+        <point x="139" y="163"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="162" y="150"></point>
+        <point x="200" y="105"></point>
+        <point x="245" y="90"></point>
+        <point x="275" y="90"></point>
+        <point x="290" y="105"></point>
+        <point x="290" y="135"></point>
+        <point x="275" y="180"></point>
+        <point x="260" y="195"></point>
+        <point x="215" y="195"></point>
+        <point x="162" y="165"></point>
+      </polygon>
+      <polygon color="255" filled="true" marked="false">
+        <point x="150" y="255"></point>
+        <point x="135" y="225"></point>
+        <point x="120" y="150"></point>
+        <point x="135" y="120"></point>
+        <point x="150" y="105"></point>
+        <point x="165" y="120"></point>
+        <point x="180" y="150"></point>
+        <point x="165" y="225"></point>
+      </polygon>
+      <circle x="135" y="90" marked="false" color="255" diameter="30" filled="true"></circle>
+      <line endX="195" startY="105" marked="false" color="255" endY="60" startX="150"></line>
+      <line endX="105" startY="105" marked="false" color="255" endY="60" startX="150"></line>
+    </shape>
+    <shape name="car" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="300" y="180"></point>
+        <point x="279" y="164"></point>
+        <point x="261" y="144"></point>
+        <point x="240" y="135"></point>
+        <point x="226" y="132"></point>
+        <point x="213" y="106"></point>
+        <point x="203" y="84"></point>
+        <point x="185" y="63"></point>
+        <point x="159" y="50"></point>
+        <point x="135" y="50"></point>
+        <point x="75" y="60"></point>
+        <point x="0" y="150"></point>
+        <point x="0" y="165"></point>
+        <point x="0" y="225"></point>
+        <point x="300" y="225"></point>
+        <point x="300" y="180"></point>
+      </polygon>
+      <circle x="180" y="180" marked="false" color="255" diameter="90" filled="true"></circle>
+      <circle x="30" y="180" marked="false" color="255" diameter="90" filled="true"></circle>
+      <polygon color="255" filled="true" marked="false">
+        <point x="162" y="80"></point>
+        <point x="132" y="78"></point>
+        <point x="134" y="135"></point>
+        <point x="209" y="135"></point>
+        <point x="194" y="105"></point>
+        <point x="189" y="96"></point>
+        <point x="180" y="89"></point>
+      </polygon>
+      <circle x="47" y="195" marked="true" color="-1920102913" diameter="58" filled="true"></circle>
+      <circle x="195" y="195" marked="true" color="-1920102913" diameter="58" filled="true"></circle>
+    </shape>
+    <shape name="circle" rotatable="false" editableColorIndex="0">
+      <circle x="0" y="0" marked="true" color="-1920102913" diameter="300" filled="true"></circle>
+    </shape>
+    <shape name="circle 2" rotatable="false" editableColorIndex="0">
+      <circle x="0" y="0" marked="true" color="-1920102913" diameter="300" filled="true"></circle>
+      <circle x="30" y="30" marked="false" color="255" diameter="240" filled="true"></circle>
+    </shape>
+    <shape name="cow" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="200" y="193"></point>
+        <point x="197" y="249"></point>
+        <point x="179" y="249"></point>
+        <point x="177" y="196"></point>
+        <point x="166" y="187"></point>
+        <point x="140" y="189"></point>
+        <point x="93" y="191"></point>
+        <point x="78" y="179"></point>
+        <point x="72" y="211"></point>
+        <point x="49" y="209"></point>
+        <point x="48" y="181"></point>
+        <point x="37" y="149"></point>
+        <point x="25" y="120"></point>
+        <point x="25" y="89"></point>
+        <point x="45" y="72"></point>
+        <point x="103" y="84"></point>
+        <point x="179" y="75"></point>
+        <point x="198" y="76"></point>
+        <point x="252" y="64"></point>
+        <point x="272" y="81"></point>
+        <point x="293" y="103"></point>
+        <point x="285" y="121"></point>
+        <point x="255" y="121"></point>
+        <point x="242" y="118"></point>
+        <point x="224" y="167"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="73" y="210"></point>
+        <point x="86" y="251"></point>
+        <point x="62" y="249"></point>
+        <point x="48" y="208"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="25" y="114"></point>
+        <point x="16" y="195"></point>
+        <point x="9" y="204"></point>
+        <point x="23" y="213"></point>
+        <point x="25" y="200"></point>
+        <point x="39" y="123"></point>
+      </polygon>
+    </shape>
+    <shape name="cylinder" rotatable="false" editableColorIndex="0">
+      <circle x="0" y="0" marked="true" color="-1920102913" diameter="300" filled="true"></circle>
+    </shape>
+    <shape name="dot" rotatable="false" editableColorIndex="0">
+      <circle x="90" y="90" marked="true" color="-1920102913" diameter="120" filled="true"></circle>
+    </shape>
+    <shape name="face happy" rotatable="false" editableColorIndex="0">
+      <circle x="8" y="8" marked="true" color="-1920102913" diameter="285" filled="true"></circle>
+      <circle x="60" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <circle x="180" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <polygon color="255" filled="true" marked="false">
+        <point x="150" y="255"></point>
+        <point x="90" y="239"></point>
+        <point x="62" y="213"></point>
+        <point x="47" y="191"></point>
+        <point x="67" y="179"></point>
+        <point x="90" y="203"></point>
+        <point x="109" y="218"></point>
+        <point x="150" y="225"></point>
+        <point x="192" y="218"></point>
+        <point x="210" y="203"></point>
+        <point x="227" y="181"></point>
+        <point x="251" y="194"></point>
+        <point x="236" y="217"></point>
+        <point x="212" y="240"></point>
+      </polygon>
+    </shape>
+    <shape name="face neutral" rotatable="false" editableColorIndex="0">
+      <circle x="8" y="7" marked="true" color="-1920102913" diameter="285" filled="true"></circle>
+      <circle x="60" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <circle x="180" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <rectangle endX="240" startY="195" marked="false" color="255" endY="225" startX="60" filled="true"></rectangle>
+    </shape>
+    <shape name="face sad" rotatable="false" editableColorIndex="0">
+      <circle x="8" y="8" marked="true" color="-1920102913" diameter="285" filled="true"></circle>
+      <circle x="60" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <circle x="180" y="75" marked="false" color="255" diameter="60" filled="true"></circle>
+      <polygon color="255" filled="true" marked="false">
+        <point x="150" y="168"></point>
+        <point x="90" y="184"></point>
+        <point x="62" y="210"></point>
+        <point x="47" y="232"></point>
+        <point x="67" y="244"></point>
+        <point x="90" y="220"></point>
+        <point x="109" y="205"></point>
+        <point x="150" y="198"></point>
+        <point x="192" y="205"></point>
+        <point x="210" y="220"></point>
+        <point x="227" y="242"></point>
+        <point x="251" y="229"></point>
+        <point x="236" y="206"></point>
+        <point x="212" y="183"></point>
+      </polygon>
+    </shape>
+    <shape name="fish" rotatable="false" editableColorIndex="0">
+      <polygon color="-1" filled="true" marked="false">
+        <point x="44" y="131"></point>
+        <point x="21" y="87"></point>
+        <point x="15" y="86"></point>
+        <point x="0" y="120"></point>
+        <point x="15" y="150"></point>
+        <point x="0" y="180"></point>
+        <point x="13" y="214"></point>
+        <point x="20" y="212"></point>
+        <point x="45" y="166"></point>
+      </polygon>
+      <polygon color="-1" filled="true" marked="false">
+        <point x="135" y="195"></point>
+        <point x="119" y="235"></point>
+        <point x="95" y="218"></point>
+        <point x="76" y="210"></point>
+        <point x="46" y="204"></point>
+        <point x="60" y="165"></point>
+      </polygon>
+      <polygon color="-1" filled="true" marked="false">
+        <point x="75" y="45"></point>
+        <point x="83" y="77"></point>
+        <point x="71" y="103"></point>
+        <point x="86" y="114"></point>
+        <point x="166" y="78"></point>
+        <point x="135" y="60"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="30" y="136"></point>
+        <point x="151" y="77"></point>
+        <point x="226" y="81"></point>
+        <point x="280" y="119"></point>
+        <point x="292" y="146"></point>
+        <point x="292" y="160"></point>
+        <point x="287" y="170"></point>
+        <point x="270" y="195"></point>
+        <point x="195" y="210"></point>
+        <point x="151" y="212"></point>
+        <point x="30" y="166"></point>
+      </polygon>
+      <circle x="215" y="106" marked="false" color="255" diameter="30" filled="true"></circle>
+    </shape>
+    <shape name="flag" rotatable="false" editableColorIndex="0">
+      <rectangle endX="75" startY="15" marked="true" color="-1920102913" endY="300" startX="60" filled="true"></rectangle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="90" y="150"></point>
+        <point x="270" y="90"></point>
+        <point x="90" y="30"></point>
+      </polygon>
+      <line endX="90" startY="135" marked="true" color="-1920102913" endY="135" startX="75"></line>
+      <line endX="90" startY="45" marked="true" color="-1920102913" endY="45" startX="75"></line>
+    </shape>
+    <shape name="flower" rotatable="false" editableColorIndex="0">
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="135" y="120"></point>
+        <point x="165" y="165"></point>
+        <point x="180" y="210"></point>
+        <point x="180" y="240"></point>
+        <point x="150" y="300"></point>
+        <point x="165" y="300"></point>
+        <point x="195" y="240"></point>
+        <point x="195" y="195"></point>
+        <point x="165" y="135"></point>
+      </polygon>
+      <circle x="85" y="132" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="130" y="147" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="192" y="85" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="85" y="40" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="177" y="40" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="177" y="132" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="70" y="85" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="130" y="25" marked="true" color="-1920102913" diameter="38" filled="true"></circle>
+      <circle x="96" y="51" marked="true" color="-1920102913" diameter="108" filled="true"></circle>
+      <circle x="113" y="68" marked="false" color="255" diameter="74" filled="true"></circle>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="189" y="233"></point>
+        <point x="219" y="188"></point>
+        <point x="249" y="173"></point>
+        <point x="279" y="188"></point>
+        <point x="234" y="218"></point>
+      </polygon>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="180" y="255"></point>
+        <point x="150" y="210"></point>
+        <point x="105" y="210"></point>
+        <point x="75" y="240"></point>
+        <point x="135" y="240"></point>
+      </polygon>
+    </shape>
+    <shape name="house" rotatable="false" editableColorIndex="0">
+      <rectangle endX="255" startY="120" marked="true" color="-1920102913" endY="285" startX="45" filled="true"></rectangle>
+      <rectangle endX="180" startY="210" marked="false" color="255" endY="285" startX="120" filled="true"></rectangle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="15" y="120"></point>
+        <point x="150" y="15"></point>
+        <point x="285" y="120"></point>
+      </polygon>
+      <line endX="270" startY="120" marked="false" color="255" endY="120" startX="30"></line>
+    </shape>
+    <shape name="leaf" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="210"></point>
+        <point x="135" y="195"></point>
+        <point x="120" y="210"></point>
+        <point x="60" y="210"></point>
+        <point x="30" y="195"></point>
+        <point x="60" y="180"></point>
+        <point x="60" y="165"></point>
+        <point x="15" y="135"></point>
+        <point x="30" y="120"></point>
+        <point x="15" y="105"></point>
+        <point x="40" y="104"></point>
+        <point x="45" y="90"></point>
+        <point x="60" y="90"></point>
+        <point x="90" y="105"></point>
+        <point x="105" y="120"></point>
+        <point x="120" y="120"></point>
+        <point x="105" y="60"></point>
+        <point x="120" y="60"></point>
+        <point x="135" y="30"></point>
+        <point x="150" y="15"></point>
+        <point x="165" y="30"></point>
+        <point x="180" y="60"></point>
+        <point x="195" y="60"></point>
+        <point x="180" y="120"></point>
+        <point x="195" y="120"></point>
+        <point x="210" y="105"></point>
+        <point x="240" y="90"></point>
+        <point x="255" y="90"></point>
+        <point x="263" y="104"></point>
+        <point x="285" y="105"></point>
+        <point x="270" y="120"></point>
+        <point x="285" y="135"></point>
+        <point x="240" y="165"></point>
+        <point x="240" y="180"></point>
+        <point x="270" y="195"></point>
+        <point x="240" y="210"></point>
+        <point x="180" y="210"></point>
+        <point x="165" y="195"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="135" y="195"></point>
+        <point x="135" y="240"></point>
+        <point x="120" y="255"></point>
+        <point x="105" y="255"></point>
+        <point x="105" y="285"></point>
+        <point x="135" y="285"></point>
+        <point x="165" y="240"></point>
+        <point x="165" y="195"></point>
+      </polygon>
+    </shape>
+    <shape name="line" rotatable="true" editableColorIndex="0">
+      <line endX="150" startY="0" marked="true" color="-1920102913" endY="300" startX="150"></line>
+    </shape>
+    <shape name="line half" rotatable="true" editableColorIndex="0">
+      <line endX="150" startY="0" marked="true" color="-1920102913" endY="150" startX="150"></line>
+    </shape>
+    <shape name="pentagon" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="15"></point>
+        <point x="15" y="120"></point>
+        <point x="60" y="285"></point>
+        <point x="240" y="285"></point>
+        <point x="285" y="120"></point>
+      </polygon>
+    </shape>
+    <shape name="person" rotatable="false" editableColorIndex="0">
+      <circle x="110" y="5" marked="true" color="-1920102913" diameter="80" filled="true"></circle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="105" y="90"></point>
+        <point x="120" y="195"></point>
+        <point x="90" y="285"></point>
+        <point x="105" y="300"></point>
+        <point x="135" y="300"></point>
+        <point x="150" y="225"></point>
+        <point x="165" y="300"></point>
+        <point x="195" y="300"></point>
+        <point x="210" y="285"></point>
+        <point x="180" y="195"></point>
+        <point x="195" y="90"></point>
+      </polygon>
+      <rectangle endX="172" startY="79" marked="true" color="-1920102913" endY="94" startX="127" filled="true"></rectangle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="195" y="90"></point>
+        <point x="240" y="150"></point>
+        <point x="225" y="180"></point>
+        <point x="165" y="105"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="105" y="90"></point>
+        <point x="60" y="150"></point>
+        <point x="75" y="180"></point>
+        <point x="135" y="105"></point>
+      </polygon>
+    </shape>
+    <shape name="plant" rotatable="false" editableColorIndex="0">
+      <rectangle endX="165" startY="90" marked="true" color="-1920102913" endY="300" startX="135" filled="true"></rectangle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="135" y="255"></point>
+        <point x="90" y="210"></point>
+        <point x="45" y="195"></point>
+        <point x="75" y="255"></point>
+        <point x="135" y="285"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="165" y="255"></point>
+        <point x="210" y="210"></point>
+        <point x="255" y="195"></point>
+        <point x="225" y="255"></point>
+        <point x="165" y="285"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="135" y="180"></point>
+        <point x="90" y="135"></point>
+        <point x="45" y="120"></point>
+        <point x="75" y="180"></point>
+        <point x="135" y="210"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="165" y="180"></point>
+        <point x="165" y="210"></point>
+        <point x="225" y="180"></point>
+        <point x="255" y="120"></point>
+        <point x="210" y="135"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="135" y="105"></point>
+        <point x="90" y="60"></point>
+        <point x="45" y="45"></point>
+        <point x="75" y="105"></point>
+        <point x="135" y="135"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="165" y="105"></point>
+        <point x="165" y="135"></point>
+        <point x="225" y="105"></point>
+        <point x="255" y="45"></point>
+        <point x="210" y="60"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="135" y="90"></point>
+        <point x="120" y="45"></point>
+        <point x="150" y="15"></point>
+        <point x="180" y="45"></point>
+        <point x="165" y="90"></point>
+      </polygon>
+    </shape>
+    <shape name="sheep" rotatable="false" editableColorIndex="15">
+      <circle x="203" y="65" marked="true" color="-1" diameter="88" filled="true"></circle>
+      <circle x="70" y="65" marked="true" color="-1" diameter="162" filled="true"></circle>
+      <circle x="150" y="105" marked="true" color="-1" diameter="120" filled="true"></circle>
+      <polygon color="-1920102913" filled="true" marked="false">
+        <point x="218" y="120"></point>
+        <point x="240" y="165"></point>
+        <point x="255" y="165"></point>
+        <point x="278" y="120"></point>
+      </polygon>
+      <circle x="214" y="72" marked="false" color="-1920102913" diameter="67" filled="true"></circle>
+      <rectangle endX="179" startY="223" marked="true" color="-1" endY="298" startX="164" filled="true"></rectangle>
+      <polygon color="-1" filled="true" marked="true">
+        <point x="45" y="285"></point>
+        <point x="30" y="285"></point>
+        <point x="30" y="240"></point>
+        <point x="15" y="195"></point>
+        <point x="45" y="210"></point>
+      </polygon>
+      <circle x="3" y="83" marked="true" color="-1" diameter="150" filled="true"></circle>
+      <rectangle endX="80" startY="221" marked="true" color="-1" endY="296" startX="65" filled="true"></rectangle>
+      <polygon color="-1" filled="true" marked="true">
+        <point x="195" y="285"></point>
+        <point x="210" y="285"></point>
+        <point x="210" y="240"></point>
+        <point x="240" y="210"></point>
+        <point x="195" y="210"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="false">
+        <point x="276" y="85"></point>
+        <point x="285" y="105"></point>
+        <point x="302" y="99"></point>
+        <point x="294" y="83"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="false">
+        <point x="219" y="85"></point>
+        <point x="210" y="105"></point>
+        <point x="193" y="99"></point>
+        <point x="201" y="83"></point>
+      </polygon>
+    </shape>
+    <shape name="square" rotatable="false" editableColorIndex="0">
+      <rectangle endX="270" startY="30" marked="true" color="-1920102913" endY="270" startX="30" filled="true"></rectangle>
+    </shape>
+    <shape name="square 2" rotatable="false" editableColorIndex="0">
+      <rectangle endX="270" startY="30" marked="true" color="-1920102913" endY="270" startX="30" filled="true"></rectangle>
+      <rectangle endX="240" startY="60" marked="false" color="255" endY="240" startX="60" filled="true"></rectangle>
+    </shape>
+    <shape name="star" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="151" y="1"></point>
+        <point x="185" y="108"></point>
+        <point x="298" y="108"></point>
+        <point x="207" y="175"></point>
+        <point x="242" y="282"></point>
+        <point x="151" y="216"></point>
+        <point x="59" y="282"></point>
+        <point x="94" y="175"></point>
+        <point x="3" y="108"></point>
+        <point x="116" y="108"></point>
+      </polygon>
+    </shape>
+    <shape name="target" rotatable="false" editableColorIndex="0">
+      <circle x="0" y="0" marked="true" color="-1920102913" diameter="300" filled="true"></circle>
+      <circle x="30" y="30" marked="false" color="255" diameter="240" filled="true"></circle>
+      <circle x="60" y="60" marked="true" color="-1920102913" diameter="180" filled="true"></circle>
+      <circle x="90" y="90" marked="false" color="255" diameter="120" filled="true"></circle>
+      <circle x="120" y="120" marked="true" color="-1920102913" diameter="60" filled="true"></circle>
+    </shape>
+    <shape name="tree" rotatable="false" editableColorIndex="0">
+      <circle x="118" y="3" marked="true" color="-1920102913" diameter="94" filled="true"></circle>
+      <rectangle endX="180" startY="195" marked="false" color="-1653716737" endY="300" startX="120" filled="true"></rectangle>
+      <circle x="65" y="21" marked="true" color="-1920102913" diameter="108" filled="true"></circle>
+      <circle x="116" y="41" marked="true" color="-1920102913" diameter="127" filled="true"></circle>
+      <circle x="45" y="90" marked="true" color="-1920102913" diameter="120" filled="true"></circle>
+      <circle x="104" y="74" marked="true" color="-1920102913" diameter="152" filled="true"></circle>
+    </shape>
+    <shape name="triangle" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="30"></point>
+        <point x="15" y="255"></point>
+        <point x="285" y="255"></point>
+      </polygon>
+    </shape>
+    <shape name="triangle 2" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="150" y="30"></point>
+        <point x="15" y="255"></point>
+        <point x="285" y="255"></point>
+      </polygon>
+      <polygon color="255" filled="true" marked="false">
+        <point x="151" y="99"></point>
+        <point x="225" y="223"></point>
+        <point x="75" y="224"></point>
+      </polygon>
+    </shape>
+    <shape name="truck" rotatable="false" editableColorIndex="0">
+      <rectangle endX="195" startY="45" marked="true" color="-1920102913" endY="187" startX="4" filled="true"></rectangle>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="296" y="193"></point>
+        <point x="296" y="150"></point>
+        <point x="259" y="134"></point>
+        <point x="244" y="104"></point>
+        <point x="208" y="104"></point>
+        <point x="207" y="194"></point>
+      </polygon>
+      <rectangle endX="195" startY="60" marked="false" color="-1" endY="105" startX="195" filled="true"></rectangle>
+      <polygon color="255" filled="true" marked="false">
+        <point x="238" y="112"></point>
+        <point x="252" y="141"></point>
+        <point x="219" y="141"></point>
+        <point x="218" y="112"></point>
+      </polygon>
+      <circle x="234" y="174" marked="false" color="255" diameter="42" filled="true"></circle>
+      <rectangle endX="214" startY="185" marked="true" color="-1920102913" endY="194" startX="181" filled="true"></rectangle>
+      <circle x="144" y="174" marked="false" color="255" diameter="42" filled="true"></circle>
+      <circle x="24" y="174" marked="false" color="255" diameter="42" filled="true"></circle>
+      <circle x="24" y="174" marked="true" color="-1920102913" diameter="42" filled="false"></circle>
+      <circle x="144" y="174" marked="true" color="-1920102913" diameter="42" filled="false"></circle>
+      <circle x="234" y="174" marked="true" color="-1920102913" diameter="42" filled="false"></circle>
+    </shape>
+    <shape name="turtle" rotatable="true" editableColorIndex="0">
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="215" y="204"></point>
+        <point x="240" y="233"></point>
+        <point x="246" y="254"></point>
+        <point x="228" y="266"></point>
+        <point x="215" y="252"></point>
+        <point x="193" y="210"></point>
+      </polygon>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="195" y="90"></point>
+        <point x="225" y="75"></point>
+        <point x="245" y="75"></point>
+        <point x="260" y="89"></point>
+        <point x="269" y="108"></point>
+        <point x="261" y="124"></point>
+        <point x="240" y="105"></point>
+        <point x="225" y="105"></point>
+        <point x="210" y="105"></point>
+      </polygon>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="105" y="90"></point>
+        <point x="75" y="75"></point>
+        <point x="55" y="75"></point>
+        <point x="40" y="89"></point>
+        <point x="31" y="108"></point>
+        <point x="39" y="124"></point>
+        <point x="60" y="105"></point>
+        <point x="75" y="105"></point>
+        <point x="90" y="105"></point>
+      </polygon>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="132" y="85"></point>
+        <point x="134" y="64"></point>
+        <point x="107" y="51"></point>
+        <point x="108" y="17"></point>
+        <point x="150" y="2"></point>
+        <point x="192" y="18"></point>
+        <point x="192" y="52"></point>
+        <point x="169" y="65"></point>
+        <point x="172" y="87"></point>
+      </polygon>
+      <polygon color="1504722175" filled="true" marked="false">
+        <point x="85" y="204"></point>
+        <point x="60" y="233"></point>
+        <point x="54" y="254"></point>
+        <point x="72" y="266"></point>
+        <point x="85" y="252"></point>
+        <point x="107" y="210"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="119" y="75"></point>
+        <point x="179" y="75"></point>
+        <point x="209" y="101"></point>
+        <point x="224" y="135"></point>
+        <point x="220" y="225"></point>
+        <point x="175" y="261"></point>
+        <point x="128" y="261"></point>
+        <point x="81" y="224"></point>
+        <point x="74" y="135"></point>
+        <point x="88" y="99"></point>
+      </polygon>
+    </shape>
+    <shape name="wheel" rotatable="false" editableColorIndex="0">
+      <circle x="3" y="3" marked="true" color="-1920102913" diameter="294" filled="true"></circle>
+      <circle x="30" y="30" marked="false" color="255" diameter="240" filled="true"></circle>
+      <line endX="150" startY="285" marked="true" color="-1920102913" endY="15" startX="150"></line>
+      <line endX="285" startY="150" marked="true" color="-1920102913" endY="150" startX="15"></line>
+      <circle x="120" y="120" marked="true" color="-1920102913" diameter="60" filled="true"></circle>
+      <line endX="79" startY="40" marked="true" color="-1920102913" endY="269" startX="216"></line>
+      <line endX="269" startY="84" marked="true" color="-1920102913" endY="221" startX="40"></line>
+      <line endX="269" startY="216" marked="true" color="-1920102913" endY="79" startX="40"></line>
+      <line endX="221" startY="40" marked="true" color="-1920102913" endY="269" startX="84"></line>
+    </shape>
+    <shape name="wolf" rotatable="false" editableColorIndex="0">
+      <polygon color="255" filled="true" marked="false">
+        <point x="253" y="133"></point>
+        <point x="245" y="131"></point>
+        <point x="245" y="133"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="2" y="194"></point>
+        <point x="13" y="197"></point>
+        <point x="30" y="191"></point>
+        <point x="38" y="193"></point>
+        <point x="38" y="205"></point>
+        <point x="20" y="226"></point>
+        <point x="20" y="257"></point>
+        <point x="27" y="265"></point>
+        <point x="38" y="266"></point>
+        <point x="40" y="260"></point>
+        <point x="31" y="253"></point>
+        <point x="31" y="230"></point>
+        <point x="60" y="206"></point>
+        <point x="68" y="198"></point>
+        <point x="75" y="209"></point>
+        <point x="66" y="228"></point>
+        <point x="65" y="243"></point>
+        <point x="82" y="261"></point>
+        <point x="84" y="268"></point>
+        <point x="100" y="267"></point>
+        <point x="103" y="261"></point>
+        <point x="77" y="239"></point>
+        <point x="79" y="231"></point>
+        <point x="100" y="207"></point>
+        <point x="98" y="196"></point>
+        <point x="119" y="201"></point>
+        <point x="143" y="202"></point>
+        <point x="160" y="195"></point>
+        <point x="166" y="210"></point>
+        <point x="172" y="213"></point>
+        <point x="173" y="238"></point>
+        <point x="167" y="251"></point>
+        <point x="160" y="248"></point>
+        <point x="154" y="265"></point>
+        <point x="169" y="264"></point>
+        <point x="178" y="247"></point>
+        <point x="186" y="240"></point>
+        <point x="198" y="260"></point>
+        <point x="200" y="271"></point>
+        <point x="217" y="271"></point>
+        <point x="219" y="262"></point>
+        <point x="207" y="258"></point>
+        <point x="195" y="230"></point>
+        <point x="192" y="198"></point>
+        <point x="210" y="184"></point>
+        <point x="227" y="164"></point>
+        <point x="242" y="144"></point>
+        <point x="259" y="145"></point>
+        <point x="284" y="151"></point>
+        <point x="277" y="141"></point>
+        <point x="293" y="140"></point>
+        <point x="299" y="134"></point>
+        <point x="297" y="127"></point>
+        <point x="273" y="119"></point>
+        <point x="270" y="105"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="-1" y="195"></point>
+        <point x="14" y="180"></point>
+        <point x="36" y="166"></point>
+        <point x="40" y="153"></point>
+        <point x="53" y="140"></point>
+        <point x="82" y="131"></point>
+        <point x="134" y="133"></point>
+        <point x="159" y="126"></point>
+        <point x="188" y="115"></point>
+        <point x="227" y="108"></point>
+        <point x="236" y="102"></point>
+        <point x="238" y="98"></point>
+        <point x="268" y="86"></point>
+        <point x="269" y="92"></point>
+        <point x="281" y="87"></point>
+        <point x="269" y="103"></point>
+        <point x="269" y="113"></point>
+      </polygon>
+    </shape>
+    <shape name="x" rotatable="false" editableColorIndex="0">
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="270" y="75"></point>
+        <point x="225" y="30"></point>
+        <point x="30" y="225"></point>
+        <point x="75" y="270"></point>
+      </polygon>
+      <polygon color="-1920102913" filled="true" marked="true">
+        <point x="30" y="75"></point>
+        <point x="75" y="30"></point>
+        <point x="270" y="225"></point>
+        <point x="225" y="270"></point>
+      </polygon>
+    </shape>
+  </turtleShapes>
+  <linkShapes>
+    <shape name="default" curviness="0.0">
+      <lines>
+        <line x="-0.2" visible="false">
+          <dash value="0.0"></dash>
+          <dash value="1.0"></dash>
+        </line>
+        <line x="0.0" visible="true">
+          <dash value="1.0"></dash>
+          <dash value="0.0"></dash>
+        </line>
+        <line x="0.2" visible="false">
+          <dash value="0.0"></dash>
+          <dash value="1.0"></dash>
+        </line>
+      </lines>
+      <indicator>
+        <shape name="link direction" rotatable="true" editableColorIndex="0">
+          <line endX="90" startY="150" marked="true" color="-1920102913" endY="180" startX="150"></line>
+          <line endX="210" startY="150" marked="true" color="-1920102913" endY="180" startX="150"></line>
+        </shape>
+      </indicator>
+    </shape>
+  </linkShapes>
+  <previewCommands>setup repeat 75 [ go ]</previewCommands>
+  <experiments>
+    <experiment name="20230127-NL-SD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-NL-FD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Fast dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-SD-S" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-FD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Fast dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-ID-S" repetitions="1" sequentialRunOrder="false" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-SD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-FD-S" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Fast dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-ES-ID" repetitions="1" sequentialRunOrder="false" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-NL-ID" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230127-NL-ID-S" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="4000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-ES-SD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-ES-ID" repetitions="1" sequentialRunOrder="false" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-NL-ID" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-NL-SD" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-NL-SD-S" repetitions="1" sequentialRunOrder="true" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;NL&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Slow dynamics&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+    <experiment name="20230130-ES-ID-S" repetitions="1" sequentialRunOrder="false" runMetricsEveryStep="true" timeLimit="34">
+      <setup>setup</setup>
+      <go><![CDATA[ifelse year < 2050 [
+ go]
+[setup
+ go]]]></go>
+      <metrics>
+        <metric>year</metric>
+        <metric>a1</metric>
+        <metric>number.group1</metric>
+        <metric>number.group2</metric>
+        <metric>number.group3</metric>
+        <metric>number.group4</metric>
+        <metric>number.group5</metric>
+        <metric>group1.a1</metric>
+        <metric>group2.a1</metric>
+        <metric>group3.a1</metric>
+        <metric>group4.a1</metric>
+        <metric>group5.a1</metric>
+        <metric>number.dwage1</metric>
+        <metric>number.dwage2</metric>
+        <metric>number.dwage3</metric>
+        <metric>dwage1.a1</metric>
+        <metric>dwage2.a1</metric>
+        <metric>dwage3.a1</metric>
+      </metrics>
+      <constants>
+        <enumeratedValueSet variable="Generate-seed?">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="case-study">
+          <value value="&quot;ES&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Data">
+          <value value="&quot;Empirical-survey&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Scenario">
+          <value value="&quot;Ref.SSP2&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="debugfiles">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Memory">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Investment">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Conservation">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Switching">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="NAT">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="TPB">
+          <value value="false"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="COM">
+          <value value="true"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="Learning">
+          <value value="&quot;Informative&quot;"></value>
+        </enumeratedValueSet>
+        <enumeratedValueSet variable="I1.cost">
+          <value value="3000"></value>
+        </enumeratedValueSet>
+      </constants>
+    </experiment>
+  </experiments>
+</model>
