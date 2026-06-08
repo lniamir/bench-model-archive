@@ -1158,6 +1158,127 @@ def append_or_create_csv(df, filepath):
     else:
         df.to_csv(filepath, index=False, mode='a', header=False)
 
+def plot_results(results_folder="results"):
+    """Load and plot all result CSV files from the results folder."""
+    
+    # 1. Plot Adoption Rate
+    adoption_rate_file = os.path.join(results_folder, 'adoption_rate_combined.csv')
+    if os.path.exists(adoption_rate_file):
+        df_adoption = pd.read_csv(adoption_rate_file)
+        fig, ax = plt.subplots(figsize=(12, 6))
+        for label in df_adoption['Label'].unique():
+            data = df_adoption[df_adoption['Label'] == label]
+            ax.plot(data['Quarters'], data['AvgAdoptionRate'], marker='o', label=label, linewidth=2)
+            ax.fill_between(data['Quarters'], 
+                            data['AvgAdoptionRate'] - data['StdAdoptionRate'],
+                            data['AvgAdoptionRate'] + data['StdAdoptionRate'],
+                            alpha=0.2)
+        ax.set_xlabel('Quarters')
+        ax.set_ylabel('Adoption Rate')
+        ax.set_title('Average Adoption Rate Over Time')
+        ax.legend(loc='best', fontsize=9)
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_folder, 'plot_adoption_rate.png'), dpi=300)
+        
+        print(f"Adoption rate plot saved to {os.path.join(results_folder, 'plot_adoption_rate.png')}")
+    
+    # 2. Plot Emissions Savings
+    emissions_file = os.path.join(results_folder, 'emissions_savings_combined.csv')
+    if os.path.exists(emissions_file):
+        df_emissions = pd.read_csv(emissions_file)
+        fig, ax = plt.subplots(figsize=(12, 6))
+        for label in df_emissions['Label'].unique():
+            data = df_emissions[df_emissions['Label'] == label]
+            ax.plot(data['Quarters'], data['AvgEmissionsSavings'], marker='s', label=label, linewidth=2)
+            ax.fill_between(data['Quarters'], 
+                            data['AvgEmissionsSavings'] - data['StdEmissionsSavings'],
+                            data['AvgEmissionsSavings'] + data['StdEmissionsSavings'],
+                            alpha=0.2)
+        ax.set_xlabel('Quarters')
+        ax.set_ylabel('Emissions Savings (kg)')
+        ax.set_title('Average Emissions Savings Over Time')
+        ax.legend(loc='best', fontsize=9)
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_folder, 'plot_emissions_savings.png'), dpi=300)
+        
+        print(f"Emissions savings plot saved to {os.path.join(results_folder, 'plot_emissions_savings.png')}")
+    
+    # 3. Plot User Status
+    user_status_file = os.path.join(results_folder, 'user_status_combined.csv')
+    if os.path.exists(user_status_file):
+        df_user = pd.read_csv(user_status_file)
+        fig, axes = plt.subplots(len(df_user['Label'].unique()), 1, figsize=(12, 4 * len(df_user['Label'].unique())))
+        if len(df_user['Label'].unique()) == 1:
+            axes = [axes]
+        
+        for idx, label in enumerate(df_user['Label'].unique()):
+            data = df_user[df_user['Label'] == label]
+            axes[idx].plot(data['Quarters'], data['NonUsers'], marker='o', label='Non-Users', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['Users'], marker='s', label='Users', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['FrequentUsers'], marker='^', label='Frequent Users', linewidth=2)
+            axes[idx].set_xlabel('Quarters')
+            axes[idx].set_ylabel('Number of Agents')
+            axes[idx].set_title(f'User Status Over Time - {label}')
+            axes[idx].legend(loc='best')
+            axes[idx].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_folder, 'plot_user_status.png'), dpi=300)
+        
+        print(f"User status plot saved to {os.path.join(results_folder, 'plot_user_status.png')}")
+    
+    # 4. Plot Stages
+    stage_file = os.path.join(results_folder, 'stage_combined.csv')
+    if os.path.exists(stage_file):
+        df_stage = pd.read_csv(stage_file)
+        fig, axes = plt.subplots(len(df_stage['Label'].unique()), 1, figsize=(12, 4 * len(df_stage['Label'].unique())))
+        if len(df_stage['Label'].unique()) == 1:
+            axes = [axes]
+        
+        for idx, label in enumerate(df_stage['Label'].unique()):
+            data = df_stage[df_stage['Label'] == label]
+            axes[idx].plot(data['Quarters'], data['Knowledge'], marker='o', label='Knowledge', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['Motivation'], marker='s', label='Motivation', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['Consideration'], marker='^', label='Consideration', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['Action'], marker='d', label='Action', linewidth=2)
+            axes[idx].plot(data['Quarters'], data['Habit'], marker='*', label='Habit', linewidth=2)
+            axes[idx].set_xlabel('Quarters')
+            axes[idx].set_ylabel('Number of Agents')
+            axes[idx].set_title(f'Adoption Stages Over Time - {label}')
+            axes[idx].legend(loc='best')
+            axes[idx].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_folder, 'plot_stages.png'), dpi=300)
+        
+        print(f"Stages plot saved to {os.path.join(results_folder, 'plot_stages.png')}")
+    
+    # 5. Plot District Adoption
+    district_file = os.path.join(results_folder, 'district_adoption_combined.csv')
+    if os.path.exists(district_file):
+        df_district = pd.read_csv(district_file)
+        fig, ax = plt.subplots(figsize=(14, 6))
+        
+        for label in df_district['Label'].unique():
+            data = df_district[df_district['Label'] == label]
+            # Average adoption rate across districts for each quarter
+            avg_by_quarter = data.groupby('Quarters')['AdoptionRate'].mean()
+            ax.plot(avg_by_quarter.index, avg_by_quarter.values, marker='o', label=label, linewidth=2)
+        
+        ax.set_xlabel('Quarters')
+        ax.set_ylabel('Average District Adoption Rate')
+        ax.set_title('Average District Adoption Rate Over Time')
+        ax.legend(loc='best', fontsize=9)
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_folder, 'plot_district_adoption.png'), dpi=300)
+        
+        print(f"District adoption plot saved to {os.path.join(results_folder, 'plot_district_adoption.png')}")
+
+    plt.show()
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Community Simulation Model")
     parser.add_argument("--num_agents", type=int, default=500, help="Number of agents")
@@ -1167,5 +1288,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=None, help="Seed for random number generator")
     return parser.parse_args()
 
+
 if __name__ == "__main__":
-    main()
+    #main()
+    plot_results("results")
