@@ -12,6 +12,7 @@ from mesa.time import RandomActivation
 import argparse
 import matplotlib.dates as mdates
 import os
+from joblib import Parallel, delayed
 
 # Load bike stations and social housing data
 bike_stations = gpd.read_file("station_locations.geojson")
@@ -814,12 +815,12 @@ class CommunityModel(Model):
                 new_stations_gdf = gpd.GeoDataFrame({'geometry': self.new_bike_stations[:200]},
                                                     crs=self.bike_station_locations.crs)
 
-                print(f"Year {self.year} Quarter {self.quarter}: Adding 200 new bike stations.")
+                #print(f"Year {self.year} Quarter {self.quarter}: Adding 200 new bike stations.")
 
                 self.bike_station_locations = pd.concat([self.bike_station_locations, new_stations_gdf]).reset_index(
                     drop=True)
 
-                print(f"Total number of bike stations after addition: {len(self.bike_station_locations)}")
+                #print(f"Total number of bike stations after addition: {len(self.bike_station_locations)}")
 
                 self.update_station_access()
 
@@ -999,6 +1000,115 @@ class CommunityModel(Model):
 
         return df_adoption
 
+def process_setting(setting, args, num_runs, num_quarters, default_seed, results_folder):
+    """Process a single setting with all runs and return collected data."""
+    # Dynamically create the label by combining learning, infrastructure, and policy settings
+    label = f"{setting['learning']}, {setting['infrastructure']}, {setting['policy']}"
+    setting["label"] = label
+
+    # Initialize empty lists to collect DataFrame rows for each run
+    adoption_rate_rows = []
+    emissions_savings_rows = []
+    user_status_rows = []
+    stage_rows = []
+    district_adoption_rows = []
+
+    all_adoption_rates = np.zeros((num_runs, num_quarters))
+    all_emissions_savings = np.zeros((num_runs, num_quarters))
+
+    for run in range(num_runs):
+        seed = (args.seed if args.seed is not None else default_seed) + run
+        model = CommunityModel(
+            N=args.num_agents,
+            learning=setting["learning"],
+            infrastructure=setting["infrastructure"],
+            policy=setting["policy"],
+            seed=seed,
+            results_folder=results_folder
+        )
+
+        for quarter in range(num_quarters):
+            model.go()
+            all_adoption_rates[run, quarter] = model.adoption_rate_per_quarter[-1]
+            all_emissions_savings[run, quarter] = model.emissions_savings[-1]
+
+            # Collect district-level adoption rates
+            district_adoption_df = model.calculate_adopters_per_district()
+            for _, row in district_adoption_df.iterrows():
+                district_adoption_rows.append({
+                    'Quarters': quarter + 1,
+                    'District': row['District'],
+                    'TotalAgents': row['Total Agents'],
+                    'Adopters': row['Adopters'],
+                    'AdoptionRate': row['Adoption Rate'],
+                    'Label': setting['label']
+                })
+
+            # Collect user status counts
+            num_non_users = sum(agent.user_status == "non_user" for agent in model.schedule.agents)
+            num_users = sum(agent.user_status == "user" for agent in model.schedule.agents)
+            num_frequent_users = sum(agent.user_status == "frequent_user" for agent in model.schedule.agents)
+
+            user_status_rows.append({
+                'Quarters': quarter + 1,
+                'NonUsers': num_non_users,
+                'Users': num_users,
+                'FrequentUsers': num_frequent_users,
+                'Label': setting['label']
+            })
+
+            # Collect stage counts
+            knowledge_count = sum(agent.guilt == "L" for agent in model.schedule.agents)
+            motivation_count = sum(agent.m_st == "L" and agent.guilt == "H" for agent in model.schedule.agents)
+            consideration_count = sum(agent.c_st == "L" and agent.m_st == "H" for agent in model.schedule.agents)
+            action_count = sum(agent.adopted for agent in model.schedule.agents)
+            habit_count = sum(agent.user_status == "frequent_user" for agent in model.schedule.agents)
+
+            stage_rows.append({
+                'Quarters': quarter + 1,
+                'Knowledge': knowledge_count,
+                'Motivation': motivation_count,
+                'Consideration': consideration_count,
+                'Action': action_count,
+                'Habit': habit_count,
+                'Label': setting['label']
+            })
+
+        print(f"Completed run {run + 1}/{num_runs} for setting: {setting['label']}")
+
+    avg_adoption_rate = np.mean(all_adoption_rates, axis=0)
+    std_adoption_rate = np.std(all_adoption_rates, axis=0)
+
+    avg_emissions_savings = np.mean(all_emissions_savings, axis=0)
+    std_emissions_savings = np.std(all_emissions_savings, axis=0)
+
+    # Create rows to append to the DataFrame for adoption rate
+    for quarter in range(num_quarters):
+        adoption_rate_rows.append({
+            'Quarters': quarter + 1,
+            'AvgAdoptionRate': avg_adoption_rate[quarter],
+            'StdAdoptionRate': std_adoption_rate[quarter],
+            'Label': setting['label']
+        })
+
+    # Create rows to append to the DataFrame for emissions savings
+    for quarter in range(num_quarters):
+        emissions_savings_rows.append({
+            'Quarters': quarter + 1,
+            'AvgEmissionsSavings': avg_emissions_savings[quarter],
+            'StdEmissionsSavings': std_emissions_savings[quarter],
+            'Label': setting['label']
+        })
+
+    return {
+        'adoption_rate_rows': adoption_rate_rows,
+        'emissions_savings_rows': emissions_savings_rows,
+        'user_status_rows': user_status_rows,
+        'stage_rows': stage_rows,
+        'district_adoption_rows': district_adoption_rows
+    }
+
+
 def main():
     args = parse_args()
     
@@ -1019,119 +1129,26 @@ def main():
     num_quarters = 108  # Simulate 27 years (108 quarters)
     default_seed = 0
 
-    for setting in settings:
-        # Dynamically create the label by combining learning, infrastructure, and policy settings
-        label = f"{setting['learning']}, {setting['infrastructure']}, {setting['policy']}"
-        setting["label"] = label  # Assign the label to the setting
+    # Run all settings in parallel
+    results = Parallel(n_jobs=-1)(
+        delayed(process_setting)(setting, args, num_runs, num_quarters, default_seed, results_folder)
+        for setting in settings
+    )
 
-        # Initialize empty lists to collect DataFrame rows for each run
-        adoption_rate_rows = []
-        emissions_savings_rows = []
-        user_status_rows = []
-        stage_rows = []
-        district_adoption_rows = []
-
-        all_adoption_rates = np.zeros((num_runs, num_quarters))
-        all_emissions_savings = np.zeros((num_runs, num_quarters))
-
-        for run in range(num_runs):
-            seed = (args.seed if args.seed is not None else default_seed) + run
-            model = CommunityModel(
-                N=args.num_agents,
-                learning=setting["learning"],
-                infrastructure=setting["infrastructure"],
-                policy=setting["policy"],
-                seed=seed,
-                results_folder=results_folder
-            )
-
-            
-            for quarter in range(num_quarters):
-                model.go()
-                all_adoption_rates[run, quarter] = model.adoption_rate_per_quarter[-1]
-                all_emissions_savings[run, quarter] = model.emissions_savings[-1]
-
-                # Collect district-level adoption rates
-                district_adoption_df = model.calculate_adopters_per_district()
-                for _, row in district_adoption_df.iterrows():
-                    district_adoption_rows.append({
-                        'Quarters': quarter + 1,
-                        'District': row['District'],
-                        'TotalAgents': row['Total Agents'],
-                        'Adopters': row['Adopters'],
-                        'AdoptionRate': row['Adoption Rate'],
-                        'Label': setting['label']
-                    })
-
-                # Collect user status counts
-                num_non_users = sum(agent.user_status == "non_user" for agent in model.schedule.agents)
-                num_users = sum(agent.user_status == "user" for agent in model.schedule.agents)
-                num_frequent_users = sum(agent.user_status == "frequent_user" for agent in model.schedule.agents)
-
-                user_status_rows.append({
-                    'Quarters': quarter + 1,
-                    'NonUsers': num_non_users,
-                    'Users': num_users,
-                    'FrequentUsers': num_frequent_users,
-                    'Label': setting['label']
-                })
-
-                # Collect stage counts
-                knowledge_count = sum(agent.guilt == "L" for agent in model.schedule.agents)
-                motivation_count = sum(agent.m_st == "L" and agent.guilt == "H" for agent in model.schedule.agents)
-                consideration_count = sum(agent.c_st == "L" and agent.m_st == "H" for agent in model.schedule.agents)
-                action_count = sum(agent.adopted for agent in model.schedule.agents)
-                habit_count = sum(agent.user_status == "frequent_user" for agent in model.schedule.agents)
-
-                stage_rows.append({
-                    'Quarters': quarter + 1,
-                    'Knowledge': knowledge_count,
-                    'Motivation': motivation_count,
-                    'Consideration': consideration_count,
-                    'Action': action_count,
-                    'Habit': habit_count,
-                    'Label': setting['label']
-                })
-
-            print(f"Completed run {run + 1}/{num_runs} for setting: {setting['label']}")
-
-        avg_adoption_rate = np.mean(all_adoption_rates, axis=0)
-        std_adoption_rate = np.std(all_adoption_rates, axis=0)
-
-        avg_emissions_savings = np.mean(all_emissions_savings, axis=0)
-        std_emissions_savings = np.std(all_emissions_savings, axis=0)
-
-        # Create rows to append to the DataFrame for adoption rate
-        for quarter in range(num_quarters):
-            adoption_rate_rows.append({
-                'Quarters': quarter + 1,
-                'AvgAdoptionRate': avg_adoption_rate[quarter],
-                'StdAdoptionRate': std_adoption_rate[quarter],
-                'Label': setting['label']
-            })
-
-        # Create rows to append to the DataFrame for emissions savings
-        for quarter in range(num_quarters):
-            emissions_savings_rows.append({
-                'Quarters': quarter + 1,
-                'AvgEmissionsSavings': avg_emissions_savings[quarter],
-                'StdEmissionsSavings': std_emissions_savings[quarter],
-                'Label': setting['label']
-            })
-
-        # Convert lists to DataFrames
-        adoption_rate_df = pd.DataFrame(adoption_rate_rows)
-        emissions_savings_df = pd.DataFrame(emissions_savings_rows)
-        user_status_df = pd.DataFrame(user_status_rows)
-        stage_df = pd.DataFrame(stage_rows)
-        district_adoption_df = pd.DataFrame(district_adoption_rows)  # Convert district adoption data to DataFrame
+    # Collect and save all results
+    for result in results:
+        adoption_rate_df = pd.DataFrame(result['adoption_rate_rows'])
+        emissions_savings_df = pd.DataFrame(result['emissions_savings_rows'])
+        user_status_df = pd.DataFrame(result['user_status_rows'])
+        stage_df = pd.DataFrame(result['stage_rows'])
+        district_adoption_df = pd.DataFrame(result['district_adoption_rows'])
 
         # Append to existing files or create new ones if they don't exist
         append_or_create_csv(adoption_rate_df, os.path.join(results_folder, 'adoption_rate_combined.csv'))
         append_or_create_csv(emissions_savings_df, os.path.join(results_folder, 'emissions_savings_combined.csv'))
         append_or_create_csv(user_status_df, os.path.join(results_folder, 'user_status_combined.csv'))
         append_or_create_csv(stage_df, os.path.join(results_folder, 'stage_combined.csv'))
-        append_or_create_csv(district_adoption_df, os.path.join(results_folder, 'district_adoption_combined.csv'))  # Save district adoption data
+        append_or_create_csv(district_adoption_df, os.path.join(results_folder, 'district_adoption_combined.csv'))
 
     print("Simulation and data saving complete for all scenarios.")
 
