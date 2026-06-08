@@ -16,3 +16,7 @@
 2. Select your `case-study` (**ES** or **NL**) on the interface.
 3. Click **Setup** to load empirical data and initialize agents.
 4. Click **Go** to run the simulation.
+
+Alternatively can run through a python script.
+1. Set up the uv environment
+2. Run main.
