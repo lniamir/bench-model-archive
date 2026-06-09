@@ -60,6 +60,7 @@ def main(iters):
     # Import coefficients
     coef_fn = os.listdir('output/coefficients')
     coefs = {}
+    
     for fn in coef_fn:
         var = fn.split('__')
         if 'coefficients' in var[1]:
