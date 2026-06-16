@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BENCH Model Family</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      color: #1a1a1a;
+      background: #f9f9f7;
+      line-height: 1.6;
+    }
+
+    h1 { font-size: 1.9rem; margin-bottom: 0.25rem; }
+    .subtitle { color: #555; font-style: italic; margin-top: 0; margin-bottom: 1.5rem; }
+    .intro { max-width: 700px; color: #333; margin-bottom: 2rem; }
+    .hint { font-family: sans-serif; font-size: 0.85rem; color: #666; margin-bottom: 0.6rem; }
+
+    /* Diagram */
+    .diagram-wrap {
+      position: relative;
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 2.5rem;
+    }
+    .diagram-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    /* Clickable hotspots overlaid on the diagram */
+    .hotspot {
+      position: absolute;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .hotspot:hover {
+      background: rgba(30, 100, 200, 0.18);
+      border-color: rgba(30, 100, 200, 0.6);
+    }
+    .hotspot-label {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      font-family: sans-serif;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .hotspot:hover .hotspot-label { display: block; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 92%;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    }
+    .modal-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      color: #777;
+    }
+    .modal-close:hover { color: #222; }
+
+    .modal h2 { margin: 0 0 0.4rem; font-size: 1.35rem; }
+    .lang-tag {
+      display: inline-block;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 0.15rem 0.55rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-family: monospace;
+      margin-bottom: 1rem;
+    }
+    .modal p { color: #444; margin: 0 0 1.2rem; }
+
+    .modal-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.45rem 1.1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-family: sans-serif;
+      font-size: 0.88rem;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.82; }
+    .btn-download { background: #1d4ed8; color: #fff; }
+    .btn-paper   { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+    .btn-paper.unavailable { color: #9ca3af; cursor: default; }
+    .btn-paper.unavailable:hover { opacity: 1; }
+
+    /* Model table */
+    hr { border: none; border-top: 1px solid #ddd; margin: 2.5rem 0; }
+    h2.section { font-size: 1.2rem; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 0.9rem; }
+    th { text-align: left; border-bottom: 2px solid #ccc; padding: 0.5rem 0.6rem; color: #555; font-weight: 600; }
+    td { padding: 0.55rem 0.6rem; border-bottom: 1px solid #eee; vertical-align: top; }
+    td a { color: #1d4ed8; }
+    tr:last-child td { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <h1>BENCH Model Family</h1>
+  <p class="subtitle">Behavioral change in ENergy Consumption of Households</p>
+
+  <p class="intro">
+    A family of agent-based models studying how individual behaviour, social dynamics, and policy
+    interact to shape energy consumption and carbon emissions at household and urban scales.
+    Click any active model in the diagram to download the code or view the associated publication.
+  </p>
+
+  <p class="hint">Click a highlighted model node to download or view its paper.</p>
+
+  <div class="diagram-wrap" id="diagram-wrap">
+    <img src="BENCH_Family_Models_diagram.svg" alt="BENCH Model Family Diagram" id="diagram-img">
+
+    <!--
+      Hotspot positions are percentages derived from the SVG viewBox (978 × 911).
+      Each rect: x/978 = left%, y/911 = top%, w/978 = width%, h/911 = height%
+    -->
+    <div class="hotspot" data-model="actmob"
+         style="left:54.91%; top:0.11%; width:12.27%; height:6.59%">
+      <span class="hotspot-label">BENCH_ActMob</span>
+    </div>
+    <div class="hotspot" data-model="bss"
+         style="left:21.17%; top:0.11%; width:12.27%; height:6.59%">
+      <span class="hotspot-label">BENCH_BSS</span>
+    </div>
+    <div class="hotspot" data-model="v2"
+         style="left:38.55%; top:90.12%; width:12.27%; height:6.59%">
+      <span class="hotspot-label">BENCH_v.2</span>
+    </div>
+    <div class="hotspot" data-model="v4"
+         style="left:69.22%; top:90.12%; width:12.27%; height:6.59%">
+      <span class="hotspot-label">BENCH_v.4</span>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <h2 id="modal-title"></h2>
+      <span class="lang-tag" id="modal-lang"></span>
+      <p id="modal-desc"></p>
+      <div class="modal-links" id="modal-links"></div>
+    </div>
+  </div>
+
+  <hr>
+  <h2 class="section">All models</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Language</th>
+        <th>Publication</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BENCH_v.2</strong></td>
+        <td>NetLogo</td>
+        <td><a href="https://link.springer.com/article/10.1007/s10584-019-02566-8" target="_blank">
+          Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)
+        </a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_v2" target="_blank">Release</a></td>
+      </tr>
+      <tr>
+        <td><strong>BENCH_BSS</strong></td>
+        <td>Python 3.9 (Mesa)</td>
+        <td>Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)</td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_BSS" target="_blank">Release</a></td>
+      </tr>
+      <tr>
+        <td><strong>BENCH_v.4</strong></td>
+        <td>NetLogo</td>
+        <td><a href="https://www.sciencedirect.com/science/article/pii/S2214629624000367" target="_blank">
+          Energizing building renovation: Unraveling the dynamic interplay of building stock evolution, individual behaviour, and social norms (2024)
+        </a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_v4" target="_blank">Release</a></td>
+      </tr>
+      <tr>
+        <td><strong>BENCH_ActMob</strong></td>
+        <td>Python (Mesa)</td>
+        <td><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470" target="_blank">
+          Urban Strategies for Active Mobility in Vienna (2026)
+        </a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_ActMob" target="_blank">Release</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    const RELEASES = 'https://github.com/lniamir/bench-model-archive/releases/tag/';
+
+    const MODEL_DATA = {
+      actmob: {
+        title: 'BENCH_ActMob',
+        lang: 'Python (Mesa)',
+        desc: 'Agent-based model of active mobility adoption in urban areas, with a case study of Vienna.',
+        paper: {
+          label: 'Urban Strategies for Active Mobility in Vienna (2026)',
+          url: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470',
+        },
+        release: 'BENCH_ActMob',
+      },
+      bss: {
+        title: 'BENCH_BSS',
+        lang: 'Python 3.9 (Mesa)',
+        desc: 'Agent-based model of bike-sharing service adoption in urban areas, applied to Vienna.',
+        paper: {
+          label: 'Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)',
+          url: null,
+        },
+        release: 'BENCH_BSS',
+      },
+      v2: {
+        title: 'BENCH_v.2',
+        lang: 'NetLogo',
+        desc: 'Macroeconomic agent-based model assessing how individual behavioural change propagates to carbon emissions at scale.',
+        paper: {
+          label: 'Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)',
+          url: 'https://link.springer.com/article/10.1007/s10584-019-02566-8',
+        },
+        release: 'BENCH_v2',
+      },
+      v4: {
+        title: 'BENCH_v.4',
+        lang: 'NetLogo',
+        desc: 'Models building renovation adoption dynamics, integrating building stock evolution, individual behaviour, and social norms.',
+        paper: {
+          label: 'Energizing building renovation (2024)',
+          url: 'https://www.sciencedirect.com/science/article/pii/S2214629624000367',
+        },
+        release: 'BENCH_v4',
+      },
+    };
+
+    const overlay  = document.getElementById('modal-overlay');
+    const closeBtn = document.getElementById('modal-close');
+
+    function openModal(key) {
+      const m = MODEL_DATA[key];
+      document.getElementById('modal-title').textContent = m.title;
+      document.getElementById('modal-lang').textContent  = m.lang;
+      document.getElementById('modal-desc').textContent  = m.desc;
+
+      const linksEl = document.getElementById('modal-links');
+      linksEl.innerHTML = '';
+
+      const dl = document.createElement('a');
+      dl.href      = RELEASES + m.release;
+      dl.target    = '_blank';
+      dl.className = 'btn btn-download';
+      dl.textContent = 'Download code';
+      linksEl.appendChild(dl);
+
+      if (m.paper.url) {
+        const paper = document.createElement('a');
+        paper.href      = m.paper.url;
+        paper.target    = '_blank';
+        paper.className = 'btn btn-paper';
+        paper.title     = m.paper.label;
+        paper.textContent = 'View paper';
+        linksEl.appendChild(paper);
+      } else {
+        const paper = document.createElement('span');
+        paper.className   = 'btn btn-paper unavailable';
+        paper.textContent = 'Paper coming soon';
+        linksEl.appendChild(paper);
+      }
+
+      overlay.classList.add('open');
+    }
+
+    document.querySelectorAll('.hotspot').forEach(el => {
+      el.addEventListener('click', () => openModal(el.dataset.model));
+    });
+
+    closeBtn.addEventListener('click', () => overlay.classList.remove('open'));
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') overlay.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>
