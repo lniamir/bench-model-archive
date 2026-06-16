@@ -45,6 +45,7 @@ bench-model-archive/
 │   └── BENCH_Family_Models_diagram.drawio  # Editable diagram source
 ├── models/                            # Contained model directories
 │   ├── BENCH_v.2/                     # NetLogo
+│   ├── BENCH_v.3/                     # NetLogo — CGE-ABM integration
 │   ├── BENCH_BSS/                     # Python (Mesa) — bike-sharing
 │   ├── BENCH_v.4/                     # NetLogo — building renovation
 │   ├── BENCH_ActMob/                  # Python (Mesa) — active mobility
