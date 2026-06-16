@@ -105,13 +105,13 @@
         <mxCell id="OnS6I9qU9okV_MXKLkM--10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=16;strokeWidth=3;" value="BENCH_EC" vertex="1">
           <mxGeometry height="60" width="120" x="760" y="330" as="geometry" />
         </mxCell>
-        <mxCell id="OnS6I9qU9okV_MXKLkM--24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#D6B656;fontSize=16;strokeWidth=1;" value="BENCH_v.1" vertex="1">
+        <mxCell id="OnS6I9qU9okV_MXKLkM--24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=16;strokeWidth=3;" value="BENCH_v.1" vertex="1">
           <mxGeometry height="60" width="120" x="300" y="820" as="geometry" />
         </mxCell>
         <mxCell id="OnS6I9qU9okV_MXKLkM--25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=16;strokeWidth=3;" value="BENCH_v.2" vertex="1">
           <mxGeometry height="60" width="120" x="450" y="820" as="geometry" />
         </mxCell>
-        <mxCell id="OnS6I9qU9okV_MXKLkM--26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#D6B656;fontSize=16;strokeWidth=1;" value="BENCH_v.3" vertex="1">
+        <mxCell id="OnS6I9qU9okV_MXKLkM--26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=16;strokeWidth=3;" value="BENCH_v.3" vertex="1">
           <mxGeometry height="60" width="120" x="600" y="820" as="geometry" />
         </mxCell>
         <mxCell id="OnS6I9qU9okV_MXKLkM--27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=16;strokeWidth=3;" value="BENCH_v.4" vertex="1">

@@ -206,12 +206,28 @@
     </thead>
     <tbody>
       <tr>
+        <td><strong>BENCH_v.1</strong></td>
+        <td>NetLogo</td>
+        <td><a href="https://doi.org/10.1016/j.enpol.2018.03.045" target="_blank">
+          Transition to low-carbon economy: Assessing cumulative impacts of individual behavioral changes (2018)
+        </a></td>
+        <td>—</td>
+      </tr>
+      <tr>
         <td><strong>BENCH_v.2</strong></td>
         <td>NetLogo</td>
         <td><a href="https://link.springer.com/article/10.1007/s10584-019-02566-8" target="_blank">
           Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)
         </a></td>
         <td><a href="https://github.com/lniamir/bench-model-archive/releases/download/v1.0/BENCH_v2_clean.zip" target="_blank">Download</a></td>
+      </tr>
+      <tr>
+        <td><strong>BENCH_v.3</strong></td>
+        <td>NetLogo</td>
+        <td><a href="https://doi.org/10.1016/j.envsoft.2020.104839" target="_blank">
+          Economy-wide impacts of behavioral climate change mitigation: Linking agent-based and computable general equilibrium models (2020)
+        </a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/download/v1.0/BENCH_v3_clean.zip" target="_blank">Download</a></td>
       </tr>
       <tr>
         <td><strong>BENCH_BSS</strong></td>
@@ -263,13 +279,23 @@
       },
       bss: {
         title: 'BENCH_BSS',
-        lang: 'Python 3.9 (Mesa)',
+        lang: 'Python (Mesa)',
         desc: 'Agent-based model of bike-sharing service adoption in urban areas, applied to Vienna.',
         paper: {
           label: 'Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)',
           url: null,
         },
         download: RELEASE_BASE + 'BENCH_BSS_clean.zip',
+      },
+      v1: {
+        title: 'BENCH_v.1',
+        lang: 'NetLogo',
+        desc: 'Changing residential energy demand can play an essential role in transitioning to a green economy. Environmental psychology suggests that behavioral changes regarding energy use are affected by knowledge, awareness, motivation and social learning. Data on various behavioral drivers of change can explain energy use at the individual level, but it provides little information about implications for macro energy demand on regional or national levels. We address this challenge by presenting a theoretically-based and empirically-driven agent-based model to track aggregated impacts of behavioral changes among heterogeneous households. We focus on the representation of the multi-step changes in individual energy use behavior and on a quantitative assessment of their aggregated impacts on the regional level. We understand the behavioral complexity of household energy use as a dynamic process unfolding in stages, and explore the barriers for utilizing the full potential of a region for emissions reduction. We suggest a policy mix that facilitates mutual learning among consumers.',
+        paper: {
+          label: 'Transition to low-carbon economy: Assessing cumulative impacts of individual behavioral changes (2018)',
+          url: 'https://doi.org/10.1016/j.enpol.2018.03.045',
+        },
+        download: null,
       },
       v2: {
         title: 'BENCH_v.2',
@@ -280,6 +306,16 @@
           url: 'https://link.springer.com/article/10.1007/s10584-019-02566-8',
         },
         download: RELEASE_BASE + 'BENCH_v2_clean.zip',
+      },
+      v3: {
+        title: 'BENCH_v.3',
+        lang: 'NetLogo',
+        desc: 'Households are responsible for a significant share of global greenhouse emissions. Hence, academic and policy discourses highlight behavioral changes among households as an essential strategy for combating climate change. However, formal models used to assess economic impacts of energy policies face limitations in tracing cumulative impacts of adaptive behavior of diverse households. The past decade has witnessed a proliferation of agent-based simulation models that quantify behavioral climate change mitigation relying on social science theories and micro-level survey data. Yet, these behaviorally-rich models usually operate on a small scale of neighborhoods, towns, and small regions, ignoring macro-scale social institutions such as international markets and rarely covering large areas relevant for climate change mitigation policy. This paper presents a methodology to scale up behavioral changes among heterogeneous individuals regarding energy choices while tracing their macroeconomic and cross-sectoral impacts. To achieve this goal, we combine the strengths of top-down computable general equilibrium models and bottom-up agent-based models. We illustrate the integration process of these two alien modeling approaches by linking data-rich macroeconomic with micro-behavioral models. Following a three-step approach, we investigate the dynamics of cumulative impacts of changes in individual energy use under three behavioral scenarios. Our findings demonstrate that the regional dimension is important in a low-carbon economy transition. Heterogeneity in individual socio-demographics (e.g. education and age), structural characteristics (e.g. type and size of dwellings), behavioral and social traits (e.g. awareness and personal norms), and social interactions amplify these differences, causing nonlinearities in diffusion of green investments among households and macro-economic dynamics.',
+        paper: {
+          label: 'Economy-wide impacts of behavioral climate change mitigation: Linking agent-based and computable general equilibrium models (2020)',
+          url: 'https://doi.org/10.1016/j.envsoft.2020.104839',
+        },
+        download: RELEASE_BASE + 'BENCH_v3_clean.zip',
       },
       v4: {
         title: 'BENCH_v.4',
