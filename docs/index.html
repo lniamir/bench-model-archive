@@ -207,21 +207,21 @@
         <td><a href="https://link.springer.com/article/10.1007/s10584-019-02566-8" target="_blank">
           Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)
         </a></td>
-        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_v2" target="_blank">Release</a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/v1.0" target="_blank">Release</a></td>
       </tr>
       <tr>
         <td><strong>BENCH_BSS</strong></td>
-        <td>Python 3.9 (Mesa)</td>
+        <td>Python (Mesa)</td>
         <td>Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)</td>
-        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_BSS" target="_blank">Release</a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/download/v1.0/BENCH_BSS_clean.zip" target="_blank">Download</a></td>
       </tr>
       <tr>
         <td><strong>BENCH_v.4</strong></td>
         <td>NetLogo</td>
-        <td><a href="https://www.sciencedirect.com/science/article/pii/S2214629624000367" target="_blank">
+        <td><a href="https://doi.org/10.1016/j.erss.2024.103445" target="_blank">
           Energizing building renovation: Unraveling the dynamic interplay of building stock evolution, individual behaviour, and social norms (2024)
         </a></td>
-        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_v4" target="_blank">Release</a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/download/v1.0/BENCH_v4_clean.zip" target="_blank">Download</a></td>
       </tr>
       <tr>
         <td><strong>BENCH_ActMob</strong></td>
@@ -229,13 +229,14 @@
         <td><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470" target="_blank">
           Urban Strategies for Active Mobility in Vienna (2026)
         </a></td>
-        <td><a href="https://github.com/lniamir/bench-model-archive/releases/tag/BENCH_ActMob" target="_blank">Release</a></td>
+        <td><a href="https://github.com/lniamir/bench-model-archive/releases/download/v1.0/BENCH_ActMob_clean.zip" target="_blank">Download</a></td>
       </tr>
     </tbody>
   </table>
 
   <script>
-    const RELEASES = 'https://github.com/lniamir/bench-model-archive/releases/tag/';
+    const RELEASE_BASE = 'https://github.com/lniamir/bench-model-archive/releases/download/v1.0/';
+    const RELEASES_PAGE = 'https://github.com/lniamir/bench-model-archive/releases/tag/v1.0';
 
     const MODEL_DATA = {
       actmob: {
@@ -246,7 +247,7 @@
           label: 'Urban Strategies for Active Mobility in Vienna (2026)',
           url: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470',
         },
-        release: 'BENCH_ActMob',
+        download: RELEASE_BASE + 'BENCH_ActMob_clean.zip',
       },
       bss: {
         title: 'BENCH_BSS',
@@ -256,7 +257,7 @@
           label: 'Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)',
           url: null,
         },
-        release: 'BENCH_BSS',
+        download: RELEASE_BASE + 'BENCH_BSS_clean.zip',
       },
       v2: {
         title: 'BENCH_v.2',
@@ -266,7 +267,7 @@
           label: 'Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)',
           url: 'https://link.springer.com/article/10.1007/s10584-019-02566-8',
         },
-        release: 'BENCH_v2',
+        download: RELEASES_PAGE,
       },
       v4: {
         title: 'BENCH_v.4',
@@ -276,7 +277,7 @@
           label: 'Energizing building renovation (2024)',
           url: 'https://www.sciencedirect.com/science/article/pii/S2214629624000367',
         },
-        release: 'BENCH_v4',
+        download: RELEASE_BASE + 'BENCH_v4_clean.zip',
       },
     };
 
@@ -293,7 +294,7 @@
       linksEl.innerHTML = '';
 
       const dl = document.createElement('a');
-      dl.href      = RELEASES + m.release;
+      dl.href      = m.download;
       dl.target    = '_blank';
       dl.className = 'btn btn-download';
       dl.textContent = 'Download code';

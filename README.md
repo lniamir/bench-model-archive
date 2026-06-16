@@ -14,7 +14,7 @@ Welcome to the central repository for the **BENCH (The Behavioral change in ENer
 | Model Directory | Language | Associated publication |
 | :--- | :--- | :--- |
 | [**BENCH_v.2**](./models/BENCH_v.2) | NetLogo | [Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)](https://link.springer.com/article/10.1007/s10584-019-02566-8) |
-| [**BENCH_BSS**](./models/BENCH_BSS) | Python 3.9 (Mesa) | Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024) |
+| [**BENCH_BSS**](./models/BENCH_BSS) | Python (Mesa) | Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024) |
 | [**BENCH_v.4**](./models/BENCH_v04) | NetLogo | [Energizing building renovation: Unraveling the dynamic interplay of building stock evolution, individual behaviour, and social norms (2024)](https://www.sciencedirect.com/science/article/pii/S2214629624000367) |
 | [**BENCH_ActMob**](./models/BENCH_ActMob) | Python (Mesa) | [Urban Strategies for Active Mobility in Vienna (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470) |
 
