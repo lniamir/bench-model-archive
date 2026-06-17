@@ -48,7 +48,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 0.75rem;
       align-items: flex-start;
     }
     .selector-group label {
@@ -80,27 +80,23 @@
       border-color: #1d4ed8;
     }
 
-    /* metric select */
-    .selector-group select {
-      font-family: sans-serif;
-      font-size: 0.88rem;
-      padding: 0.35rem 0.7rem;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      background: #fff;
-      color: #1a1a1a;
-      cursor: pointer;
+    /* ── 2×2 chart grid ── */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
     }
+    @media (max-width: 620px) { .charts-grid { grid-template-columns: 1fr; } }
 
-    /* ── Chart ── */
-    .chart-wrap {
+    .chart-panel {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 1.25rem 1.25rem 0.75rem;
-      margin-bottom: 2rem;
+      padding: 0.7rem 0.7rem 0.4rem;
+      position: relative;
+      height: 230px;
     }
-    #mainChart { max-height: 340px; }
 
     /* ── Sliders ── */
     .sliders-section h2 {
@@ -156,10 +152,7 @@
       color: #9ca3af;
       margin-bottom: 0.45rem;
     }
-    .default-marker span {
-      color: #6b7280;
-      font-weight: 600;
-    }
+    .default-marker span { color: #6b7280; font-weight: 600; }
 
     input[type="range"] {
       width: 100%;
@@ -217,21 +210,27 @@
   <p class="subtitle">Explore how behavioral thresholds shape household renovation decisions (2016–2050)</p>
 
   <p class="intro">
-    Select a case study and learning mode, then move a slider to see how changing
-    a single behavioral threshold alters the model output over time.
-    Results are pre-computed from 100 independent Monte Carlo runs per scenario;
-    shaded bands show the 95% confidence interval.
+    Move a slider to see how changing a single behavioral threshold alters all four model
+    outputs over time. The dashed grey line shows the baseline (empirical defaults);
+    the blue line shows your selection with a shaded 95% confidence interval.
   </p>
 
   <p class="ofat-note">
-    This explorer uses <strong>one-factor-at-a-time</strong> (OFAT) analysis: each slider
-    varies its parameter while all others remain at their empirical defaults.
-    Moving a new slider resets the previous one.
+    <strong>One-factor-at-a-time:</strong> each slider varies its parameter while all others
+    remain at their empirical defaults. Moving a new slider automatically resets the previous one.
   </p>
 
   <div id="status">Loading scenario data…</div>
 
   <div id="app" class="hidden">
+
+    <!-- 2×2 chart grid -->
+    <div class="charts-grid">
+      <div class="chart-panel"><canvas id="chart-pct_renovated"></canvas></div>
+      <div class="chart-panel"><canvas id="chart-total_gas_saved_kwh"></canvas></div>
+      <div class="chart-panel"><canvas id="chart-avg_aware"></canvas></div>
+      <div class="chart-panel"><canvas id="chart-high_m1_pct"></canvas></div>
+    </div>
 
     <!-- Scenario selectors -->
     <div class="selectors">
@@ -243,21 +242,15 @@
         <label>Learning mode</label>
         <div class="btn-group" id="learning-btns"></div>
       </div>
-      <div class="selector-group">
-        <label>Metric</label>
-        <select id="metric-select"></select>
-      </div>
     </div>
 
-    <!-- Chart -->
-    <div class="chart-wrap">
-      <canvas id="mainChart"></canvas>
-    </div>
+    <!-- Run info -->
+    <p id="run-info" style="font-family:sans-serif;font-size:0.82rem;color:#6b7280;margin:0 0 1.75rem;"></p>
 
     <!-- Sliders -->
     <div class="sliders-section">
       <h2>Behavioral Thresholds</h2>
-      <p class="hint">Click a card to make it active, then drag the slider.</p>
+      <p class="hint">Drag a slider to explore its effect — all four charts update simultaneously.</p>
       <div class="sliders-grid" id="sliders-grid"></div>
       <button class="reset-btn" id="reset-btn">Reset all to defaults</button>
     </div>
@@ -266,7 +259,7 @@
 
   <hr>
   <footer>
-    Pre-computed from BENCH v.4 (Python) · 100 seeds per scenario ·
+    Pre-computed from BENCH v.4 (Python) ·
     <a href="https://github.com/danielTorren/bench_py_v4" target="_blank">Model source</a> ·
     <a href="index.html">Full archive</a>
   </footer>
@@ -275,21 +268,30 @@
   (() => {
     // ── State ──────────────────────────────────────────────────────────────
     let DATA = null;
-    let chart = null;
+    const charts = {};
+
+    const METRIC_ORDER = [
+      'pct_renovated',
+      'total_gas_saved_kwh',
+      'avg_aware',
+      'high_m1_pct',
+    ];
+
+    // Index to pre-select on load: guilt at slider position 3 (~2.6 on 1–7 scale)
+    const DEMO_PARAM = 'guilt';
+    const DEMO_IDX   = 3;
 
     const state = {
       case:        'NL',
       learning:    'Informative',
-      metric:      'pct_renovated',
-      activeParam: null,      // which slider is currently active
-      sliderIdx:   {},        // param → current value index (default = closest to empirical)
+      activeParam: null,
+      sliderIdx:   {},
     };
 
     // ── Helpers ────────────────────────────────────────────────────────────
 
-    /** Find index in param values array closest to the empirical default. */
     function defaultIdx(param) {
-      const vals = DATA.params[param].values;
+      const vals   = DATA.params[param].values;
       const target = DATA.defaults[state.case][param];
       let best = 0, bestDist = Infinity;
       vals.forEach((v, i) => {
@@ -311,113 +313,158 @@
 
     function fmtVal(v) { return v.toFixed(2); }
 
-    // ── Chart ──────────────────────────────────────────────────────────────
+    function updateRunInfo() {
+      const nHH    = DATA.n_households[state.case].toLocaleString();
+      const nSeeds = DATA.n_seeds;
+      document.getElementById('run-info').textContent =
+        `${nHH} households · ${nSeeds} Monte Carlo runs per scenario`;
+    }
 
-    function buildChart() {
-      const ctx = document.getElementById('mainChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: { labels: DATA.years, datasets: [] },
-        options: {
-          animation: false,
-          responsive: true,
-          maintainAspectRatio: true,
-          interaction: { mode: 'index', intersect: false },
-          plugins: {
-            legend: { display: true, position: 'top', labels: { font: { family: 'sans-serif', size: 11 }, boxWidth: 20 } },
-            tooltip: {
-              callbacks: {
-                label(ctx) {
-                  if (ctx.dataset.label === '') return null;
-                  const unit = DATA.metrics[state.metric].unit;
-                  return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}${unit ? ' ' + unit : ''}`;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              title: { display: true, text: 'Year', font: { family: 'sans-serif', size: 11 } },
-              ticks: { font: { family: 'sans-serif', size: 10 } },
-            },
-            y: {
+    // ── Charts ─────────────────────────────────────────────────────────────
+
+    function yearTick(value, index) {
+      const year = DATA.years[index];
+      return (year === DATA.years[0] || year % 5 === 0) ? year : null;
+    }
+
+    function buildCharts() {
+      METRIC_ORDER.forEach((metric, i) => {
+        const isBottom = i >= 2;
+        const mInfo    = DATA.metrics[metric];
+        const ctx      = document.getElementById(`chart-${metric}`).getContext('2d');
+
+        charts[metric] = new Chart(ctx, {
+          type: 'line',
+          data: { labels: DATA.years, datasets: [] },
+          options: {
+            animation: false,
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              // Legend only on first chart; all datasets share same meaning
+              legend: {
+                display: i === 0,
+                position: 'top',
+                labels: {
+                  font: { family: 'sans-serif', size: 10 },
+                  boxWidth: 16,
+                  filter: item => item.text !== '',
+                },
+              },
               title: {
                 display: true,
-                text: '',
-                font: { family: 'sans-serif', size: 11 }
+                text: `${mInfo.label}${mInfo.unit ? ' (' + mInfo.unit + ')' : ''}`,
+                font: { family: 'sans-serif', size: 11, weight: '600' },
+                color: '#374151',
+                padding: { top: 0, bottom: 4 },
               },
-              ticks: { font: { family: 'sans-serif', size: 10 } },
-            }
-          }
-        }
+              tooltip: {
+                callbacks: {
+                  label(ctx) {
+                    if (!ctx.dataset.label) return null;
+                    return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  display: isBottom,
+                  font: { family: 'sans-serif', size: 9 },
+                  callback: yearTick,
+                  maxRotation: 0,
+                  autoSkip: false,
+                },
+                grid: { color: '#f3f4f6' },
+              },
+              y: {
+                ticks: { font: { family: 'sans-serif', size: 9 } },
+                grid: { color: '#f3f4f6' },
+              },
+            },
+          },
+        });
       });
     }
 
-    function updateChart() {
-      const metric   = state.metric;
-      const mInfo    = DATA.metrics[metric];
-      const years    = DATA.years;
+    function updateCharts() {
       const baseline = DATA.scenarios[baselineKey()];
       const current  = DATA.scenarios[scenarioKey()];
 
-      const datasets = [];
-
-      // CI band for current scenario (hi then lo fill)
-      datasets.push({
-        label: '',
-        data: current[metric].hi,
-        borderWidth: 0,
-        pointRadius: 0,
-        fill: '+1',
-        backgroundColor: 'rgba(29, 78, 216, 0.12)',
-        tension: 0.2,
-      });
-      datasets.push({
-        label: '',
-        data: current[metric].lo,
-        borderWidth: 0,
-        pointRadius: 0,
-        fill: false,
-        backgroundColor: 'transparent',
-        tension: 0.2,
-      });
-
-      // Mean line — current scenario
       const selLabel = state.activeParam
         ? `${DATA.params[state.activeParam].label} = ${fmtVal(DATA.params[state.activeParam].values[state.sliderIdx[state.activeParam]])}`
         : 'Baseline';
-      datasets.push({
-        label: selLabel,
-        data: current[metric].mean,
-        borderColor: '#1d4ed8',
-        borderWidth: 2.5,
-        pointRadius: 0,
-        fill: false,
-        tension: 0.2,
-      });
 
-      // Baseline dashed line (only when a non-default scenario is selected)
-      if (state.activeParam) {
+      METRIC_ORDER.forEach((metric, i) => {
+        const showLegend = i === 0;
+        const datasets = [];
+
+        // CI band (hi → lo fill)
         datasets.push({
-          label: 'Baseline (defaults)',
-          data: baseline[metric].mean,
-          borderColor: '#9ca3af',
-          borderWidth: 1.5,
-          borderDash: [5, 4],
+          label: showLegend ? '95% confidence interval' : '',
+          data: current[metric].hi,
+          borderWidth: 0,
+          pointRadius: 0,
+          fill: '+1',
+          backgroundColor: 'rgba(29, 78, 216, 0.13)',
+          tension: 0.2,
+        });
+        datasets.push({
+          label: '',
+          data: current[metric].lo,
+          borderWidth: 0,
+          pointRadius: 0,
+          fill: false,
+          backgroundColor: 'transparent',
+          tension: 0.2,
+        });
+
+        // Mean — selected scenario
+        datasets.push({
+          label: showLegend ? selLabel : '',
+          data: current[metric].mean,
+          borderColor: '#1d4ed8',
+          borderWidth: 2.5,
           pointRadius: 0,
           fill: false,
           tension: 0.2,
         });
-      }
 
-      chart.data.labels   = years;
-      chart.data.datasets = datasets;
-      chart.options.scales.y.title.text =
-        `${mInfo.label}${mInfo.unit ? ' (' + mInfo.unit + ')' : ''}`;
-      chart.update('none');
+        // Baseline dashed (only when a parameter is varied)
+        if (state.activeParam) {
+          datasets.push({
+            label: showLegend ? 'Baseline (defaults)' : '',
+            data: baseline[metric].mean,
+            borderColor: '#9ca3af',
+            borderWidth: 1.5,
+            borderDash: [5, 4],
+            pointRadius: 0,
+            fill: false,
+            tension: 0.2,
+          });
+        }
+
+        charts[metric].data.datasets = datasets;
+        charts[metric].update('none');
+      });
     }
 
     // ── Sliders ────────────────────────────────────────────────────────────
+
+    function snapOthersToDefault(activeParam) {
+      Object.keys(DATA.params).forEach(other => {
+        if (other === activeParam) return;
+        const di = defaultIdx(other);
+        state.sliderIdx[other] = di;
+        const el = document.getElementById(`slider-${other}`);
+        if (el) el.value = di;
+        const valEl = document.getElementById(`val-${other}`);
+        if (valEl) valEl.textContent = fmtVal(DATA.params[other].values[di]);
+        document.querySelector(`.slider-card[data-param="${other}"]`)?.classList.remove('active');
+      });
+    }
 
     function buildSliders() {
       const grid = document.getElementById('sliders-grid');
@@ -437,8 +484,7 @@
             <span class="param-value" id="val-${param}">${fmtVal(pinfo.values[defIdx])}</span>
           </div>
           <div class="default-marker">
-            Empirical default:
-            <span id="def-${param}">${fmtVal(DATA.defaults[state.case][param])}</span>
+            Empirical default: <span id="def-${param}">${fmtVal(DATA.defaults[state.case][param])}</span>
           </div>
           <input type="range"
             id="slider-${param}"
@@ -449,34 +495,33 @@
             <span>${fmtVal(pinfo.values[pinfo.values.length - 1])}</span>
           </div>`;
 
-        // Activate card on click
-        card.addEventListener('click', () => activateParam(param));
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.slider-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          state.activeParam = state.sliderIdx[param] === defaultIdx(param) ? null : param;
+          updateCharts();
+        });
 
-        // Update on slider drag
         card.querySelector(`#slider-${param}`).addEventListener('input', e => {
-          activateParam(param);
           const idx = parseInt(e.target.value, 10);
+
+          // Snap all others back to defaults
+          snapOthersToDefault(param);
+
+          // Update this slider
           state.sliderIdx[param] = idx;
           document.getElementById(`val-${param}`).textContent = fmtVal(pinfo.values[idx]);
-          // If slider is back at default index → treat as baseline
           state.activeParam = (idx === defaultIdx(param)) ? null : param;
-          updateChart();
+          card.classList.add('active');
+
+          updateCharts();
         });
 
         grid.appendChild(card);
       });
     }
 
-    function activateParam(param) {
-      // Deactivate others
-      document.querySelectorAll('.slider-card').forEach(c => c.classList.remove('active'));
-      document.querySelector(`.slider-card[data-param="${param}"]`).classList.add('active');
-      state.activeParam = state.sliderIdx[param] === defaultIdx(param) ? null : param;
-      updateChart();
-    }
-
     function refreshSliderDefaults() {
-      // When case changes, update the displayed empirical default values
       Object.keys(DATA.params).forEach(param => {
         const el = document.getElementById(`def-${param}`);
         if (el) el.textContent = fmtVal(DATA.defaults[state.case][param]);
@@ -487,14 +532,14 @@
       state.activeParam = null;
       document.querySelectorAll('.slider-card').forEach(c => c.classList.remove('active'));
       Object.keys(DATA.params).forEach(param => {
-        const defIdx = defaultIdx(param);
-        state.sliderIdx[param] = defIdx;
-        const sliderEl = document.getElementById(`slider-${param}`);
-        if (sliderEl) sliderEl.value = defIdx;
+        const di = defaultIdx(param);
+        state.sliderIdx[param] = di;
+        const slEl = document.getElementById(`slider-${param}`);
+        if (slEl) slEl.value = di;
         const valEl = document.getElementById(`val-${param}`);
-        if (valEl) valEl.textContent = fmtVal(DATA.params[param].values[defIdx]);
+        if (valEl) valEl.textContent = fmtVal(DATA.params[param].values[di]);
       });
-      updateChart();
+      updateCharts();
     }
 
     // ── Selector builders ──────────────────────────────────────────────────
@@ -509,9 +554,11 @@
         btn.addEventListener('click', () => {
           if (state.case === c) return;
           state.case = c;
-          wrap.querySelectorAll('.btn-toggle').forEach(b => b.classList.toggle('active', b.textContent === c));
+          wrap.querySelectorAll('.btn-toggle').forEach(b =>
+            b.classList.toggle('active', b.textContent === c));
           resetAllSliders();
           refreshSliderDefaults();
+          updateRunInfo();
         });
         wrap.appendChild(btn);
       });
@@ -527,26 +574,11 @@
         btn.addEventListener('click', () => {
           if (state.learning === lm) return;
           state.learning = lm;
-          wrap.querySelectorAll('.btn-toggle').forEach(b => b.classList.toggle('active', b.textContent === lm));
-          updateChart();
+          wrap.querySelectorAll('.btn-toggle').forEach(b =>
+            b.classList.toggle('active', b.textContent === lm));
+          updateCharts();
         });
         wrap.appendChild(btn);
-      });
-    }
-
-    function buildMetricSelect() {
-      const sel = document.getElementById('metric-select');
-      sel.innerHTML = '';
-      Object.entries(DATA.metrics).forEach(([key, info]) => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = `${info.label}${info.unit ? ' (' + info.unit + ')' : ''}`;
-        if (key === state.metric) opt.selected = true;
-        sel.appendChild(opt);
-      });
-      sel.addEventListener('change', e => {
-        state.metric = e.target.value;
-        updateChart();
       });
     }
 
@@ -568,10 +600,20 @@
 
       buildCaseBtns();
       buildLearningBtns();
-      buildMetricSelect();
       buildSliders();
-      buildChart();
-      updateChart();
+      buildCharts();
+
+      // Pre-select guilt at a non-default value so the comparison is visible on load
+      state.sliderIdx[DEMO_PARAM] = DEMO_IDX;
+      state.activeParam = DEMO_PARAM;
+      const demoSlider = document.getElementById(`slider-${DEMO_PARAM}`);
+      if (demoSlider) demoSlider.value = DEMO_IDX;
+      const demoVal = document.getElementById(`val-${DEMO_PARAM}`);
+      if (demoVal) demoVal.textContent = fmtVal(DATA.params[DEMO_PARAM].values[DEMO_IDX]);
+      document.querySelector(`.slider-card[data-param="${DEMO_PARAM}"]`)?.classList.add('active');
+
+      updateCharts();
+      updateRunInfo();
 
       document.getElementById('reset-btn').addEventListener('click', resetAllSliders);
     }
