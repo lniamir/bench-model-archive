@@ -113,6 +113,7 @@
       margin-bottom: 1rem;
     }
     .modal p { color: #444; margin: 0 0 1.2rem; }
+    #modal-authors { font-size: 0.88rem; color: #6b7280; font-style: italic; margin-top: -0.6rem; }
 
     .modal-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
     .btn {
@@ -206,6 +207,7 @@
       <h2 id="modal-title"></h2>
       <span class="lang-tag" id="modal-lang"></span>
       <p id="modal-desc"></p>
+      <p id="modal-authors"></p>
       <div class="modal-links" id="modal-links"></div>
     </div>
   </div>
@@ -294,6 +296,7 @@
         title: 'BENCH_ActMob',
         lang: 'Python (Mesa)',
         desc: 'Cities promote walking and cycling to cut emissions and improve health, but behavioural drivers are often missing from transport models. This study analyses how social, infrastructural, and policy interventions jointly influence active mobility in Vienna. We develop BENCH-ActiveMob, an agent-based model grounded in Norm Activation Theory and the Theory of Planned Behaviour, calibrated with survey and official statistics to capture behavioural heterogeneity and social learning.Results show infrastructure alone has limited impact, while social interventions increase active mobility by 4.8 percentage points. Combining both raises it by 12.8–13.8 points by 2040. Adding car-free zones achieves similar gains in active mobility as higher infrastructure investment but further reduces car use, cutting emissions by up to 18.2% versus baseline.Findings suggest infrastructure is most effective when paired with measures targeting awareness, motivation, and social norms, while spatial policies like car-free zones directly reduce car dependence.',
+        authors: 'Áron Dénes Hartvig, Leila Niamir',
         paper: {
           label: 'Urban Strategies for Active Mobility in Vienna (2026)',
           url: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6604470',
@@ -304,6 +307,7 @@
         title: 'BENCH_BSS',
         lang: 'Python (Mesa)',
         desc: 'Agent-based model of bike-sharing service adoption in urban areas, applied to Vienna.',
+        authors: 'Hanbit Lee',
         paper: {
           label: 'Modelling bike-sharing service adoption in urban areas: a case study of Vienna (2024)',
           url: null,
@@ -314,6 +318,7 @@
         title: 'BENCH_v.1',
         lang: 'NetLogo',
         desc: 'Changing residential energy demand can play an essential role in transitioning to a green economy. Environmental psychology suggests that behavioral changes regarding energy use are affected by knowledge, awareness, motivation and social learning. Data on various behavioral drivers of change can explain energy use at the individual level, but it provides little information about implications for macro energy demand on regional or national levels. We address this challenge by presenting a theoretically-based and empirically-driven agent-based model to track aggregated impacts of behavioral changes among heterogeneous households. We focus on the representation of the multi-step changes in individual energy use behavior and on a quantitative assessment of their aggregated impacts on the regional level. We understand the behavioral complexity of household energy use as a dynamic process unfolding in stages, and explore the barriers for utilizing the full potential of a region for emissions reduction. We suggest a policy mix that facilitates mutual learning among consumers.',
+        authors: 'Leila Niamir, Tatiana Filatova, Alexey Voinov, Hans Bressers',
         paper: {
           label: 'Transition to low-carbon economy: Assessing cumulative impacts of individual behavioral changes (2018)',
           url: 'https://doi.org/10.1016/j.enpol.2018.03.045',
@@ -324,6 +329,7 @@
         title: 'BENCH_v.2',
         lang: 'NetLogo',
         desc: 'In the last decade, instigated by the Paris agreement and United Nations Climate Change Conferences (COP22 and COP23), the efforts to limit temperature increase to 1.5 °C above pre-industrial levels are expanding. Individual actions, especially when amplified through social dynamics, shape green energy demand and affect investments in new energy technologies that collectively can curb regional and national emissions. However, most energy-economics models—usually based on equilibrium and optimization assumptions—have a very limited representation of household heterogeneity and treat households as purely rational economic actors. This paper illustrates how computational social science models can complement traditional models by addressing this limitation. We demonstrate the usefulness of behaviorally rich agent-based computational models by simulating various behavioral and climate scenarios for residential electricity demand and compare them with the business as usual (SSP2) scenario.',
+        authors: 'Leila Niamir, Gregor Kiesewetter, Fabian Wagner, Wolfgang Schöpp, Tatiana Filatova, Alexey Voinov, Hans Bressers',
         paper: {
           label: 'Assessing the macroeconomic impacts of individual behavioral changes on carbon emissions (2020)',
           url: 'https://link.springer.com/article/10.1007/s10584-019-02566-8',
@@ -334,6 +340,7 @@
         title: 'BENCH_v.3',
         lang: 'NetLogo',
         desc: 'Households are responsible for a significant share of global greenhouse emissions. Hence, academic and policy discourses highlight behavioral changes among households as an essential strategy for combating climate change. However, formal models used to assess economic impacts of energy policies face limitations in tracing cumulative impacts of adaptive behavior of diverse households. The past decade has witnessed a proliferation of agent-based simulation models that quantify behavioral climate change mitigation relying on social science theories and micro-level survey data. Yet, these behaviorally-rich models usually operate on a small scale of neighborhoods, towns, and small regions, ignoring macro-scale social institutions such as international markets and rarely covering large areas relevant for climate change mitigation policy. This paper presents a methodology to scale up behavioral changes among heterogeneous individuals regarding energy choices while tracing their macroeconomic and cross-sectoral impacts. To achieve this goal, we combine the strengths of top-down computable general equilibrium models and bottom-up agent-based models. ',
+        authors: 'Leila Niamir, Olga Ivanova, Tatiana Filatova',
         paper: {
           label: 'Economy-wide impacts of behavioral climate change mitigation: Linking agent-based and computable general equilibrium models (2020)',
           url: 'https://doi.org/10.1016/j.envsoft.2020.104839',
@@ -344,6 +351,7 @@
         title: 'BENCH_v.4',
         lang: 'NetLogo',
         desc: 'In recent years, discussions surrounding climate change have increasingly emphasized the significance of demand-side solutions. This shift has led to an interdisciplinary and bottom-up approach aimed at supporting global efforts to mitigate climate change. However, conventional modelling tools used to understand the energy demand system and to inform policymaking often fall short in capturing bottom-up dynamics accurately and at the required level of granularity. This is particularly evident in the nuanced and complex aspects of behavioural and social changes and their interactions. This research introduces a novel coupled -agent-based and integrated assessment modelling framework designed to analyse the advantages arising from diversity in renovation decisions, social dynamics, and the evolution of residential building stocks. This study demonstrates that, to effectively formulate realistic policies leading to substantial changes in building energy demand, policymakers require decision-support tools that extend beyond the confines of the rationality principle.',
+        authors: 'Leila Niamir, Alessio Mastrucci, Bas van Ruijven',
         paper: {
           label: 'Energizing building renovation (2024)',
           url: 'https://doi.org/10.1016/j.erss.2024.103445',
@@ -354,6 +362,7 @@
         title: 'BENCH_v.4_py',
         lang: 'Python',
         desc: 'A Python translation of BENCH_v.4, recoding the NetLogo building renovation model to improve extensibility and interoperability with scientific computing libraries. It retains the coupled agent-based and integrated assessment modelling framework that analyses how diversity in renovation decisions, social dynamics, and building stock evolution interact to shape residential energy demand.',
+        authors: 'Daniel Torren Peraire',
         paper: null,
         download: null,
         repo: 'https://github.com/danielTorren/bench_py_v4',
@@ -363,6 +372,7 @@
         title: 'BENCH_EC',
         lang: 'AnyLogic',
         desc: 'Energy communities (ECs) are seen as a promising concept towards a just energy transition. They can act as a catalyst for social tipping points and accelerate the shift to renewable energy while keeping benefits to local communities. However, no quantitative assessment of ECs role in future energy system configurations exists. This study fills this gap by quantifying the potential impact of ECs in the Netherlands from 2025 to 2050.',
+        authors: 'Naud Loomans, Leila Niamir, Caroline Zimm, Floor Alkemade',
         paper: {
           label: 'Quantifying the potential of energy communities in renewable electricity generation in The Netherlands (2026)',
           url: 'https://doi.org/10.1016/j.erss.2025.104523',
@@ -380,6 +390,13 @@
       document.getElementById('modal-title').textContent = m.title;
       document.getElementById('modal-lang').textContent  = m.lang;
       document.getElementById('modal-desc').textContent  = m.desc;
+      const authorsEl = document.getElementById('modal-authors');
+      if (m.authors) {
+        authorsEl.textContent = 'Authors: ' + m.authors;
+        authorsEl.style.display = '';
+      } else {
+        authorsEl.style.display = 'none';
+      }
 
       const linksEl = document.getElementById('modal-links');
       linksEl.innerHTML = '';
