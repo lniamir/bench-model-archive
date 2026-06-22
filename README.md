@@ -1,5 +1,7 @@
 # BENCH Model Family Archive
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20798923.svg)](https://doi.org/10.5281/zenodo.20798923)
+
 Welcome to the central repository for the **BENCH (The Behavioral change in ENergy Consumption of Households)** model family. This archive preserves, documents, and provides download access to various iterations of the BENCH framework. 
 
 ## BENCH model family:
@@ -58,6 +60,10 @@ bench-model-archive/
 
 ## Citation
 
+If you use this archive or any of the models included, please cite both the foundational paper and the specific software repository release:
+
+```bibtex
+
 @article{niamir2018transition,
   title={Transition to low-carbon economy: Assessing cumulative impacts of individual behavioral changes},
   author={Niamir, Leila and Filatova, Tatiana and Voinov, Alexey and Bressers, Hans},
@@ -78,3 +84,5 @@ bench-model-archive/
   doi    = {10.5281/zenodo.20798923},
   url    = {https://github.com/BENCH-Models/bench-model-archive}
 }
+
+```
