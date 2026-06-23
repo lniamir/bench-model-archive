@@ -2,7 +2,7 @@
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20798923-blue)](https://doi.org/10.5281/zenodo.20798923)
 
-Welcome to the central repository for the **BENCH_X_ABM (The Behavioral change in ENergy Consumption of Households Agent-Bade Model)** model family. This archive preserves, documents, and provides download access to various iterations of the BENCH framework. 
+Welcome to the central repository for the **BENCH_x_ABM (The Behavioral change in ENergy Consumption of Households Agent-Bade Model)** model family. This archive preserves, documents, and provides download access to various iterations of the BENCH framework. 
 
 ## BENCH_x_ABM model family:
 
