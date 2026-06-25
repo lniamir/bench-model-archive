@@ -74,13 +74,4 @@ If you use this archive or any of the models included, please cite both the foun
   url     = {https://doi.org/10.1016/j.enpol.2018.03.045}
 }
 
-@software{bench_models_archive_2026,
-  title  = {BENCH: An Open-Source Model Archive},
-  author = {Niamir, Leila},
-  year   = {2026},
-  version = {1.0.1},
-  doi    = {10.5281/zenodo.20798923},
-  url    = {https://github.com/BENCH-Models/bench-model-archive}
-}
-
 ```
