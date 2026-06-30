@@ -1,6 +1,6 @@
 # BENCH_x_ABM Model Family Archive
 
-Welcome to the central repository for the **BENCH_x_ABM (The Behavioral change in ENergy Consumption of Households Agent-Bade Model)** model family. This archive preserves, documents, and provides download access to various iterations of the BENCH framework. 
+Welcome to the central repository for the **BENCH_x_ABM (The Behavioral change in ENergy Consumption of Households Agent-Based Model)** model family. This archive preserves, documents, and provides download access to various iterations of the BENCH framework. 
 
 ## BENCH_x_ABM model family:
 
